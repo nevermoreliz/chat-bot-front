@@ -1,0 +1,81 @@
+<div class="hero-content flex-col">
+
+    <div
+        class="bg-base-100/10 backdrop-blur-2xl border-primary rounded-3xl w-[360px] aspect-square border-2 p-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex flex-col justify-center relative overflow-hidden transition-all hover:border-primary/80 hover:shadow-primary/20">
+        <!-- Decorative glare/glow -->
+        <div
+            class="absolute -top-32 -left-32 w-64 h-64 bg-primary/25 rounded-full blur-[80px] pointer-events-none mix-blend-screen">
+        </div>
+        <div
+            class="absolute -bottom-32 -right-32 w-64 h-64 bg-secondary/25 rounded-full blur-[80px] pointer-events-none mix-blend-screen">
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+            <h2 class="text-2xl font-bold tracking-tight text-center w-full mb-4 text-white drop-shadow-lg font-sans">
+                Formulario de Ingreso
+            </h2>
+
+            <div class="flex flex-col gap-3 w-full z-10">
+                <div class="form-control">
+                    <label
+                        class="input input-bordered flex items-center gap-3 bg-white/10 border-white/20 text-white placeholder-white/60 focus-within:bg-white/20 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/50 transition-all duration-300 h-10 text-sm">
+                        <i class="ki-filled ki-sms text-white/90 text-lg"></i>
+                        <input type="text"
+                            class="grow placeholder:text-gray-300 bg-transparent border-none focus:ring-0 px-0"
+                            formControlName="usuario" placeholder="Nombre de usuario" />
+                    </label>
+                </div>
+
+                <div class="form-control">
+                    <label
+                        class="input input-bordered flex items-center gap-3 bg-white/10 border-white/20 text-white placeholder-white/60 focus-within:bg-white/20 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/50 transition-all duration-300 h-10 text-sm">
+                        <i class="ki-filled ki-lock text-white/90 text-lg"></i>
+                        <input type="password"
+                            class="grow placeholder:text-gray-300 bg-transparent border-none focus:ring-0 px-0"
+                            formControlName="password" placeholder="Contraseña" />
+                    </label>
+                </div>
+
+                <div class="flex items-center justify-between mt-1">
+                    <label class="cursor-pointer label justify-start gap-2 py-0 group">
+                        <input type="checkbox"
+                            class="checkbox checkbox-xs checkbox-primary border-white/40 group-hover:border-primary transition-colors"
+                            checked="checked" />
+                        <span
+                            class="label-text text-white/90 group-hover:text-white transition-colors select-none text-xs">Recordarme</span>
+                    </label>
+                    <a href="html/demo6/authentication/classic/reset-password/enter-email.html"
+                        class="link link-primary link-hover text-white/80 hover:text-primary transition-colors text-xs font-medium tracking-wide">¿Olvidaste
+                        tu contraseña?</a>
+                </div>
+
+                <button type="submit"
+                    class="btn btn-primary w-full mt-2 text-base font-bold shadow-lg shadow-primary/20 border-none hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 h-10 min-h-0 uppercase tracking-wide">
+                    Iniciar Sesión
+                </button>
+
+                <div class="text-center mt-2">
+                    <p class="text-xs text-white/70">
+                        ¿Necesitas una cuenta?
+                        <a href="html/demo6/authentication/classic/sign-up.html"
+                            class="link link-primary font-bold link-hover text-white hover:text-primary transition-colors ml-1">Regístrate</a>
+                    </p>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@if(hasError()){
+<div role="alert" class="alert alert-warning animate-fade-in fixed top-0 right-0 z-50">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+    <span>porfavor verifique la informacion ingresada!</span>
+</div>
+}

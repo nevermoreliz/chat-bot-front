@@ -1,0 +1,206 @@
+<aside class="bg-base-100 min-h-screen w-full h-full overflow-y-auto flex flex-col border-r border-base-300">
+    <!-- Sidebar Header -->
+    <div class="sticky top-0 bg-base-100 z-20 border-b border-base-200 transition-all duration-300 flex flex-row items-center px-2 h-12 w-full"
+        [class.xl:justify-center]="!layoutService.desktopExpanded()">
+        <!-- Removed xl:flex-row/col logic, always flex-col -->
+
+        <div class="flex items-center gap-2 w-full transition-all duration-300"
+            [class.justify-center]="!layoutService.desktopExpanded()"
+            [class.xl:justify-center]="!layoutService.desktopExpanded()"
+            [class.xl:mb-0]="!layoutService.desktopExpanded()">
+            <a href="html/demo6/index.html"
+                class="flex items-center normal-case text-xl w-full justify-start overflow-hidden px-2"
+                [class.xl:justify-center]="!layoutService.desktopExpanded()"
+                [class.xl:px-0]="!layoutService.desktopExpanded()">
+                <img class="h-8 flex-none dark:invert" src="logo-1-sin-fondo.png" alt="Logo" />
+                <span class="ml-2 truncate transition-opacity duration-300"
+                    [class.xl:hidden]="!layoutService.desktopExpanded()">ChatBot - PSG</span>
+            </a>
+        </div>
+
+        <!-- Search Input - Hide when collapsed on Desktop -->
+        <!-- <label class="input input-bordered flex items-center gap-2 h-10 w-full xl:w-auto"
+            [class.xl:hidden]="!layoutService.desktopExpanded()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
+                <path fill-rule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clip-rule="evenodd" />
+            </svg>
+            <input type="text" class="grow min-w-0" placeholder="Search" />
+            <kbd class="kbd kbd-sm hidden xl:inline-flex">⌘K</kbd>
+        </label> -->
+
+        <!-- Icon only search trigger when collapsed (optional) -->
+        @if (!layoutService.desktopExpanded()) {
+        <button class="btn btn-ghost btn-circle btn-sm hidden xl:flex">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
+                <path fill-rule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clip-rule="evenodd" />
+            </svg>
+        </button>
+        }
+    </div>
+
+    <!-- Sidebar Menu -->
+    <ul class="menu w-full p-2 rounded-none gap-1 bg-base-100">
+        <!-- Overview -->
+        <li>
+            <a href="html/demo6.html" class="active" [class.xl:tooltip]="!layoutService.desktopExpanded()"
+                [class.xl:tooltip-right]="!layoutService.desktopExpanded()" data-tip="Overview">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd"
+                        d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span [class.xl:hidden]="!layoutService.desktopExpanded()">Overview</span>
+            </a>
+        </li>
+
+        <!-- Public Profile -->
+        <li>
+            <details [open]="layoutService.desktopExpanded() ? null : false">
+                <summary [class.xl:tooltip]="!layoutService.desktopExpanded()"
+                    [class.xl:tooltip-right]="!layoutService.desktopExpanded()" data-tip="Public Profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A9.916 9.916 0 0 0 10 18c2.314 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.076.003c-.196.507-.02 1.077.409 1.407A9.966 9.966 0 0 0 10 18V12Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span [class.xl:hidden]="!layoutService.desktopExpanded()">Public Profile</span>
+                </summary>
+                <ul class="border-l border-base-content/20 ml-6 pl-2" [class.xl:hidden]="!layoutService.desktopExpanded()">
+                    <li>
+                        <details>
+                            <summary>Profiles</summary>
+                            <ul class="border-l border-base-content/20 ml-4 pl-2">
+                                <li><a href="html/demo6/public-profile/profiles/default.html">Default</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/creator.html">Creator</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/company.html">Company</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/nft.html">NFT</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/blogger.html">Blogger</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/crm.html">CRM</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/gamer.html">Gamer</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/feeds.html">Feeds</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/plain.html">Plain</a></li>
+                                <li><a href="html/demo6/public-profile/profiles/modal.html">Modal</a></li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>Projects</summary>
+                            <ul class="border-l border-base-content/20 ml-4 pl-2">
+                                <li><a href="html/demo6/public-profile/projects/3-columns.html">3 Columns</a>
+                                </li>
+                                <li><a href="html/demo6/public-profile/projects/2-columns.html">2 Columns</a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li><a href="html/demo6/public-profile/works.html">Works</a></li>
+                    <li><a href="html/demo6/public-profile/teams.html">Teams</a></li>
+                    <li><a href="html/demo6/public-profile/network.html">Network</a></li>
+                    <li><a href="html/demo6/public-profile/activity.html">Activity</a></li>
+                    <li>
+                        <details>
+                            <summary>Campaigns</summary>
+                            <ul class="border-l border-base-content/20 ml-4 pl-2">
+                                <li><a href="html/demo6/public-profile/campaigns/card.html">Card</a></li>
+                                <li><a href="html/demo6/public-profile/campaigns/list.html">List</a></li>
+                                <li><a href="html/demo6/public-profile/empty.html">Empty</a></li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </details>
+        </li>
+
+        <!-- My Account -->
+        <li>
+            <details [open]="layoutService.desktopExpanded() ? null : false">
+                <summary [class.xl:tooltip]="!layoutService.desktopExpanded()"
+                    [class.xl:tooltip-right]="!layoutService.desktopExpanded()" data-tip="My Account">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd"
+                            d="M7.84 1.804A1 1 0 0 1 8.82 1h2.36a1 1 0 0 1 .98.804l.331 1.652a6.993 6.993 0 0 1 1.929 1.115l1.598-.54a1 1 0 0 1 1.186.447l1.18 2.044a1 1 0 0 1-.205 1.251l-1.267 1.113a7.047 7.047 0 0 1 0 2.228l1.267 1.113a1 1 0 0 1 .206 1.25l-1.18 2.045a1 1 0 0 1-1.187.447l-1.598-.54a6.993 6.993 0 0 1-1.929 1.115l-.33 1.652a1 1 0 0 1-.98.804H8.82a1 1 0 0 1-.98-.804l-.331-1.652a6.993 6.993 0 0 1-1.929-1.115l-1.598.54a1 1 0 0 1-1.186-.447l-1.18-2.044a1 1 0 0 1 .205-1.251l1.267-1.114a7.047 7.047 0 0 1 0-2.228l-1.267-1.113a1 1 0 0 1-.206-1.25l1.18-2.045a1 1 0 0 1 1.187-.447l1.598.54A6.993 6.993 0 0 1 7.51 3.456l.33-1.652ZM10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span [class.xl:hidden]="!layoutService.desktopExpanded()">My Account</span>
+                </summary>
+                <ul class="border-l border-base-content/20 ml-6 pl-2" [class.xl:hidden]="!layoutService.desktopExpanded()">
+                    <!-- Submenu items... -->
+                    <li>
+                        <details>
+                            <summary>Account Home</summary>
+                            <ul>
+                                <div class="border-l border-base-content/20 ml-4 pl-2">
+                                    <li><a href="html/demo6/account/home/get-started.html">Get Started</a></li>
+                                    <li><a href="html/demo6/account/home/user-profile.html">User Profile</a></li>
+                                    <li><a href="html/demo6/account/home/company-profile.html">Company Profile</a>
+                                    </li>
+                                </div>
+                            </ul>
+                        </details>
+                    </li>
+                    <li><a href="html/demo6/account/billing/basic.html">Billing</a></li>
+                </ul>
+            </details>
+        </li>
+
+        <!-- Store Client -->
+        <li>
+            <details [open]="layoutService.desktopExpanded() ? null : false">
+                <summary [class.xl:tooltip]="!layoutService.desktopExpanded()"
+                    [class.xl:tooltip-right]="!layoutService.desktopExpanded()" data-tip="Store Client">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd"
+                            d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19h12.32a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span [class.xl:hidden]="!layoutService.desktopExpanded()">Store Client</span>
+                </summary>
+                <ul class="border-l border-base-content/20 ml-6 pl-2" [class.xl:hidden]="!layoutService.desktopExpanded()">
+                    <li><a href="html/demo6/store-client/home.html">Home</a></li>
+                    <li><a href="html/demo6/store-client/product-details.html">Product Details</a></li>
+                </ul>
+            </details>
+        </li>
+
+        <!-- Authentication -->
+        <li>
+            <details [open]="layoutService.desktopExpanded() ? null : false">
+                <summary [class.xl:tooltip]="!layoutService.desktopExpanded()"
+                    [class.xl:tooltip-right]="!layoutService.desktopExpanded()" data-tip="Authentication">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd"
+                            d="M10 2a3.5 3.5 0 0 0-3.5 3.5V7A3 3 0 0 0 3.5 10v7A3 3 0 0 0 6.5 20h7a3 3 0 0 0 3-3v-7A3 3 0 0 0 13.5 7v-1.5A3.5 3.5 0 0 0 10 2Zm1 5V5.5a1.5 1.5 0 1 0-3 0V7h3Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span [class.xl:hidden]="!layoutService.desktopExpanded()">Authentication</span>
+                </summary>
+                <ul class="border-l border-base-content/20 ml-6 pl-2" [class.xl:hidden]="!layoutService.desktopExpanded()">
+                    <li><a href="html/demo6/authentication/classic/sign-in.html">Sign In</a></li>
+                    <li><a href="html/demo6/authentication/classic/sign-up.html">Sign Up</a></li>
+                </ul>
+            </details>
+        </li>
+
+        <!-- Project Planning -->
+        <li>
+            <a href="html/demo6/plugins/fullcalendar.html" [class.xl:tooltip]="!layoutService.desktopExpanded()"
+                [class.xl:tooltip-right]="!layoutService.desktopExpanded()" data-tip="Project Planning">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd"
+                        d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span [class.xl:hidden]="!layoutService.desktopExpanded()">Project Planning</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- <div class="divider my-0"></div> -->
+
+
+</aside>
