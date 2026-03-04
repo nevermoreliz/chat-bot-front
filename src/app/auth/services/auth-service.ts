@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment.development';
 import { ResponseLogin } from '../interfaces/response-login.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
@@ -17,7 +18,7 @@ export class AuthService {
 
   private _authStatus = signal<AuthStatus>('checking');
   private _user = signal<User | null>(null);
-  private _token = signal<string | null>(null);
+  private _token = signal<string | null>(localStorage.getItem('token'));
 
   private http = inject(HttpClient);
 
@@ -27,7 +28,7 @@ export class AuthService {
   })
 
 
-  authStatus = computed(() => {
+  authStatus = computed<AuthStatus>(() => {
     if (this._authStatus() === 'checking') return 'checking';
     if (this._user()) return 'authenticated'
 
@@ -36,6 +37,10 @@ export class AuthService {
 
   user = computed(() => this._user());
   token = computed(() => this._token());
+  isAdmin = computed(() => {
+    const roles = this._user()?.roles ?? [];
+    return roles.includes(1) || roles.includes('administrador');
+  })
 
   login(usuario: string, password: string): Observable<boolean> {
     return this.http.post<ResponseLogin>(`${baseUrl}/auth/login`,
@@ -56,10 +61,11 @@ export class AuthService {
       return of(false)
     };
 
+
     return this.http.get<ResponseLogin>(`${baseUrl}/auth/renew`,
       {
-        headers:
-          { Authorization: `Bearer ${token}` }
+        // headers:
+        //   { Authorization: `Bearer ${token}` }
       })
       .pipe(
         map((response) => this.handleAuthSuccess(response)),
@@ -68,13 +74,18 @@ export class AuthService {
   }
 
   logout() {
+    console.log('Cerro Sesion ⭕⭕⭕');
+
     this._user.set(null);
     this._token.set(null);
     this._authStatus.set('not-authenticated');
     localStorage.removeItem('token');
+
   }
 
-  private handleAuthSuccess({ data: { user, token } }: ResponseLogin) {
+  private handleAuthSuccess(response: ResponseLogin) {
+    const { user, token } = response.data;
+
     this._user.set(user);
     this._token.set(token);
     this._authStatus.set('authenticated');

@@ -11,19 +11,21 @@
             </svg>
         </button>
 
-        @if(authService.authStatus() === 'authenticated') {
+        <div class="px-2 text-lg">usuario online: {{userData()?.nombre_usuario}}</div>
+
+        <!-- @if(authService.authStatus() === 'authenticated') {
         <div class="px-2 text-lg">usuario online: {{authService.user()?.nombre_usuario}}</div>
-        }
+        } -->
 
         <!-- - -->
-        @else if(authService.authStatus() === 'not-authenticated') {
+        <!-- @else if(authService.authStatus() === 'not-authenticated') {
         <a routerLink="/auth/login" class="px-2 text-lg">Login</a>
-        }
+        } -->
 
         <!-- - -->
-        @else {
+        <!-- @else {
         <div class="px-2 text-lg">Cargando...</div>
-        }
+        } -->
 
     </div>
 
@@ -76,7 +78,7 @@
                 class="menu menu-sm dropdown-content bg-base-100 rounded-none z-1 mt-[8px] right-0 w-52 p-2 shadow border-t border-base-200 animate-in fade-in zoom-in-95 duration-200">
                 <li><a class="justify-between">Profile <span class="badge">New</span></a></li>
                 <li><a>Settings</a></li>
-                <li><a (click)="authService.logout()">Logout</a></li>
+                <li><a (click)="authService.logout()">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>

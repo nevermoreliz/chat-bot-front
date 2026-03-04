@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { LayoutService } from '../../services/layout.service';
 import { AuthService } from '../../../auth/services/auth-service';
 
@@ -11,5 +11,7 @@ import { AuthService } from '../../../auth/services/auth-service';
 export class Navbar {
   layoutService = inject(LayoutService);
   authService = inject(AuthService);
+
+  userData = computed(() => this.authService.user());
 
 }
