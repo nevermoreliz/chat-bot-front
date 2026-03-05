@@ -35,7 +35,7 @@ export class Sidebar {
       this.actualizarEstadoActivo();
     });
 
-    // inicializar con la url actual
+    // inicializar con la url actual *
     this.currentUrl = this.router.url;
 
     this.loadMenuItems();
