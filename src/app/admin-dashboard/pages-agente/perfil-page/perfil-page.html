@@ -1,728 +1,256 @@
-<main class="grow" role="content">
-    <!-- Toolbar -->
-    <div class="pb-5">
-        <!-- Container -->
-        <div class="kt-container-fixed flex items-center justify-between flex-wrap gap-3">
-            <div class="flex items-center flex-wrap gap-1 lg:gap-5">
-                <h1 class="font-medium text-lg text-mono">
-                    Plain
-                </h1>
-                <div class="flex items-center gap-1 text-sm font-normal">
-                    <a class="text-secondary-foreground hover:text-primary" href="#">
-                        Home
-                    </a>
-                    <span class="text-muted-foreground text-sm">
-                        /
-                    </span>
-                    <span class="text-secondary-foreground">
-                        Public Profile
-                    </span>
-                    <span class="text-muted-foreground text-sm">
-                        /
-                    </span>
-                    <span class="text-secondary-foreground">
-                        Profiles
-                    </span>
-                    <span class="text-muted-foreground text-sm">
-                        /
-                    </span>
-                    <span class="text-secondary-foreground">
-                        More
-                    </span>
-                    <span class="text-muted-foreground text-sm">
-                        /
-                    </span>
-                    <span class="text-mono">
-                        Plain
-                    </span>
-                </div>
-            </div>
-            <div class="flex items-center flex-wrap gap-1.5 lg:gap-3.5">
-                <a class="kt-btn kt-btn-outline" href="#">
-                    <i class="ki-filled ki-exit-down">
-                    </i>
-                    Export
-                </a>
-                <div class="kt-menu kt-menu-default" data-kt-menu="true">
-                    <div class="kt-menu-item" data-kt-menu-item-offset="0, 0" data-kt-menu-item-placement="bottom-end"
-                        data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="hover">
-                        <button class="kt-menu-toggle kt-btn kt-btn-outline flex-nowrap">
-                            <span class="flex items-center me-1">
-                                <i class="ki-filled ki-calendar text-base!">
-                                </i>
-                            </span>
-                            <span class="hidden md:inline text-nowrap">
-                                September, 2024
-                            </span>
-                            <span class="inline md:hidden text-nowrap">
-                                Sep, 2024
-                            </span>
-                            <span class="flex items-center lg:ms-4">
-                                <i class="ki-filled ki-down text-xs!">
-                                </i>
-                            </span>
-                        </button>
-                        <div class="kt-menu-dropdown w-48 py-2 kt-scrollable-y max-h-[250px]">
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        January, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        February, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item active">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        March, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        April, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        May, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        June, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        July, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        August, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        September, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        October, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        November, 2024
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="kt-menu-item">
-                                <a class="kt-menu-link" href="#">
-                                    <span class="kt-menu-title">
-                                        December, 2024
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End of Container -->
-    </div>
-    <!-- End of Toolbar -->
+<div class="flex flex-col grow gap-5">
 
-    <div class="bg-center bg-cover bg-no-repeat hero-bg">
-        <!-- Container -->
-        <div class="kt-container-fixed">
-            <div class="flex flex-col items-center gap-2 lg:gap-3.5 py-4 lg:pt-5 lg:pb-10">
-                <img class="rounded-full border-3 border-green-500 size-[100px] shrink-0"
-                    src="assets/media/avatars/300-1.png" />
-                <div class="flex items-center gap-1.5">
-                    <div class="text-lg leading-5 font-semibold text-mono">
-                        Jenny Klabber
-                    </div>
-                    <svg class="text-primary" fill="none" height="16" viewbox="0 0 15 16" width="15"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M14.5425 6.89749L13.5 5.83999C13.4273 5.76877 13.3699 5.6835 13.3312 5.58937C13.2925 5.49525 13.2734 5.39424 13.275 5.29249V3.79249C13.274 3.58699 13.2324 3.38371 13.1527 3.19432C13.0729 3.00494 12.9565 2.83318 12.8101 2.68892C12.6638 2.54466 12.4904 2.43073 12.2998 2.35369C12.1093 2.27665 11.9055 2.23801 11.7 2.23999H10.2C10.0982 2.24159 9.99722 2.22247 9.9031 2.18378C9.80898 2.1451 9.72371 2.08767 9.65249 2.01499L8.60249 0.957487C8.30998 0.665289 7.91344 0.50116 7.49999 0.50116C7.08654 0.50116 6.68999 0.665289 6.39749 0.957487L5.33999 1.99999C5.26876 2.07267 5.1835 2.1301 5.08937 2.16879C4.99525 2.20747 4.89424 2.22659 4.79249 2.22499H3.29249C3.08699 2.22597 2.88371 2.26754 2.69432 2.34731C2.50494 2.42709 2.33318 2.54349 2.18892 2.68985C2.04466 2.8362 1.93073 3.00961 1.85369 3.20013C1.77665 3.39064 1.73801 3.5945 1.73999 3.79999V5.29999C1.74159 5.40174 1.72247 5.50275 1.68378 5.59687C1.6451 5.691 1.58767 5.77627 1.51499 5.84749L0.457487 6.89749C0.165289 7.19 0.00115967 7.58654 0.00115967 7.99999C0.00115967 8.41344 0.165289 8.80998 0.457487 9.10249L1.49999 10.16C1.57267 10.2312 1.6301 10.3165 1.66878 10.4106C1.70747 10.5047 1.72659 10.6057 1.72499 10.7075V12.2075C1.72597 12.413 1.76754 12.6163 1.84731 12.8056C1.92709 12.995 2.04349 13.1668 2.18985 13.3111C2.3362 13.4553 2.50961 13.5692 2.70013 13.6463C2.89064 13.7233 3.0945 13.762 3.29999 13.76H4.79999C4.90174 13.7584 5.00275 13.7775 5.09687 13.8162C5.191 13.8549 5.27627 13.9123 5.34749 13.985L6.40499 15.0425C6.69749 15.3347 7.09404 15.4988 7.50749 15.4988C7.92094 15.4988 8.31748 15.3347 8.60999 15.0425L9.65999 14C9.73121 13.9273 9.81647 13.8699 9.9106 13.8312C10.0047 13.7925 10.1057 13.7734 10.2075 13.775H11.7075C12.1212 13.775 12.518 13.6106 12.8106 13.3181C13.1031 13.0255 13.2675 12.6287 13.2675 12.215V10.715C13.2659 10.6132 13.285 10.5122 13.3237 10.4181C13.3624 10.324 13.4198 10.2387 13.4925 10.1675L14.55 9.10999C14.6953 8.96452 14.8104 8.79176 14.8887 8.60164C14.9671 8.41152 15.007 8.20779 15.0063 8.00218C15.0056 7.79656 14.9643 7.59311 14.8847 7.40353C14.8051 7.21394 14.6888 7.04197 14.5425 6.89749ZM10.635 6.64999L6.95249 10.25C6.90055 10.3026 6.83864 10.3443 6.77038 10.3726C6.70212 10.4009 6.62889 10.4153 6.55499 10.415C6.48062 10.4139 6.40719 10.3982 6.33896 10.3685C6.27073 10.3389 6.20905 10.2961 6.15749 10.2425L4.37999 8.44249C4.32532 8.39044 4.28169 8.32793 4.25169 8.25867C4.22169 8.18941 4.20593 8.11482 4.20536 8.03934C4.20479 7.96387 4.21941 7.88905 4.24836 7.81934C4.27731 7.74964 4.31999 7.68647 4.37387 7.63361C4.42774 7.58074 4.4917 7.53926 4.56194 7.51163C4.63218 7.484 4.70726 7.47079 4.78271 7.47278C4.85816 7.47478 4.93244 7.49194 5.00112 7.52324C5.0698 7.55454 5.13148 7.59935 5.18249 7.65499L6.56249 9.05749L9.84749 5.84749C9.95296 5.74215 10.0959 5.68298 10.245 5.68298C10.394 5.68298 10.537 5.74215 10.6425 5.84749C10.6953 5.90034 10.737 5.96318 10.7653 6.03234C10.7935 6.1015 10.8077 6.1756 10.807 6.25031C10.8063 6.32502 10.7908 6.39884 10.7612 6.46746C10.7317 6.53608 10.6888 6.59813 10.635 6.64999Z"
-                            fill="currentColor">
-                        </path>
+    <!-- Hero: Avatar + Info -->
+    <div class="card bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
+        <div class="card-body items-center text-center gap-4 py-10">
+            <!-- Avatar with online indicator -->
+            <div class="avatar avatar-online">
+                <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                    <img src="assets/media/avatars/300-1.png" alt="Jenny Klabber" />
+                </div>
+            </div>
+
+            <!-- Name + verified badge -->
+            <div class="flex items-center gap-2">
+                <h2 class="text-xl font-bold">Jenny Klabber</h2>
+                <div class="badge badge-primary badge-sm gap-2 p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3">
+                        <path fill-rule="evenodd"
+                            d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                            clip-rule="evenodd" />
                     </svg>
-                </div>
-                <div class="flex flex-wrap justify-center gap-1 lg:gap-4.5 text-sm">
-                    <div class="flex gap-1.25 items-center">
-                        <i class="ki-filled ki-abstract-41 text-muted-foreground text-sm">
-                        </i>
-                        <span class="text-secondary-foreground font-medium">
-                            KeenThemes
-                        </span>
-                    </div>
-                    <div class="flex gap-1.25 items-center">
-                        <i class="ki-filled ki-geolocation text-muted-foreground text-sm">
-                        </i>
-                        <span class="text-secondary-foreground font-medium">
-                            SF, Bay Area
-                        </span>
-                    </div>
-                    <div class="flex gap-1.25 items-center">
-                        <i class="ki-filled ki-sms text-muted-foreground text-sm">
-                        </i>
-                        <a class="text-secondary-foreground font-medium hover:text-primary"
-                            href="mailto: jenny@kteam.com">
-                            jenny@kteam.com
-                        </a>
-                    </div>
+                    Verificado
                 </div>
             </div>
-        </div>
-        <!-- End of Container -->
-    </div>
-    <!-- Container -->
-    <div class="kt-container-fixed">
-        <div
-            class="flex items-center flex-wrap md:flex-nowrap lg:items-end justify-between border-b border-b-border gap-3 lg:gap-6 mb-5 lg:mb-10">
-            <div class="grid">
-                <div class="kt-scrollable-x-auto">
-                    <div class="kt-menu gap-3" data-kt-menu="true">
-                        <div class="kt-menu-item border-b-2 border-b-transparent kt-menu-item-active:border-b-primary kt-menu-item-here:border-b-primary here"
-                            data-kt-menu-item-overflow="true" data-kt-menu-item-placement="bottom-start"
-                            data-kt-menu-item-placement-rtl="bottom-end" data-kt-menu-item-toggle="dropdown"
-                            data-kt-menu-item-trigger="click|lg:hover">
-                            <div class="kt-menu-link gap-1.5 pb-2 lg:pb-4 px-2">
-                                <span
-                                    class="kt-menu-title text-nowrap text-sm text-secondary-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-medium kt-menu-item-here:text-primary kt-menu-item-here:font-medium kt-menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    Profiles
-                                </span>
-                                <span class="kt-menu-arrow">
-                                    <i
-                                        class="ki-filled ki-down text-xs text-muted-foreground menu-item-active:text-primary kt-menu-item-here:text-primary menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    </i>
-                                </span>
-                            </div>
-                            <div class="kt-menu-dropdown kt-menu-default py-2 min-w-[200px]">
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/profiles/default.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            Default
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/profiles/creator.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            Creator
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/profiles/company.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            Company
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/profiles/nft.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            NFT
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/profiles/blogger.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            Blogger
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/profiles/crm.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            CRM
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item here" data-kt-menu-item-offset="-10px, 0"
-                                    data-kt-menu-item-placement="right-start" data-kt-menu-item-toggle="dropdown"
-                                    data-kt-menu-item-trigger="click|lg:hover">
-                                    <div class="kt-menu-link" tabindex="0">
-                                        <span class="kt-menu-title">
-                                            More
-                                        </span>
-                                        <span class="kt-menu-arrow">
-                                            <i class="ki-filled ki-down text-xs in-[.kt-menu-dropdown]:-rotate-90">
-                                            </i>
-                                        </span>
-                                    </div>
-                                    <div class="kt-menu-dropdown kt-menu-default py min-w-[200px]">
-                                        <div class="kt-menu-item">
-                                            <a class="kt-menu-link" href="html/demo6/public-profile/profiles/gamer.html"
-                                                tabindex="0">
-                                                <span class="kt-menu-title">
-                                                    Gamer
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div class="kt-menu-item">
-                                            <a class="kt-menu-link" href="html/demo6/public-profile/profiles/feeds.html"
-                                                tabindex="0">
-                                                <span class="kt-menu-title">
-                                                    Feeds
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div class="kt-menu-item active">
-                                            <a class="kt-menu-link" href="html/demo6/public-profile/profiles/plain.html"
-                                                tabindex="0">
-                                                <span class="kt-menu-title">
-                                                    Plain
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div class="kt-menu-item">
-                                            <a class="kt-menu-link" href="html/demo6/public-profile/profiles/modal.html"
-                                                tabindex="0">
-                                                <span class="kt-menu-title">
-                                                    Modal
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="kt-menu-item border-b-2 border-b-transparent kt-menu-item-active:border-b-primary kt-menu-item-here:border-b-primary"
-                            data-kt-menu-item-overflow="true" data-kt-menu-item-placement="bottom-start"
-                            data-kt-menu-item-placement-rtl="bottom-end" data-kt-menu-item-toggle="dropdown"
-                            data-kt-menu-item-trigger="click|lg:hover">
-                            <div class="kt-menu-link gap-1.5 pb-2 lg:pb-4 px-2">
-                                <span
-                                    class="kt-menu-title text-nowrap text-sm text-secondary-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-medium kt-menu-item-here:text-primary kt-menu-item-here:font-medium kt-menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    Projects
-                                </span>
-                                <span class="kt-menu-arrow">
-                                    <i
-                                        class="ki-filled ki-down text-xs text-muted-foreground menu-item-active:text-primary kt-menu-item-here:text-primary menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    </i>
-                                </span>
-                            </div>
-                            <div class="kt-menu-dropdown kt-menu-default py-2 min-w-[200px]">
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/projects/3-columns.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            3 Columns
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/projects/2-columns.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            2 Columns
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="kt-menu-item border-b-2 border-b-transparent kt-menu-item-active:border-b-primary kt-menu-item-here:border-b-primary">
-                            <a class="kt-menu-link gap-1.5 pb-2 lg:pb-4 px-2"
-                                href="html/demo6/public-profile/works.html">
-                                <span
-                                    class="kt-menu-title text-nowrap font-medium text-sm text-secondary-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-here:font-semibold kt-menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    Works
-                                </span>
-                            </a>
-                        </div>
-                        <div
-                            class="kt-menu-item border-b-2 border-b-transparent kt-menu-item-active:border-b-primary kt-menu-item-here:border-b-primary">
-                            <a class="kt-menu-link gap-1.5 pb-2 lg:pb-4 px-2"
-                                href="html/demo6/public-profile/teams.html">
-                                <span
-                                    class="kt-menu-title text-nowrap font-medium text-sm text-secondary-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-here:font-semibold kt-menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    Teams
-                                </span>
-                            </a>
-                        </div>
-                        <div
-                            class="kt-menu-item border-b-2 border-b-transparent kt-menu-item-active:border-b-primary kt-menu-item-here:border-b-primary">
-                            <a class="kt-menu-link gap-1.5 pb-2 lg:pb-4 px-2"
-                                href="html/demo6/public-profile/network.html">
-                                <span
-                                    class="kt-menu-title text-nowrap font-medium text-sm text-secondary-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-here:font-semibold kt-menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    Network
-                                </span>
-                            </a>
-                        </div>
-                        <div
-                            class="kt-menu-item border-b-2 border-b-transparent kt-menu-item-active:border-b-primary kt-menu-item-here:border-b-primary">
-                            <a class="kt-menu-link gap-1.5 pb-2 lg:pb-4 px-2"
-                                href="html/demo6/public-profile/activity.html">
-                                <span
-                                    class="kt-menu-title text-nowrap font-medium text-sm text-secondary-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-here:font-semibold kt-menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    Activity
-                                </span>
-                            </a>
-                        </div>
-                        <div class="kt-menu-item border-b-2 border-b-transparent kt-menu-item-active:border-b-primary kt-menu-item-here:border-b-primary"
-                            data-kt-menu-item-overflow="true" data-kt-menu-item-placement="bottom-start"
-                            data-kt-menu-item-placement-rtl="bottom-end" data-kt-menu-item-toggle="dropdown"
-                            data-kt-menu-item-trigger="click|lg:hover">
-                            <div class="kt-menu-link gap-1.5 pb-2 lg:pb-4 px-2">
-                                <span
-                                    class="kt-menu-title text-nowrap text-sm text-secondary-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-medium kt-menu-item-here:text-primary kt-menu-item-here:font-medium kt-menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    More
-                                </span>
-                                <span class="kt-menu-arrow">
-                                    <i
-                                        class="ki-filled ki-down text-xs text-muted-foreground menu-item-active:text-primary kt-menu-item-here:text-primary menu-item-show:text-primary kt-menu-link-hover:text-primary">
-                                    </i>
-                                </span>
-                            </div>
-                            <div class="kt-menu-dropdown kt-menu-default py-2 min-w-[200px]">
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/campaigns/card.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            Campaigns - Card
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/campaigns/list.html"
-                                        tabindex="0">
-                                        <span class="kt-menu-title">
-                                            Campaigns - List
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="kt-menu-item">
-                                    <a class="kt-menu-link" href="html/demo6/public-profile/empty.html" tabindex="0">
-                                        <span class="kt-menu-title">
-                                            Empty
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+            <!-- Quick info chips -->
+            <div class="flex flex-wrap justify-center gap-2">
+                <div class="badge badge-accent gap-1.5 p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5">
+                        <path fill-rule="evenodd"
+                            d="M6 3.75A2.75 2.75 0 0 1 8.75 1h2.5A2.75 2.75 0 0 1 14 3.75v.443c.572.055 1.14.122 1.706.2C17.053 4.582 18 5.75 18 7.07v3.469c0 1.126-.694 2.191-1.83 2.54-1.952.599-4.024.921-6.17.921s-4.219-.322-6.17-.921C2.694 12.73 2 11.665 2 10.539V7.07c0-1.321.947-2.489 2.294-2.676A41.047 41.047 0 0 1 6 4.193V3.75ZM8.75 2.5c-.69 0-1.25.56-1.25 1.25v.1c.832-.054 1.668-.084 2.5-.091V3.75c0-.69-.56-1.25-1.25-1.25h-2.5Z"
+                            clip-rule="evenodd" />
+                        <path
+                            d="M3 15.055v-.684c.126.053.255.1.39.142 2.092.642 4.313.987 6.61.987 2.297 0 4.518-.345 6.61-.987.135-.041.264-.089.39-.142v.684c0 1.347-.985 2.53-2.363 2.686A41.454 41.454 0 0 1 10 18c-1.572 0-3.118-.12-4.637-.358C3.985 17.585 3 16.402 3 15.055Z" />
+                    </svg>
+                    KeenThemes
                 </div>
+                <div class="badge badge-accent gap-1.5 p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5">
+                        <path fill-rule="evenodd"
+                            d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    SF, Bay Area
+                </div>
+                <a href="mailto:jenny@kteam.com"
+                    class="badge badge-accent gap-1.5 hover:badge-primary transition-colors p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5">
+                        <path
+                            d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                        <path
+                            d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+                    </svg>
+                    jenny&#64;kteam.com
+                </a>
             </div>
-            <div class="flex items-center justify-end grow lg:grow-0 lg:pb-4 gap-2.5 mb-3 lg:mb-0">
-                <button class="kt-btn kt-btn-primary" data-kt-dropdown-toggle="true">
-                    <i class="ki-filled ki-users">
-                    </i>
-                    Connect
+
+            <!-- Action buttons -->
+            <div class="flex flex-wrap gap-2 mt-2">
+                <button class="btn btn-primary btn-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M16.77 21v-8.461q.341 0 .659.052q.317.053.61.159v8.039q-.293.105-.61.158t-.66.053m-2.115-.584v-7.293q.292-.18.606-.305q.315-.124.663-.199v8.3q-.348-.075-.663-.199q-.314-.124-.606-.304m4.23 0v-7.293q.952.554 1.534 1.506t.582 2.14t-.582 2.14q-.581.953-1.533 1.507m-5.077-.635q-.585-.579-.927-1.347t-.343-1.665t.343-1.667t.927-1.35zM10.135 21l-.362-2.892q-.479-.145-1.035-.454q-.557-.31-.947-.664l-2.668 1.135l-1.865-3.25l2.306-1.739q-.045-.27-.073-.558q-.03-.288-.03-.559q0-.252.03-.53q.028-.278.073-.626L3.258 9.126l1.865-3.212L7.771 7.03q.448-.373.97-.673q.52-.3 1.013-.464L10.134 3h3.732l.361 2.912q.575.202 1.016.463t.909.654l2.725-1.115l1.865 3.211l-1.85 1.4q-.3-.102-.615-.184q-.315-.081-.639-.137l1.806-1.354l-.994-1.7l-2.552 1.07q-.454-.499-1.193-.935q-.74-.435-1.4-.577L13 4h-1.994l-.312 2.689q-.756.161-1.39.52q-.633.358-1.26.985L5.55 7.15l-.994 1.7l2.169 1.62q-.125.336-.175.73t-.05.82q0 .38.05.755t.156.73l-2.15 1.645l.994 1.7l2.475-1.05q.483.483 1.009.82q.526.338 1.139.544q.064 1.098.463 2.078T11.696 21zm.563-6.84q.093-.25.209-.473t.257-.435q-.314-.2-.502-.522q-.189-.322-.189-.73q0-.625.438-1.062t1.062-.438q.389 0 .723.182q.335.181.535.495q.213-.14.442-.247t.46-.193q-.316-.57-.894-.903q-.58-.334-1.266-.334q-1.052 0-1.776.727T9.473 12q0 .7.328 1.272t.897.888" />
+                    </svg>
+                    Editar Perfil
                 </button>
-                <button class="kt-btn kt-btn-icon kt-btn-outline">
-                    <i class="ki-filled ki-messages">
-                    </i>
+                <button class="btn btn-outline btn-sm border">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 21.577L9.423 19H5.615q-.69 0-1.153-.462T4 17.384V4.616q0-.691.463-1.153T5.616 3h12.769q.69 0 1.153.463T20 4.616v12.769q0 .69-.462 1.153T18.384 19h-3.807zm-7-4.342q1.35-1.325 3.138-2.088T12 14.384t3.863.763T19 17.235V4.615q0-.23-.192-.423T18.384 4H5.616q-.231 0-.424.192T5 4.615zm9.129-6.03q.871-.87.871-2.128t-.871-2.129T12 6.077t-2.129.871T9 9.077t.871 2.129t2.129.871t2.129-.871M5.885 18h12.23v-.173q-1.319-1.24-2.873-1.841T12 15.385q-1.65 0-3.213.591t-2.903 1.813zm4.706-7.514Q10 9.894 10 9.077t.591-1.409T12 7.077t1.409.591Q14 8.26 14 9.077t-.591 1.409t-1.409.591t-1.409-.591m1.409.131" />
+                    </svg>
+                    Cambiar Foto
                 </button>
-                <div data-kt-dropdown="true" data-kt-dropdown-placement="bottom-end"
-                    data-kt-dropdown-placement-rtl="bottom-start" data-kt-dropdown-trigger="click">
-                    <button class="kt-btn kt-btn-icon kt-btn-outline" data-kt-dropdown-toggle="true">
-                        <i class="ki-filled ki-dots-vertical">
-                        </i>
+                <div class="dropdown dropdown-end">
+                    <button tabindex="0" class="btn btn-outline btn-sm btn-square border">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                            <path
+                                d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11.5 15.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
+                        </svg>
                     </button>
-                    <div class="kt-dropdown-menu w-full max-w-[220px]" data-kt-dropdown-menu="true">
-                        <ul class="kt-dropdown-menu-sub">
-                            <li>
-                                <button class="kt-dropdown-menu-link" data-kt-dropdown-dismiss="true"
-                                    data-kt-modal-toggle="#share_profile_modal">
-                                    <i class="ki-filled ki-coffee">
-                                    </i>
-                                    Share Profile
-                                </button>
-                            </li>
-                            <li>
-                                <button class="kt-dropdown-menu-link" data-kt-dropdown-dismiss="true"
-                                    data-kt-modal-toggle="#give_award_modal">
-                                    <i class="ki-filled ki-award">
-                                    </i>
-                                    Give Award
-                                </button>
-                            </li>
-                            <li>
-                                <div class="kt-dropdown-menu-link">
-                                    <i class="ki-filled ki-coffee">
-                                    </i>
-                                    Stay Updated
-                                    <input class="ms-auto kt-switch kt-switch-sm" name="check" type="checkbox"
-                                        value="1" />
-                                </div>
-                            </li>
-                            <li>
-                                <button class="kt-dropdown-menu-link" data-kt-dropdown-dismiss="true"
-                                    data-kt-modal-toggle="#report_user_modal">
-                                    <i class="ki-filled ki-information-2">
-                                    </i>
-                                    Report User
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End of Container -->
-    <!-- Container -->
-    <div class="kt-container-fixed">
-        <!-- begin: grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
-            <div class="col-span-2">
-                <div class="kt-card">
-                    <div class="kt-card-content">
-                        <div class="flex lg:px-10 py-1.5 gap-2">
-                            <div class="grid grid-cols-1 place-content-center flex-1 gap-1 text-center">
-                                <span class="text-mono text-2xl lg:text-2xl leading-none font-semibold">
-                                    249
-                                </span>
-                                <span class="text-secondary-foreground text-sm">
-                                    Connections
-                                </span>
-                            </div>
-                            <span class="not-last:border-e border-e-input my-1">
-                            </span>
-                            <div class="grid grid-cols-1 place-content-center flex-1 gap-1 text-center">
-                                <span class="text-mono text-2xl lg:text-2xl leading-none font-semibold">
-                                    1.2k
-                                </span>
-                                <span class="text-secondary-foreground text-sm">
-                                    Uploads
-                                </span>
-                            </div>
-                            <span class="not-last:border-e border-e-input my-1">
-                            </span>
-                            <div class="grid grid-cols-1 place-content-center flex-1 gap-1 text-center">
-                                <span class="text-mono text-2xl lg:text-2xl leading-none font-semibold">
-                                    1M+
-                                </span>
-                                <span class="text-secondary-foreground text-sm">
-                                    Gross Sales
-                                </span>
-                            </div>
-                            <span class="not-last:border-e border-e-input my-1">
-                            </span>
-                            <div class="grid grid-cols-1 place-content-center flex-1 gap-1 text-center">
-                                <span class="text-mono text-2xl lg:text-2xl leading-none font-semibold">
-                                    27
-                                </span>
-                                <span class="text-secondary-foreground text-sm">
-                                    Author Rank
-                                </span>
-                            </div>
-                            <span class="not-last:border-e border-e-input my-1">
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-2">
-                <div class="kt-card">
-                    <div class="kt-card-content lg:py-9">
-                        <div class="flex justify-center pb-5">
-                            <img alt="" class="dark:hidden max-h-[170px]" src="assets/media/illustrations/11.svg" />
-                            <img alt="" class="light:hidden max-h-[170px]"
-                                src="assets/media/illustrations/11-dark.svg" />
-                        </div>
-                        <div class="text-lg font-medium text-mono text-center">
-                            Upload Item to Get Started
-                        </div>
-                        <div class="flex items-center justify-center gap-1">
-                            <span class="text-sm text-secondary-foreground">
-                                Begin by crafting your inaugural list in minutes.
-                            </span>
-                            <a class="text-sm font-medium link" href="html/demo6/account/billing/plans.html">
-                                Get Started!
+                    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-lg">
+                        <li>
+                            <a>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M3 17.5h18q.213 0 .356.144t.144.357t-.144.356T21 18.5H3q-.213 0-.356-.144t-.144-.357t.144-.356T3 17.5m1-6.666l-.744 1.312q-.089.163-.265.207q-.178.045-.34-.044q-.161-.09-.205-.267q-.044-.179.048-.338l.744-1.312H1.75q-.192 0-.317-.125t-.125-.316t.125-.317t.317-.126h1.489l-.745-1.262q-.092-.16-.048-.338t.206-.267t.339-.044t.265.207L4 9.065l.744-1.261q.089-.163.266-.208t.338.045t.206.267t-.048.338L4.76 9.508h1.49q.192 0 .317.125t.125.316t-.125.317t-.317.126H4.761l.745 1.312q.092.16.048.338t-.206.267q-.161.089-.338.044q-.177-.044-.266-.207zm8 0l-.744 1.312q-.089.163-.266.207q-.177.045-.338-.044q-.162-.09-.206-.267q-.044-.179.048-.338l.744-1.312H9.75q-.192 0-.317-.125t-.125-.316t.125-.317t.317-.126h1.489l-.745-1.262q-.092-.16-.048-.338t.206-.267t.339-.044t.265.207L12 9.065l.744-1.261q.089-.163.266-.208t.338.045q.162.09.206.267t-.048.338l-.744 1.262h1.488q.192 0 .317.125t.125.316t-.125.317t-.317.126h-1.489l.745 1.312q.092.16.048.338t-.206.267t-.339.044t-.265-.207zm8 0l-.744 1.312q-.089.163-.266.207q-.177.045-.338-.044q-.162-.09-.206-.267q-.044-.179.048-.338l.744-1.312H17.75q-.192 0-.317-.125t-.125-.316t.125-.317t.317-.126h1.489l-.745-1.262q-.092-.16-.048-.338t.206-.267t.338-.044t.266.207L20 9.065l.744-1.261q.089-.163.266-.208t.338.045t.206.267t-.048.338l-.744 1.262h1.488q.192 0 .317.125t.125.316t-.125.317t-.317.126h-1.489l.745 1.312q.092.16.048.338t-.206.267t-.338.044t-.266-.207z" />
+                                </svg>
+                                Cambiar Contraseña
                             </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-1 flex">
-                <div class="kt-card pb-3 grow">
-                    <div class="kt-card-header">
-                        <h3 class="kt-card-title">
-                            Profile
-                        </h3>
-                    </div>
-                    <div class="kt-card-content pt-4">
-                        <div class="grid gap-2.5 mb-1">
-                            <div class="flex items-center gap-2.5">
-                                <span class="">
-                                    <i class="ki-filled ki-abstract-41 text-lg text-muted-foreground">
-                                    </i>
-                                </span>
-                                <a class="text-mono hover:text-primary text-sm" href="#">
-                                    KeenThemes
-                                </a>
-                            </div>
-                            <div class="flex items-center gap-2.5">
-                                <span class="">
-                                    <i class="ki-filled ki-crown-2 text-lg text-muted-foreground">
-                                    </i>
-                                </span>
-                                <a class="text-mono hover:text-primary text-sm" href="#">
-                                    Author Level 100
-                                </a>
-                            </div>
-                            <div class="flex items-center gap-2.5">
-                                <span class="">
-                                    <i class="ki-filled ki-briefcase text-lg text-muted-foreground">
-                                    </i>
-                                </span>
-                                <a class="text-mono hover:text-primary text-sm" href="#">
-                                    UI/UX Desiger
-                                </a>
-                            </div>
-                            <div class="flex items-center gap-2.5">
-                                <span class="">
-                                    <i class="ki-filled ki-sms text-lg text-muted-foreground">
-                                    </i>
-                                </span>
-                                <a class="text-mono hover:text-primary text-sm" href="#">
-                                    jenny@kteam.com
-                                </a>
-                            </div>
-                            <div class="flex items-center gap-2.5">
-                                <span class="">
-                                    <i class="ki-filled ki-icon text-lg text-muted-foreground">
-                                    </i>
-                                </span>
-                                <a class="text-mono hover:text-primary text-sm" href="#">
-                                    https://keenthemes.com
-                                </a>
-                            </div>
-                            <div class="flex items-center gap-2.5">
-                                <span class="">
-                                    <i class="ki-filled ki-facebook text-lg text-muted-foreground">
-                                    </i>
-                                </span>
-                                <a class="text-mono hover:text-primary text-sm" href="#">
-                                    keenthemes
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-1 flex">
-                <div class="kt-card grow">
-                    <div class="kt-card-header">
-                        <h3 class="kt-card-title">
-                            About Me
-                        </h3>
-                    </div>
-                    <div class="kt-card-content">
-                        <p class="text-sm text-foreground leading-5.5 mb-4">
-                            I am a passionate and dedicated individual with a flair for creativity
-                            and innovation. With a background in UI/UX design, I have a keen eye for
-                            detail and a strong understanding of user experience. My goal is to craft
-                            visually appealing and intuitive designs that not only meet clients'
-                            needs but also exceed their expectations.
-                        </p>
-                        <p class="text-sm text-foreground leading-5.5">
-                            Over the years, I have honed my skills in various design tools and
-                            techniques, allowing me to bring ideas to life with precision and elegance.
-                            I thrive in collaborative environments, where I can work closely
-                            with clients and teams to achieve remarkable results.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-1 flex">
-                <div class="kt-card grow">
-                    <div class="kt-card-header">
-                        <h3 class="kt-card-title">
-                            Open to work
-                        </h3>
-                    </div>
-                    <div class="kt-card-content">
-                        <p class="text-sm text-foreground leading-5.5">
-                            Seasoned UI/UX designer with a flair for user-centric interfaces.
-                            Let's create something amazing together!
-                        </p>
-                    </div>
-                    <div class="kt-card-footer justify-center lg:pb-9">
-                        <a class="kt-link kt-link-underlined kt-link-dashed"
-                            href="html/demo6/public-profile/works.html">
-                            View details
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-1 flex">
-                <div class="kt-card grow">
-                    <div class="kt-card-header">
-                        <h3 class="kt-card-title">
-                            Skills
-                        </h3>
-                    </div>
-                    <div class="kt-card-content">
-                        <div class="flex flex-wrap gap-2.5 mb-2">
-                            <span class="kt-badge kt-badge-outline">
-                                Web Design
-                            </span>
-                            <span class="kt-badge kt-badge-outline">
-                                Code Review
-                            </span>
-                            <span class="kt-badge kt-badge-outline">
-                                Figma
-                            </span>
-                            <span class="kt-badge kt-badge-outline">
-                                Product Development
-                            </span>
-                            <span class="kt-badge kt-badge-outline">
-                                Webflow
-                            </span>
-                            <span class="kt-badge kt-badge-outline">
-                                AI
-                            </span>
-                            <span class="kt-badge kt-badge-outline">
-                                noCode
-                            </span>
-                            <span class="kt-badge kt-badge-outline">
-                                Management
-                            </span>
-                        </div>
-                    </div>
+                        </li>
+                        <li>
+                            <a class="text-error">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <rect width="24" height="24" fill="none" />
+                                    <path fill="currentColor"
+                                        d="m9.15 15.539l2.85-2.85l2.85 2.85l.688-.689l-2.85-2.85l2.85-2.85l-.688-.689l-2.85 2.85l-2.85-2.85l-.689.689l2.85 2.85l-2.85 2.85zM5 19V5zm-1 1V4h16v9.427q-.244-.06-.494-.09t-.506-.03V5H5v14h8.308q0 .256.03.506t.089.494zm15 2.289l-.688-.689l2.055-2.1H15.5v-1h4.867l-2.056-2.1l.689-.688L22.288 19z" />
+                                </svg>
+                                Cerrar Sesión
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <!-- end: grid -->
     </div>
-    <!-- End of Container -->
-</main>
+
+    <!-- Stats Row -->
+    <div class="stats stats-horizontal shadow-lg border-2 border-primary/50 rounded-xl w-full">
+        <div class="stat">
+            <div class="stat-title">Conexiones</div>
+            <div class="stat-value text-2xl">249</div>
+        </div>
+        <div class="stat">
+            <div class="stat-title">Subidas</div>
+            <div class="stat-value text-2xl">1.2k</div>
+        </div>
+        <div class="stat">
+            <div class="stat-title">Ventas Brutas</div>
+            <div class="stat-value text-2xl">1M+</div>
+        </div>
+        <div class="stat">
+            <div class="stat-title">Rango de Autor</div>
+            <div class="stat-value text-2xl">27</div>
+        </div>
+    </div>
+
+    <!-- Content Grid: Profile + About / Open to Work + Skills -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Profile Card -->
+        <div class="card bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
+            <div class="card-body">
+                <h3 class="card-title text-lg mb-3">Perfil</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="size-5 text-base-content/40 shrink-0">
+                            <path fill-rule="evenodd"
+                                d="M6 3.75A2.75 2.75 0 0 1 8.75 1h2.5A2.75 2.75 0 0 1 14 3.75v.443c.572.055 1.14.122 1.706.2C17.053 4.582 18 5.75 18 7.07v3.469c0 1.126-.694 2.191-1.83 2.54-1.952.599-4.024.921-6.17.921s-4.219-.322-6.17-.921C2.694 12.73 2 11.665 2 10.539V7.07c0-1.321.947-2.489 2.294-2.676A41.047 41.047 0 0 1 6 4.193V3.75ZM8.75 2.5c-.69 0-1.25.56-1.25 1.25v.1c.832-.054 1.668-.084 2.5-.091V3.75c0-.69-.56-1.25-1.25-1.25h-2.5Z"
+                                clip-rule="evenodd" />
+                            <path
+                                d="M3 15.055v-.684c.126.053.255.1.39.142 2.092.642 4.313.987 6.61.987 2.297 0 4.518-.345 6.61-.987.135-.041.264-.089.39-.142v.684c0 1.347-.985 2.53-2.363 2.686A41.454 41.454 0 0 1 10 18c-1.572 0-3.118-.12-4.637-.358C3.985 17.585 3 16.402 3 15.055Z" />
+                        </svg>
+                        <a class="link link-hover text-sm" href="#">KeenThemes</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="size-5 text-base-content/40 shrink-0">
+                            <path fill-rule="evenodd"
+                                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-sm">Author Level 100</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="size-5 text-base-content/40 shrink-0">
+                            <path fill-rule="evenodd"
+                                d="M1 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V6Zm4 1.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm2 3a4 4 0 0 0-3.665 2.395.75.75 0 0 0 .416 1A8.98 8.98 0 0 0 7 15a8.98 8.98 0 0 0 3.249-.604.75.75 0 0 0 .416-1.001A4.001 4.001 0 0 0 7 10.5Zm5-3.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm0 6.5a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm.75-4a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5h-2.5Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-sm">UI/UX Designer</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="size-5 text-base-content/40 shrink-0">
+                            <path
+                                d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                            <path
+                                d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+                        </svg>
+                        <a class="link link-hover text-sm" href="mailto:jenny@kteam.com">jenny&#64;kteam.com</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="size-5 text-base-content/40 shrink-0">
+                            <path
+                                d="M16.555 5.412a8.028 8.028 0 0 0-3.503-2.81 14.899 14.899 0 0 1 1.663 4.472 8.547 8.547 0 0 0 1.84-1.662ZM13.326 7.825a13.43 13.43 0 0 0-2.413-5.773 8.087 8.087 0 0 0-1.826 0 13.43 13.43 0 0 0-2.413 5.773A8.473 8.473 0 0 0 10 8.5c1.18 0 2.304-.24 3.326-.675ZM6.514 9.376A9.98 9.98 0 0 0 10 10c1.226 0 2.4-.22 3.486-.624a13.54 13.54 0 0 1 .351 3.124 13.544 13.544 0 0 1-7.674 0 13.54 13.54 0 0 1 .35-3.124ZM11.514 12.5a13.544 13.544 0 0 1-3.028 0c-.21 1.354-.225 2.734-.051 4.086a8.037 8.037 0 0 0 3.13 0 13.491 13.491 0 0 0-.051-4.086ZM5.21 7.074a14.9 14.9 0 0 1 1.663-4.471 8.028 8.028 0 0 0-3.503 2.81c.529.638 1.14 1.199 1.84 1.66ZM3.196 8.6a9.89 9.89 0 0 1-1.14-.694 8.035 8.035 0 0 0-.192 1.735 13.549 13.549 0 0 1 4.486.694 15.055 15.055 0 0 1-.245-2.5 10.483 10.483 0 0 1-2.909.765ZM6.15 13.867a15.066 15.066 0 0 0 .065 3.202A8.04 8.04 0 0 1 2.408 13.5a13.574 13.574 0 0 0 3.742.367ZM13.85 13.867a13.574 13.574 0 0 0 3.742-.367 8.04 8.04 0 0 1-3.807 3.569 15.066 15.066 0 0 0 .065-3.202ZM16.804 8.6a10.483 10.483 0 0 1-2.909-.765 15.053 15.053 0 0 1-.245 2.5 13.549 13.549 0 0 1 4.486-.694 8.035 8.035 0 0 0-.192-1.736 9.89 9.89 0 0 1-1.14.694Z" />
+                        </svg>
+                        <a class="link link-hover text-sm" href="#">https://keenthemes.com</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-base-content/40 shrink-0"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        <a class="link link-hover text-sm" href="#">keenthemes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- About Me Card -->
+        <div class="card bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
+            <div class="card-body">
+                <h3 class="card-title text-lg mb-3">Sobre Mí</h3>
+                <p class="text-sm text-base-content/70 leading-relaxed mb-3">
+                    Soy una persona apasionada y dedicada con un toque de creatividad
+                    e innovación. Con experiencia en diseño UI/UX, tengo un ojo atento al
+                    detalle y una sólida comprensión de la experiencia de usuario. Mi objetivo
+                    es crear diseños visualmente atractivos e intuitivos que no solo satisfagan
+                    las necesidades de los clientes sino que también superen sus expectativas.
+                </p>
+                <p class="text-sm text-base-content/70 leading-relaxed">
+                    A lo largo de los años, he perfeccionado mis habilidades en diversas herramientas
+                    y técnicas de diseño, lo que me permite dar vida a las ideas con precisión y elegancia.
+                    Me desenvuelvo bien en entornos colaborativos, donde puedo trabajar estrechamente
+                    con clientes y equipos para lograr resultados excepcionales.
+                </p>
+            </div>
+        </div>
+
+        <!-- Open to Work Card -->
+        <div class="card bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
+            <div class="card-body items-center text-center">
+                <div class="badge badge-success badge-outline gap-1 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Disponible
+                </div>
+                <h3 class="card-title text-lg">Abierto a Trabajar</h3>
+                <p class="text-sm text-base-content/70 leading-relaxed">
+                    Diseñador(a) UI/UX con experiencia y un toque especial para interfaces centradas en el usuario.
+                    ¡Creemos algo increíble juntos!
+                </p>
+                <div class="card-actions mt-3">
+                    <a class="btn btn-ghost btn-sm underline" href="#">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Card -->
+        <div class="card bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
+            <div class="card-body">
+                <h3 class="card-title text-lg mb-3">Habilidades</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="badge badge-outline">Web Design</span>
+                    <span class="badge badge-outline">Code Review</span>
+                    <span class="badge badge-outline">Figma</span>
+                    <span class="badge badge-outline">Product Development</span>
+                    <span class="badge badge-outline">Webflow</span>
+                    <span class="badge badge-outline">AI</span>
+                    <span class="badge badge-outline">noCode</span>
+                    <span class="badge badge-outline">Management</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

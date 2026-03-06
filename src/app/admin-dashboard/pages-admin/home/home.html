@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center flex-wrap gap-4">
         <h1 class="text-2xl font-bold">Dashboard</h1>
         <div class="flex gap-2">
-            <button class="btn btn-outline btn-sm">
+            <button class="btn btn-outline btn-sm border">
                 <!-- Exit/Export Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path fill-rule="evenodd"
@@ -16,7 +16,7 @@
                 Export
             </button>
             <div class="dropdown dropdown-end">
-                <button tabindex="0" class="btn btn-outline btn-sm">
+                <button tabindex="0" class="btn btn-outline btn-sm border">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                         <path fill-rule="evenodd"
                             d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
@@ -42,7 +42,7 @@
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
         <!-- Hero Card (Swift Setup) - Spans 2 cols on large screens -->
-        <div class="card xl:col-span-2 bg-base-100 shadow-sm border border-base-200">
+        <div class="card xl:col-span-2 bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
             <div class="card-body items-center text-center">
                 <div class="py-5">
                     <img alt="image" class="h-[180px] dark:hidden" src="assets/media/illustrations/32.svg" />
@@ -60,7 +60,7 @@
         </div>
 
         <!-- Highlights Card - Spans 1 col -->
-        <div class="card bg-base-100 shadow-sm border border-base-200">
+        <div class="card bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
             <div class="card-body">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="card-title text-lg">Highlights</h3>
@@ -191,7 +191,7 @@
         </div>
 
         <!-- Teams Table - Spans 3 cols (full width) -->
-        <div class="card xl:col-span-3 bg-base-100 shadow-sm border border-base-200">
+        <div class="card xl:col-span-3 bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
             <div class="card-body p-0">
                 <div class="overflow-x-auto">
                     <table class="table">

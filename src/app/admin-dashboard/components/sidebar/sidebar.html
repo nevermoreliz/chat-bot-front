@@ -1,6 +1,6 @@
-<aside class="bg-base-100 min-h-screen w-full h-full overflow-y-auto flex flex-col border-r border-base-300">
+<aside class="bg-base-200 min-h-screen w-full h-full overflow-y-auto flex flex-col">
     <!-- Sidebar Header -->
-    <div class="sticky top-0 bg-base-100 z-20 border-b border-base-200 transition-all duration-300 flex flex-row items-center px-2 h-12 w-full"
+    <div class="sticky top-0 bg-base-200 z-20 border-b border-base-200 transition-all duration-300 flex flex-row items-center px-2 h-12 w-full"
         [class.xl:justify-center]="!layoutService.desktopExpanded()">
 
         <div class="flex items-center gap-2 w-full transition-all duration-300"
@@ -29,7 +29,7 @@
     </div>
 
     <!-- Sidebar Menu -->
-    <ul class="menu w-full p-2 rounded-none gap-1 bg-base-100">
+    <ul class="menu w-full p-2 rounded-none gap-1 bg-base-200">
         @for (item of menuItems; track item.title) {
 
         <!-- Heading -->
