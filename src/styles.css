@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-    themes: emerald --default, luxury --prefersdark, cupcake;
+    themes: silk --default, abyss --prefersdark, cupcake;
 }
 
 /*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
