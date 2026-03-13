@@ -1,3 +1,12 @@
+@if (cargando()) {
+<p>Cargando...</p>
+}
+
+@if (error()) {
+<p class="error">{{ error() }}</p>
+}
+
+@if (persona()) {
 <div class="flex flex-col grow gap-5">
 
     <!-- Hero: Avatar + Info -->
@@ -12,7 +21,8 @@
 
             <!-- Name + verified badge -->
             <div class="flex items-center gap-2">
-                <h2 class="text-xl font-bold">Jenny Klabber</h2>
+                <h2 class="text-xl font-bold">{{nombreCompleto() | uppercase}}
+                </h2>
                 <div class="badge badge-primary badge-sm gap-2 p-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3">
                         <path fill-rule="evenodd"
@@ -33,7 +43,7 @@
                         <path
                             d="M3 15.055v-.684c.126.053.255.1.39.142 2.092.642 4.313.987 6.61.987 2.297 0 4.518-.345 6.61-.987.135-.041.264-.089.39-.142v.684c0 1.347-.985 2.53-2.363 2.686A41.454 41.454 0 0 1 10 18c-1.572 0-3.118-.12-4.637-.358C3.985 17.585 3 16.402 3 15.055Z" />
                     </svg>
-                    KeenThemes
+                    Roles: {{usuario()!.roles}}
                 </div>
                 <div class="badge badge-accent gap-1.5 p-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5">
@@ -41,7 +51,7 @@
                             d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z"
                             clip-rule="evenodd" />
                     </svg>
-                    SF, Bay Area
+                    Bolivia, La paz
                 </div>
                 <a href="mailto:jenny@kteam.com"
                     class="badge badge-accent gap-1.5 hover:badge-primary transition-colors p-2">
@@ -51,7 +61,7 @@
                         <path
                             d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
                     </svg>
-                    jenny&#64;kteam.com
+                    {{persona()?.correo}}
                 </a>
             </div>
 
@@ -141,26 +151,9 @@
                             <path
                                 d="M3 15.055v-.684c.126.053.255.1.39.142 2.092.642 4.313.987 6.61.987 2.297 0 4.518-.345 6.61-.987.135-.041.264-.089.39-.142v.684c0 1.347-.985 2.53-2.363 2.686A41.454 41.454 0 0 1 10 18c-1.572 0-3.118-.12-4.637-.358C3.985 17.585 3 16.402 3 15.055Z" />
                         </svg>
-                        <a class="link link-hover text-sm" href="#">KeenThemes</a>
+                        <a class="link link-hover text-sm" href="#">{{usuario()!.roles}}</a>
                     </li>
-                    <li class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                            class="size-5 text-base-content/40 shrink-0">
-                            <path fill-rule="evenodd"
-                                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span class="text-sm">Author Level 100</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                            class="size-5 text-base-content/40 shrink-0">
-                            <path fill-rule="evenodd"
-                                d="M1 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V6Zm4 1.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm2 3a4 4 0 0 0-3.665 2.395.75.75 0 0 0 .416 1A8.98 8.98 0 0 0 7 15a8.98 8.98 0 0 0 3.249-.604.75.75 0 0 0 .416-1.001A4.001 4.001 0 0 0 7 10.5Zm5-3.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm0 6.5a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm.75-4a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5h-2.5Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span class="text-sm">UI/UX Designer</span>
-                    </li>
+
                     <li class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                             class="size-5 text-base-content/40 shrink-0">
@@ -169,7 +162,7 @@
                             <path
                                 d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
                         </svg>
-                        <a class="link link-hover text-sm" href="mailto:jenny@kteam.com">jenny&#64;kteam.com</a>
+                        <a class="link link-hover text-sm" href="mailto:{{persona()?.correo}}">{{persona()?.correo}}</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -177,7 +170,8 @@
                             <path
                                 d="M16.555 5.412a8.028 8.028 0 0 0-3.503-2.81 14.899 14.899 0 0 1 1.663 4.472 8.547 8.547 0 0 0 1.84-1.662ZM13.326 7.825a13.43 13.43 0 0 0-2.413-5.773 8.087 8.087 0 0 0-1.826 0 13.43 13.43 0 0 0-2.413 5.773A8.473 8.473 0 0 0 10 8.5c1.18 0 2.304-.24 3.326-.675ZM6.514 9.376A9.98 9.98 0 0 0 10 10c1.226 0 2.4-.22 3.486-.624a13.54 13.54 0 0 1 .351 3.124 13.544 13.544 0 0 1-7.674 0 13.54 13.54 0 0 1 .35-3.124ZM11.514 12.5a13.544 13.544 0 0 1-3.028 0c-.21 1.354-.225 2.734-.051 4.086a8.037 8.037 0 0 0 3.13 0 13.491 13.491 0 0 0-.051-4.086ZM5.21 7.074a14.9 14.9 0 0 1 1.663-4.471 8.028 8.028 0 0 0-3.503 2.81c.529.638 1.14 1.199 1.84 1.66ZM3.196 8.6a9.89 9.89 0 0 1-1.14-.694 8.035 8.035 0 0 0-.192 1.735 13.549 13.549 0 0 1 4.486.694 15.055 15.055 0 0 1-.245-2.5 10.483 10.483 0 0 1-2.909.765ZM6.15 13.867a15.066 15.066 0 0 0 .065 3.202A8.04 8.04 0 0 1 2.408 13.5a13.574 13.574 0 0 0 3.742.367ZM13.85 13.867a13.574 13.574 0 0 0 3.742-.367 8.04 8.04 0 0 1-3.807 3.569 15.066 15.066 0 0 0 .065-3.202ZM16.804 8.6a10.483 10.483 0 0 1-2.909-.765 15.053 15.053 0 0 1-.245 2.5 13.549 13.549 0 0 1 4.486-.694 8.035 8.035 0 0 0-.192-1.736 9.89 9.89 0 0 1-1.14.694Z" />
                         </svg>
-                        <a class="link link-hover text-sm" href="#">https://keenthemes.com</a>
+                        <a class="link link-hover text-sm"
+                            href="https://programas.posgradoupea.edu.bo/">https://programas.posgradoupea.edu.bo/</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-base-content/40 shrink-0"
@@ -185,7 +179,32 @@
                             <path
                                 d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                         </svg>
-                        <a class="link link-hover text-sm" href="#">keenthemes</a>
+                        <a class="link link-hover text-sm" href="#">{{persona()?.fecha_nacimiento |
+                            date:'dd/MM/yyyy'}}</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-base-content/40 shrink-0"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        <a class="link link-hover text-sm" href="#">{{persona()?.sexo | uppercase}}</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-base-content/40 shrink-0"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        <a class="link link-hover text-sm" href="#">{{persona()?.celular}}</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-base-content/40 shrink-0"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        <a class="link link-hover text-sm" href="#">{{persona()?.ci}}</a>
                     </li>
                 </ul>
             </div>
@@ -254,3 +273,4 @@
 
     </div>
 </div>
+}
