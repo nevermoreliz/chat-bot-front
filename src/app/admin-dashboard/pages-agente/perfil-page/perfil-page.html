@@ -1,5 +1,7 @@
 @if (cargando()) {
-<p>Cargando...</p>
+<div class="flex flex-col grow items-center justify-center">
+    <p class="text-lg">Cargando Datos...</p>
+</div>
 }
 
 @if (error()) {
@@ -15,7 +17,7 @@
             <!-- Avatar with online indicator -->
             <div class="avatar avatar-online">
                 <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img src="assets/media/avatars/300-1.png" alt="Jenny Klabber" />
+                    <img src="{{urlBaseImg}}/{{persona()?.img}}" alt="{{persona()?.img}}" />
                 </div>
             </div>
 
@@ -67,14 +69,14 @@
 
             <!-- Action buttons -->
             <div class="flex flex-wrap gap-2 mt-2">
-                <button class="btn btn-primary btn-sm">
+                <button class="btn btn-primary btn-sm" (click)="modalService.abrir('editarPerfil')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M16.77 21v-8.461q.341 0 .659.052q.317.053.61.159v8.039q-.293.105-.61.158t-.66.053m-2.115-.584v-7.293q.292-.18.606-.305q.315-.124.663-.199v8.3q-.348-.075-.663-.199q-.314-.124-.606-.304m4.23 0v-7.293q.952.554 1.534 1.506t.582 2.14t-.582 2.14q-.581.953-1.533 1.507m-5.077-.635q-.585-.579-.927-1.347t-.343-1.665t.343-1.667t.927-1.35zM10.135 21l-.362-2.892q-.479-.145-1.035-.454q-.557-.31-.947-.664l-2.668 1.135l-1.865-3.25l2.306-1.739q-.045-.27-.073-.558q-.03-.288-.03-.559q0-.252.03-.53q.028-.278.073-.626L3.258 9.126l1.865-3.212L7.771 7.03q.448-.373.97-.673q.52-.3 1.013-.464L10.134 3h3.732l.361 2.912q.575.202 1.016.463t.909.654l2.725-1.115l1.865 3.211l-1.85 1.4q-.3-.102-.615-.184q-.315-.081-.639-.137l1.806-1.354l-.994-1.7l-2.552 1.07q-.454-.499-1.193-.935q-.74-.435-1.4-.577L13 4h-1.994l-.312 2.689q-.756.161-1.39.52q-.633.358-1.26.985L5.55 7.15l-.994 1.7l2.169 1.62q-.125.336-.175.73t-.05.82q0 .38.05.755t.156.73l-2.15 1.645l.994 1.7l2.475-1.05q.483.483 1.009.82q.526.338 1.139.544q.064 1.098.463 2.078T11.696 21zm.563-6.84q.093-.25.209-.473t.257-.435q-.314-.2-.502-.522q-.189-.322-.189-.73q0-.625.438-1.062t1.062-.438q.389 0 .723.182q.335.181.535.495q.213-.14.442-.247t.46-.193q-.316-.57-.894-.903q-.58-.334-1.266-.334q-1.052 0-1.776.727T9.473 12q0 .7.328 1.272t.897.888" />
                     </svg>
                     Editar Perfil
                 </button>
-                <button class="btn btn-outline btn-sm border">
+                <button class="btn btn-outline btn-sm border" (click)="modalService.abrir('cambioFotoPerfil')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M12 21.577L9.423 19H5.615q-.69 0-1.153-.462T4 17.384V4.616q0-.691.463-1.153T5.616 3h12.769q.69 0 1.153.463T20 4.616v12.769q0 .69-.462 1.153T18.384 19h-3.807zm-7-4.342q1.35-1.325 3.138-2.088T12 14.384t3.863.763T19 17.235V4.615q0-.23-.192-.423T18.384 4H5.616q-.231 0-.424.192T5 4.615zm9.129-6.03q.871-.87.871-2.128t-.871-2.129T12 6.077t-2.129.871T9 9.077t.871 2.129t2.129.871t2.129-.871M5.885 18h12.23v-.173q-1.319-1.24-2.873-1.841T12 15.385q-1.65 0-3.213.591t-2.903 1.813zm4.706-7.514Q10 9.894 10 9.077t.591-1.409T12 7.077t1.409.591Q14 8.26 14 9.077t-.591 1.409t-1.409.591t-1.409-.591m1.409.131" />
@@ -273,4 +275,197 @@
 
     </div>
 </div>
+
+<!-- modal editar perfil -->
+<dialog appModal="editarPerfil" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl">
+        <form [formGroup]="form" (ngSubmit)="guardarCambios()">
+            <h3 class="text-lg font-bold mb-4">Editar Perfil</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Nombre -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Nombre</legend>
+                    <input type="text" class="input input-bordered border w-full" placeholder="{{persona()?.nombre}}"
+                        [value]="persona()?.nombre" disabled />
+                </fieldset>
+
+                <!-- Paterno -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Apellido Paterno</legend>
+                    <input type="text" class="input input-bordered border w-full" placeholder="{{persona()?.paterno}}"
+                        [value]="persona()?.paterno" disabled />
+                </fieldset>
+
+                <!-- Materno -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Apellido Materno</legend>
+                    <input type="text" class="input input-bordered border w-full" placeholder="{{persona()?.materno}}"
+                        [value]="persona()?.materno" disabled />
+                </fieldset>
+
+                <!-- CI -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Cédula de Identidad</legend>
+                    <input type="text" class="input input-bordered border w-full" placeholder="{{persona()?.ci}}"
+                        [value]="persona()?.ci" disabled />
+                </fieldset>
+
+
+                <!-- Correo -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Correo Electrónico</legend>
+                    <input type="email" class="input input-bordered border w-full" placeholder="{{persona()?.correo}}"
+                        [value]="persona()?.correo" formControlName="correo" />
+                    @if (form.get('correo')?.invalid && form.get('correo')?.touched) {
+                    <span class="text-error text-sm">Correo inválido</span>
+                    }
+                </fieldset>
+
+                <!-- Celular -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Celular</legend>
+                    <input type="tel" class="input input-bordered border w-full" placeholder="{{persona()?.celular}}"
+                        [value]="persona()?.celular" formControlName="celular" />
+                    @if (form.get('celular')?.invalid && form.get('celular')?.touched) {
+                    <span class="text-error text-sm">Celular inválido</span>
+                    }
+                </fieldset>
+
+                <!-- Fecha de Nacimiento -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Fecha de Nacimiento</legend>
+                    <input type="date" class="input input-bordered border w-full" [value]="persona()?.fecha_nacimiento"
+                        formControlName="fecha_nacimiento" />
+                    @if (form.get('fecha_nacimiento')?.invalid && form.get('fecha_nacimiento')?.touched) {
+                    <span class="text-error text-sm">Fecha de nacimiento inválida</span>
+                    }
+                </fieldset>
+
+                <!-- Sexo -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Sexo</legend>
+                    <select class="select select-bordered border w-full" [value]="persona()?.sexo"
+                        formControlName="sexo">
+                        <option disabled selected>Seleccionar</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                    </select>
+                    @if (form.get('sexo')?.invalid && form.get('sexo')?.touched) {
+                    <span class="text-error text-sm">Sexo inválido</span>
+                    }
+                </fieldset>
+
+            </div>
+
+            <!-- Feedback -->
+            <div class="modal-action flex gap-2">
+                <button type="submit" class="btn btn-primary" [disabled]="guardando() || form.invalid">
+                    {{ guardando() ? 'Guardando...' : 'Guardar' }}
+                </button>
+                <button type="button" class="btn" (click)="modalService.cerrar('editarPerfil')">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+</dialog>
+
+<dialog appModal="cambioFotoPerfil" class="modal">
+    <div class="modal-box max-w-lg">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-bold">Cambiar Foto de Perfil</h3>
+            <button class="btn btn-ghost btn-sm btn-circle"
+                (click)="limpiarFoto(); modalService.cerrar('cambioFotoPerfil')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Preview del avatar -->
+        <div class="flex flex-col items-center gap-4 mb-6">
+            <div class="avatar">
+                <div class="w-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
+                    <img [src]="previewFoto() || urlBaseImg + '/' + persona()?.img" alt="Preview foto de perfil" />
+                </div>
+            </div>
+            @if (previewFoto()) {
+            <span class="badge badge-success badge-sm gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-3" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Nueva imagen seleccionada
+            </span>
+            }
+        </div>
+
+        <!-- Zona de carga -->
+        <div class="border-2 border-dashed border-base-content/20 rounded-xl p-6 text-center hover:border-primary/50 transition-colors cursor-pointer"
+            (click)="fileInputImgPerfil.click()" (dragover)="$event.preventDefault()"
+            (drop)="$event.preventDefault(); onFileDrop($event)">
+
+            <!-- input de la imagen -->
+            <input #fileInputImgPerfil type="file" accept="image/png, image/jpeg, image/webp" class="hidden"
+                (change)="onFileSelected($event)" />
+
+            <div class="flex flex-col items-center gap-3">
+                <div class="bg-primary/10 rounded-full p-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-8 text-primary" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold">Haz clic o arrastra una imagen aquí</p>
+                    <p class="text-xs text-base-content/50 mt-1">PNG, JPG o WEBP • Máximo 2MB</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info del archivo seleccionado -->
+        @if (archivoSeleccionado()) {
+        <div class="flex items-center gap-3 mt-4 p-3 bg-base-200 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium truncate">{{ archivoSeleccionado()!.name }}</p>
+                <p class="text-xs text-base-content/50">{{ (archivoSeleccionado()!.size / 1024).toFixed(1) }} KB
+                </p>
+            </div>
+            <button class="btn btn-ghost btn-xs btn-circle" (click)="limpiarFoto()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        }
+
+        <!-- Acciones -->
+        <div class="modal-action flex gap-2">
+            <button class="btn btn-primary" [disabled]="!archivoSeleccionado() || subiendoFoto()" (click)="subirFoto()">
+                @if (subiendoFoto()) {
+                <span class="loading loading-spinner loading-sm"></span>
+                Subiendo...
+                } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                Guardar Foto
+                }
+            </button>
+            <button class="btn" (click)="limpiarFoto(); modalService.cerrar('cambioFotoPerfil')">Cancelar</button>
+        </div>
+    </div>
+</dialog>
+
 }
