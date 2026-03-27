@@ -25,12 +25,12 @@ export class PerfilPage {
   urlBaseImg = `${environment.baseUrl}/profile`;
 
   usuario = this.authService.user;
-  persona = signal<Persona | null>(null);
+  persona = this.personaService.persona;  // signal compartido del servicio
 
   nombreCompleto = computed(() => {
-    const persona = this.persona();
-    if (!persona) return '';
-    return `${persona.nombre} ${persona.paterno} ${persona.materno}`;
+    const p = this.persona();
+    if (!p) return '';
+    return `${p.nombre} ${p.paterno} ${p.materno}`;
   });
 
   cargando = signal<boolean>(false);
@@ -63,16 +63,13 @@ export class PerfilPage {
     // verificar si trae datos del usuario
     // console.log('⭕⭕⭕ ID USUARIO', this.authService.user());
 
-    this.personaService.getPersona(this.authService.user()!.id_usuario).subscribe({
+    this.personaService.cargarPersona(this.authService.user()!.id_usuario).subscribe({
       next: ({ data }) => {
-
-        // console.log('⭕⭕⭕ respuesta cargarPerfil', data);
-        this.persona.set(data);
         this.llenarFormulario(data);
         this.cargando.set(false);
       },
-      error: (error) => {
-        this.error.set(error.message);
+      error: (err) => {
+        this.error.set(err.message);
         this.cargando.set(false);
       }
     })
@@ -100,8 +97,8 @@ export class PerfilPage {
 
     this.personaService.updatePersona(id, body).subscribe({
       next: ({ data }) => {
-        // actualiza el signal con datos nuevos
-        this.persona.set(data);
+        // actualiza el signal compartido
+        this.personaService.setPersona(data);
         this.guardando.set(false);
         this.modalService.cerrar('editarPerfil');
         this.alertService.success('Perfil actualizado correctamente');
@@ -146,7 +143,7 @@ export class PerfilPage {
 
     this.personaService.updateFotoPerfil(id, archivo).subscribe({
       next: ({ data }) => {
-        this.persona.set(data);
+        this.personaService.setPersona(data);
         this.subiendoFoto.set(false);
         this.modalService.cerrar('cambioFotoPerfil');
         this.alertService.success('Foto de perfil actualizada');

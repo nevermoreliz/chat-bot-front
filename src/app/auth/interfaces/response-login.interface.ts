@@ -1,12 +1,12 @@
-import { User } from "./user.interface";
+import { Usuario } from "./user.interface";
 
 interface Data {
     token: string;
-    user: User;
+    user: Usuario;
 }
 
 export interface ResponseLogin {
-    ok: boolean;
     msg: string;
     data: Data;
+    ok?: boolean;
 }

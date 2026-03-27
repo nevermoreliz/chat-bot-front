@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { User } from '../interfaces/user.interface';
+import { Usuario } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ResponseLogin } from '../interfaces/response-login.interface';
@@ -17,7 +17,7 @@ const baseUrl = environment.baseUrl;
 export class AuthService {
 
   private _authStatus = signal<AuthStatus>('checking');
-  private _user = signal<User | null>(null);
+  private _user = signal<Usuario | null>(null);
   private _token = signal<string | null>(localStorage.getItem('token'));
 
   private http = inject(HttpClient);

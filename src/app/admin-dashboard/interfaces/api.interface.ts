@@ -1,13 +1,21 @@
 export interface ApiResponse<T> {
-    ok: boolean;
     msg: string;
     data: T;
+    pagination?: Paginacion;
+    ok?: boolean;
 }
 
 export interface ApiError {
-    ok: boolean;
     error: string;
     msg?: Record<string, string[]>;
+    ok?: boolean;
+}
+
+interface Paginacion {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
 }
 
 // formas de uso

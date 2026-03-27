@@ -6,6 +6,7 @@ import { MenuItem } from './interfaces/menu-item.interface';
 import { AuthService } from '../../../auth/services/auth-service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { Rol } from '../../interfaces/rol.interface';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,7 +21,7 @@ export class Sidebar {
   private router = inject(Router);
 
   menuItems: MenuItem[] = []
-  userRoles: (string | number)[] = []
+  userRoles: (string | number | Rol)[] = []
   currentUrl: string = ''
 
   ngOnInit(): void {
@@ -66,8 +67,8 @@ export class Sidebar {
         tooltip: 'Gestion de Usuarios',
         roles: ['administrador'],
         submenu: [
-          { title: 'Listar Usuarios', route: '/admin/gestion-usuarios/listar' },
-          { title: 'Crear Usuario', route: '/admin/gestion-usuarios/crear' },
+          { title: 'Listar Usuarios', route: '/admin/usuarios-listar' },
+          { title: 'Crear Usuario', route: '/admin/usuarios/crear' },
         ]
       },
 

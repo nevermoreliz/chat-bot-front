@@ -69,13 +69,12 @@
         <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle btn-sm avatar">
                 <div class="w-8 rounded-full">
-                    <img alt="User" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                    <img alt="Avatar" [src]="persona()?.img ? urlBaseImg + '/' + persona()?.img : 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'" />
                 </div>
             </div>
             <ul tabindex="-1"
                 class="menu menu-sm dropdown-content bg-base-100 rounded-none z-1 mt-[8px] right-0 w-52 p-2 shadow border-t border-base-200 animate-in fade-in zoom-in-95 duration-200">
-                <li><a class="justify-between">Profile <span class="badge">New</span></a></li>
-                <li><a>Settings</a></li>
+                <li><a class="justify-between">Perfil <span class="badge"></span></a></li>
                 <li><a (click)="authService.logout()">Cerrar Sesión</a></li>
             </ul>
         </div>
