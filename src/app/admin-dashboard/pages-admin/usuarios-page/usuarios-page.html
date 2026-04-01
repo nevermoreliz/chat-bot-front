@@ -44,7 +44,7 @@
                     </thead>
                     <tbody>
 
-                        @for (persona of personasConUsuario.value(); track persona.id_persona; let i = $index) {
+                        @for (persona of personasConUsuario.value()?.data; track persona.id_persona; let i = $index) {
                         <tr>
                             <th>{{ i + 1 }}</th>
                             <td>
@@ -68,8 +68,7 @@
                                         <div class="font-bold">{{ persona.nombre }} {{ persona.paterno }} {{
                                             persona.materno }}</div>
                                         @if (persona.usuario) {
-                                        <div class="badge badge-outline badge-success badge-sm">{{
-                                            persona.usuario.nombre_usuario }}</div>
+                                        <div class="badge badge-outline badge-success badge-sm">Con usuario</div>
                                         } @else {
                                         <div class="badge badge-outline badge-error badge-sm">Sin usuario</div>
                                         }
@@ -93,7 +92,8 @@
                             <td>
                                 <div class="flex gap-2">
                                     <div class="tooltip" data-tip="Información">
-                                        <button class="btn btn-ghost btn-xs btn-circle hover:bg-success/20 hover:text-success transition-all duration-200">
+                                        <button
+                                            class="btn btn-ghost btn-xs btn-circle hover:bg-success/20 hover:text-success transition-all duration-200">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                                 viewBox="0 0 24 24">
                                                 <rect width="24" height="24" fill="none" />
@@ -103,7 +103,8 @@
                                         </button>
                                     </div>
                                     <div class="tooltip" data-tip="Editar">
-                                        <button class="btn btn-ghost btn-xs btn-circle hover:bg-info/20 hover:text-info transition-all duration-200">
+                                        <button
+                                            class="btn btn-ghost btn-xs btn-circle hover:bg-info/20 hover:text-info transition-all duration-200">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                                 viewBox="0 0 24 24">
                                                 <rect width="24" height="24" fill="none" />
@@ -113,7 +114,8 @@
                                         </button>
                                     </div>
                                     <div class="tooltip" data-tip="Eliminar">
-                                        <button class="btn btn-ghost btn-xs btn-circle hover:bg-error/20 hover:text-error transition-all duration-200">
+                                        <button
+                                            class="btn btn-ghost btn-xs btn-circle hover:bg-error/20 hover:text-error transition-all duration-200">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                                 viewBox="0 0 24 24">
                                                 <rect width="24" height="24" fill="none" />
@@ -134,22 +136,24 @@
             <div class="flex justify-between items-center px-4 py-3 border-t border-base-200 flex-wrap gap-3">
                 <div class="flex items-center gap-2">
                     <span class="text-sm text-base-content/60">Mostrar</span>
-                    <select class="select select-bordered select-sm w-20">
-                        <option selected>10</option>
-                        <option>20</option>
-                        <option>30</option>
-                        <option>100</option>
+
+                    <!-- el(+) es para convertir el valor de selectLimit.value a number -->
+                    <select class="select select-bordered select-sm w-20"
+                        [value]="paginacionService.currentLimit()"
+                        (change)="cambiarLimit(+selectLimit.value)"
+                        #selectLimit>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     </select>
+
                     <span class="text-sm text-base-content/60">por página</span>
                 </div>
                 <span class="text-sm text-base-content/60">Mostrando 1-10 de 25 usuarios</span>
-                <div class="join">
-                    <button class="join-item btn btn-sm btn-ghost border border-base-300 btn-disabled">«</button>
-                    <button class="join-item btn btn-sm btn-primary border border-primary shadow-none">1</button>
-                    <button class="join-item btn btn-sm btn-ghost border border-base-300">2</button>
-                    <button class="join-item btn btn-sm btn-ghost border border-base-300">3</button>
-                    <button class="join-item btn btn-sm btn-ghost border border-base-300">»</button>
-                </div>
+
+                <app-pagination [totalPages]="personasConUsuario.value()?.paginacion?.totalPages ?? 0"
+                    [currentPage]="paginacionService.currentPage()" />
             </div>
         </div>
     </div>

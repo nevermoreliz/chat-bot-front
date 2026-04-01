@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { ApiResponse } from '../interfaces/api.interface';
 import { Persona } from '../interfaces/persona.interface';
+import { ParametrosPaginacion } from '../interfaces/parametros-paginacion.interface';
 
 
 const baseUrl = environment.baseUrl;
@@ -14,6 +15,7 @@ const baseUrl = environment.baseUrl;
 export class PersonaService {
 
   private http = inject(HttpClient);
+  private personasConUsuarioCache = new Map<string, ApiResponse<Persona[]>>();
 
   // Estado compartido de la persona autenticada
   private _persona = signal<Persona | null>(null);
@@ -45,11 +47,22 @@ export class PersonaService {
     return this.http.put<ApiResponse<Persona>>(`${baseUrl}/personas/${id_persona}`, formData);
   }
 
-  getPersonasConUsuario(): Observable<ApiResponse<Persona[]>> {
-    return this.http.get<ApiResponse<Persona[]>>(`${baseUrl}/personas/usuarios`)
-      .pipe(
-        tap(({ data }) => console.log(data))
-      );
+  getPersonasConUsuario(parametrosPaginacion?: ParametrosPaginacion): Observable<ApiResponse<Persona[]>> {
+    const { page = 1, limit = 10, search = '', sortBy = '', sortOrder = 'desc' } = parametrosPaginacion ?? {};
+
+    // guardar en cache
+    const cacheKey = `${page}-${limit}-${search}-${sortBy}-${sortOrder}`;
+    if (this.personasConUsuarioCache.has(cacheKey)) {
+      return of(this.personasConUsuarioCache.get(cacheKey)!);
+    }
+
+
+    return this.http.get<ApiResponse<Persona[]>>(`${baseUrl}/personas/usuarios`, {
+      params: { page, limit, search, sortBy, sortOrder }
+    }).pipe(
+      tap(response => console.log(response)),
+      tap(response => this.personasConUsuarioCache.set(cacheKey, response))
+    );
   }
 
 }

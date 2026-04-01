@@ -1,7 +1,7 @@
 export interface ApiResponse<T> {
     msg: string;
     data: T;
-    pagination?: Paginacion;
+    paginacion?: Paginacion;
     ok?: boolean;
 }
 

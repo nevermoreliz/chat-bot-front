@@ -1,0 +1,14 @@
+<div class="join">
+
+    @for (page of getPagesList(); track page) {
+    <button class="join-item btn btn-sm border border-base-300" [class.btn-ghost]="page !== activePage()"
+        [class.btn-primary]="page === activePage()" [routerLink]="[]" [queryParams]="{page: page}"
+        queryParamsHandling="merge"
+        (click)="activePage.set(page)">
+        {{ page }}
+    </button>
+    }
+    @empty {
+    <!-- <p>No hay páginas</p> -->
+    }
+</div>
