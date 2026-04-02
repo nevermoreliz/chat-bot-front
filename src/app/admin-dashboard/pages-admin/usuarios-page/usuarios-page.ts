@@ -6,10 +6,12 @@ import { DatePipe } from '@angular/common';
 import { Pagination } from "../../../shared/components/pagination/pagination";
 import { Router } from '@angular/router';
 import { PaginacionService } from '../../services/paginacion.service';
+import { FormularioUsuarioPer } from "./components/formulario-usuario-per/formulario-usuario-per";
+import { ModalService } from '../../../shared/services/modal.service';
 
 @Component({
   selector: 'app-usuarios-page',
-  imports: [DatePipe, Pagination],
+  imports: [DatePipe, Pagination, FormularioUsuarioPer],
   templateUrl: './usuarios-page.html',
   styles: ``,
 })
@@ -19,6 +21,9 @@ export class UsuariosPage {
   personaService = inject(PersonaService);
   paginacionService = inject(PaginacionService);
   private router = inject(Router);
+
+  // servicio de modales
+  protected modalService = inject(ModalService);
 
   // computed agrupa los signals que vienen de la URL
   private parametrosPaginacion = computed(() => ({

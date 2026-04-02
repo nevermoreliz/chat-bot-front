@@ -1,0 +1,216 @@
+<dialog appModal="formUsuarioPersona" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-bold">Formulario de Usuario - Persona</h3>
+            <button class="btn btn-ghost btn-sm btn-circle" (click)="modalService.cerrar('formUsuarioPersona')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <form [formGroup]="form">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- ═══════════════════════════════════════ -->
+                <!-- Columna Izquierda: Datos de Persona     -->
+                <!-- ═══════════════════════════════════════ -->
+                <div class="card bg-base-200/50 shadow-sm border border-base-300 rounded-xl">
+                    <div class="card-body p-5" formGroupName="Persona">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-5 text-primary">
+                                <path
+                                    d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                            </svg>
+                            <h4 class="font-bold text-base">Datos Personales</h4>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <!-- Nombre -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Nombre</legend>
+                                <input type="text" class="input input-bordered border w-full"
+                                    placeholder="Ingrese nombre" formControlName="nombre" />
+                                @if (form.get('Persona.nombre')?.invalid && form.get('Persona.nombre')?.touched) {
+                                <span class="text-error text-xs mt-1">Nombre es requerido</span>
+                                }
+                            </fieldset>
+
+                            <!-- Apellido Paterno -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Apellido Paterno</legend>
+                                <input type="text" class="input input-bordered border w-full"
+                                    placeholder="Ingrese apellido paterno" formControlName="paterno" />
+                                @if (form.get('Persona.paterno')?.invalid && form.get('Persona.paterno')?.touched) {
+                                <span class="text-error text-xs mt-1">Apellido paterno es requerido</span>
+                                }
+                            </fieldset>
+
+                            <!-- Apellido Materno -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Apellido Materno</legend>
+                                <input type="text" class="input input-bordered border w-full"
+                                    placeholder="Ingrese apellido materno" formControlName="materno" />
+                                @if (form.get('Persona.materno')?.invalid && form.get('Persona.materno')?.touched) {
+                                <span class="text-error text-xs mt-1">Apellido materno es requerido</span>
+                                }
+                            </fieldset>
+
+                            <!-- CI -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Cédula de Identidad</legend>
+                                <input type="text" class="input input-bordered border w-full" placeholder="Ej: 12345678"
+                                    formControlName="ci" />
+                                @if (form.get('Persona.ci')?.invalid && form.get('Persona.ci')?.touched) {
+                                <span class="text-error text-xs mt-1">CI es requerido</span>
+                                }
+                            </fieldset>
+
+                            <!-- Correo -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Correo Electrónico</legend>
+                                <input type="email" class="input input-bordered border w-full"
+                                    placeholder="correo@ejemplo.com" formControlName="correo" />
+                                @if (form.get('Persona.correo')?.invalid && form.get('Persona.correo')?.touched) {
+                                <span class="text-error text-xs mt-1">Correo es requerido</span>
+                                }
+                            </fieldset>
+
+                            <!-- Celular -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Celular</legend>
+                                <input type="tel" class="input input-bordered border w-full" placeholder="Ej: 71234567"
+                                    formControlName="celular" />
+                                @if (form.get('Persona.celular')?.invalid && form.get('Persona.celular')?.touched) {
+                                <span class="text-error text-xs mt-1">Celular es requerido</span>
+                                }
+                            </fieldset>
+
+                            <!-- Sexo -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Sexo</legend>
+                                <select class="select select-bordered border w-full" formControlName="sexo">
+                                    <option value="" disabled>Seleccionar</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                @if (form.get('Persona.sexo')?.invalid && form.get('Persona.sexo')?.touched) {
+                                <span class="text-error text-xs mt-1">Sexo es requerido</span>
+                                }
+                            </fieldset>
+
+                            <!-- Fecha de Nacimiento -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Fecha de Nacimiento</legend>
+                                <input type="date" class="input input-bordered border w-full"
+                                    formControlName="fecha_nacimiento" />
+                                @if (form.get('Persona.fecha_nacimiento')?.invalid &&
+                                form.get('Persona.fecha_nacimiento')?.touched) {
+                                <span class="text-error text-xs mt-1">Fecha de nacimiento es requerida</span>
+                                }
+                            </fieldset>
+                        </div>
+
+                        <!-- Notificaciones Chatbot -->
+                        <div class="form-control mt-3">
+                            <label class="label cursor-pointer justify-start gap-3">
+                                <input type="checkbox" class="toggle toggle-primary toggle-sm"
+                                    formControlName="notificaciones_chatbot" />
+                                <span class="label-text text-sm">Habilitar notificaciones del chatbot</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════ -->
+                <!-- Columna Derecha: Datos de Usuario       -->
+                <!-- ═══════════════════════════════════════ -->
+                <div class="card bg-base-200/50 shadow-sm border border-base-300 rounded-xl">
+                    <div class="card-body p-5" formGroupName="Usuario">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-5 text-secondary">
+                                <path fill-rule="evenodd"
+                                    d="M8 7a5 5 0 1 1 3.61 4.804l-1.903 1.903A1 1 0 0 1 9 14H8v1a1 1 0 0 1-1 1H6v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 .293-.707L8.196 8.39A5.002 5.002 0 0 1 8 7Zm5-3a.75.75 0 0 0 0 1.5A1.5 1.5 0 0 1 14.5 7 .75.75 0 0 0 16 7a3 3 0 0 0-3-3Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <h4 class="font-bold text-base">Datos de Usuario</h4>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3">
+                            <!-- Nombre de Usuario -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Nombre de Usuario</legend>
+                                <input type="text" class="input input-bordered border w-full"
+                                    placeholder="Ej: juan.perez" formControlName="nombre_usuario" />
+                                @if (form.get('Usuario.nombre_usuario')?.invalid &&
+                                form.get('Usuario.nombre_usuario')?.touched) {
+                                <span class="text-error text-xs mt-1">Nombre de usuario es requerido</span>
+                                }
+                            </fieldset>
+
+                            <!-- Contraseña -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Contraseña</legend>
+                                <input type="password" class="input input-bordered border w-full" placeholder="••••••••"
+                                    formControlName="contrasenia_hash" />
+                                @if (form.get('Usuario.contrasenia_hash')?.invalid &&
+                                form.get('Usuario.contrasenia_hash')?.touched) {
+                                <span class="text-error text-xs mt-1">Contraseña es requerida</span>
+                                }
+                            </fieldset>
+
+                            <!-- Rol -->
+                            <fieldset class="fieldset">
+                                <legend class="fieldset-legend">Rol</legend>
+                                <select class="select select-bordered border w-full" formControlName="id_rol">
+                                    <option value="" disabled>Seleccionar rol</option>
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Agente</option>
+                                    <option value="3">Usuario</option>
+                                </select>
+                                @if (form.get('Usuario.id_rol')?.invalid && form.get('Usuario.id_rol')?.touched) {
+                                <span class="text-error text-xs mt-1">Rol es requerido</span>
+                                }
+                            </fieldset>
+                        </div>
+
+                        <!-- Info card -->
+                        <div class="bg-info/10 border border-info/30 rounded-lg p-3 mt-4">
+                            <div class="flex gap-2 items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    class="size-4 text-info shrink-0 mt-0.5">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-xs text-info">
+                                    La contraseña debe tener al menos 8 caracteres. El usuario se vinculará
+                                    automáticamente con la persona registrada.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Acciones del modal -->
+            <div class="modal-action flex gap-2">
+                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                        <path fill-rule="evenodd"
+                            d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Guardar
+                </button>
+                <button type="button" class="btn" (click)="modalService.cerrar('formUsuarioPersona')">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+</dialog>
