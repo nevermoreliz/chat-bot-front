@@ -1,4 +1,4 @@
-import { Usuario } from "./user.interface";
+import { Usuario } from "./usuario.interface";
 
 interface Data {
     token: string;

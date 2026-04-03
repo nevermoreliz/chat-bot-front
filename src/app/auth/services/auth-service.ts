@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Usuario } from '../interfaces/user.interface';
+import { Usuario } from '../interfaces/usuario.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ResponseLogin } from '../interfaces/response-login.interface';

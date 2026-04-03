@@ -61,7 +61,7 @@ export class PerfilPage {
     this.cargando.set(true);
 
     // verificar si trae datos del usuario
-    // console.log('⭕⭕⭕ ID USUARIO', this.authService.user());
+    // console.log('🔸🔸 ID USUARIO', this.authService.user());
 
     this.personaService.cargarPersona(this.authService.user()!.id_usuario!).subscribe({
       next: ({ data }) => {

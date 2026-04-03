@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Observable, of, tap } from 'rxjs';
 import { ApiResponse } from '../interfaces/api.interface';
 import { Rol } from '../interfaces/rol.interface';
-import { Usuario } from '../../auth/interfaces/user.interface';
+import { Usuario } from '../../auth/interfaces/usuario.interface';
 
 
 const baseUrl = environment.baseUrl;

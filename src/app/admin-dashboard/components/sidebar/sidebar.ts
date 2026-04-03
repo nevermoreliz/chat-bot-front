@@ -96,7 +96,7 @@ export class Sidebar {
       },
 
       {
-        title: 'Configuracion Perfil',
+        title: 'Configuracion Perfil de Usuario',
         heading: true,
         roles: ['administrador', 'agente']
       },

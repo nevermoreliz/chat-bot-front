@@ -4,6 +4,7 @@ import { ModalService } from '../../../../../shared/services/modal.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertService } from '../../../../../shared/services/alert.service';
 import { ModalDirective } from '../../../../../shared/directives/modal.directive';
+import { setServerErrors } from '../../../../../shared/utils/form-error.util';
 import { RolService } from '../../../../services/rol.service';
 import { Rol } from '../../../../interfaces/rol.interface';
 import { UsuarioService } from '../../../../services/usuario.service';
@@ -34,8 +35,10 @@ export class FormularioUsuarioPer {
   // asignar roles
   roles: Rol[] = [];
 
+  // formulario
   form: FormGroup = this.fb.group({
 
+    // datos de persona
     Persona: this.fb.group({
       nombre: ['', [Validators.required]],
       materno: ['', [Validators.required]],
@@ -45,16 +48,17 @@ export class FormularioUsuarioPer {
       celular: ['', [Validators.required]],
       sexo: ['', [Validators.required]],
       fecha_nacimiento: ['', [Validators.required]],
-      notificaciones_chatbot: [false, [Validators.required]],
+      notificaciones_chatbot: [true, [Validators.required]],
     }),
 
+    // datos de usuario
     Usuario: this.fb.group({
       id_rol: ['', [Validators.required]],
     })
 
   });
 
-  // Getters para mostrar en el HTML
+  // getter para nombre de usuario generado
   get nombreUsuarioGenerado(): string {
     const nombre = this.form.get('Persona.nombre')?.value || '';
     const ci = this.form.get('Persona.ci')?.value || '';
@@ -63,6 +67,7 @@ export class FormularioUsuarioPer {
     return `${primerNombre.toLowerCase()}-${ci}`;
   }
 
+  // getter para contrasenia generada
   get contraseniaGenerada(): string {
     const fecha = this.form.get('Persona.fecha_nacimiento')?.value || '';
     if (!fecha) return '';
@@ -70,11 +75,13 @@ export class FormularioUsuarioPer {
     return `${dd}${mm}${yyyy}#psg`;
   }
 
+  // getter para contrasenia enmascarada
   get contraseniaMasked(): string {
     return '•'.repeat(this.contraseniaGenerada.length);
   }
 
 
+  // al iniciar el componente
   ngOnInit(): void {
     this.rolService.getRoles().subscribe((response) => {
       this.roles = response.data;
@@ -83,10 +90,13 @@ export class FormularioUsuarioPer {
 
   // metodo de guardar
   onSubmit() {
+
     if (this.form.invalid) {
       this.alertService.error('Formulario inválido');
       return;
     }
+
+
 
     // llenar los datos del formulario a formData
     const formData = this.form.value;
@@ -116,28 +126,10 @@ export class FormularioUsuarioPer {
 
           // Si el backend devuelve errores de validación, asignarlos a cada control
           if (err.error?.errors) {
-            this.setServerErrors(err.error.errors);
+            setServerErrors(this.form, err.error.errors);
           }
         }
       });
   }
 
-  /**
-   * Recorre los errores del backend y los asigna a los FormControls correspondientes.
-   * Formato esperado: { campo: { msg: '...', path: '...' } }
-   */
-  private setServerErrors(errors: Record<string, { msg: string; path: string }>) {
-    for (const campo in errors) {
-      const error = errors[campo];
-      // Buscar el control en el grupo Persona primero, luego en Usuario
-      const control =
-        this.form.get(`Persona.${campo}`) ??
-        this.form.get(`Usuario.${campo}`);
-
-      if (control) {
-        control.setErrors({ serverError: error.msg });
-        control.markAsTouched(); // Para que el HTML muestre el error inmediatamente
-      }
-    }
-  }
 }

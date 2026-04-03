@@ -1,4 +1,4 @@
-import { Usuario } from "../../auth/interfaces/user.interface";
+import { Usuario } from "../../auth/interfaces/usuario.interface";
 
 export interface Persona {
     id_persona: number;
