@@ -55,7 +55,7 @@ export class PerfilPage {
     this.cargarPerfil();
   }
 
-  // --- Formulario de perfil ---
+  // ── Formulario de perfil ──
   cargarPerfil() {
 
     this.cargando.set(true);
@@ -63,7 +63,7 @@ export class PerfilPage {
     // verificar si trae datos del usuario
     // console.log('⭕⭕⭕ ID USUARIO', this.authService.user());
 
-    this.personaService.cargarPersona(this.authService.user()!.id_usuario).subscribe({
+    this.personaService.cargarPersona(this.authService.user()!.id_usuario!).subscribe({
       next: ({ data }) => {
         this.llenarFormulario(data);
         this.cargando.set(false);
@@ -109,10 +109,11 @@ export class PerfilPage {
       }
     });
   }
-  // --- End Formulario de perfil ---
+  // ── End Formulario de perfil ──
 
   // ── Foto de perfil ──
 
+  // metodo de seleccionar archivo
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
@@ -120,6 +121,7 @@ export class PerfilPage {
     }
   }
 
+  // metodo de file drop
   onFileDrop(event: DragEvent): void {
     const file = event.dataTransfer?.files[0];
     if (file) {
@@ -127,11 +129,13 @@ export class PerfilPage {
     }
   }
 
+  // metodo de limpiar foto
   limpiarFoto(): void {
     this.previewFoto.set(null);
     this.archivoSeleccionado.set(null);
   }
 
+  // metodo de subir foto
   subirFoto(): void {
     const archivo = this.archivoSeleccionado();
     if (!archivo) return;
@@ -157,6 +161,7 @@ export class PerfilPage {
 
   }
 
+  // metodo de procesar tipo de imagen
   private _procesarArchivo(file: File): void {
     // Validar tipo
     const tiposPermitidos = ['image/png', 'image/jpeg', 'image/webp'];

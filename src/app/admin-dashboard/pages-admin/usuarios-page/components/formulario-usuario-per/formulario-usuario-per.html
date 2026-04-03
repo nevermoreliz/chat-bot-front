@@ -11,7 +11,7 @@
             </button>
         </div>
 
-        <form [formGroup]="form">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                 <!-- ═══════════════════════════════════════ -->
@@ -34,7 +34,9 @@
                                 <legend class="fieldset-legend">Nombre</legend>
                                 <input type="text" class="input input-bordered border w-full"
                                     placeholder="Ingrese nombre" formControlName="nombre" />
-                                @if (form.get('Persona.nombre')?.invalid && form.get('Persona.nombre')?.touched) {
+                                @if (form.get('Persona.nombre')?.hasError('serverError')) {
+                                <span class="text-error text-xs mt-1">{{ form.get('Persona.nombre')?.getError('serverError') }}</span>
+                                } @else if (form.get('Persona.nombre')?.invalid && form.get('Persona.nombre')?.touched) {
                                 <span class="text-error text-xs mt-1">Nombre es requerido</span>
                                 }
                             </fieldset>
@@ -44,7 +46,9 @@
                                 <legend class="fieldset-legend">Apellido Paterno</legend>
                                 <input type="text" class="input input-bordered border w-full"
                                     placeholder="Ingrese apellido paterno" formControlName="paterno" />
-                                @if (form.get('Persona.paterno')?.invalid && form.get('Persona.paterno')?.touched) {
+                                @if (form.get('Persona.paterno')?.hasError('serverError')) {
+                                <span class="text-error text-xs mt-1">{{ form.get('Persona.paterno')?.getError('serverError') }}</span>
+                                } @else if (form.get('Persona.paterno')?.invalid && form.get('Persona.paterno')?.touched) {
                                 <span class="text-error text-xs mt-1">Apellido paterno es requerido</span>
                                 }
                             </fieldset>
@@ -54,7 +58,9 @@
                                 <legend class="fieldset-legend">Apellido Materno</legend>
                                 <input type="text" class="input input-bordered border w-full"
                                     placeholder="Ingrese apellido materno" formControlName="materno" />
-                                @if (form.get('Persona.materno')?.invalid && form.get('Persona.materno')?.touched) {
+                                @if (form.get('Persona.materno')?.hasError('serverError')) {
+                                <span class="text-error text-xs mt-1">{{ form.get('Persona.materno')?.getError('serverError') }}</span>
+                                } @else if (form.get('Persona.materno')?.invalid && form.get('Persona.materno')?.touched) {
                                 <span class="text-error text-xs mt-1">Apellido materno es requerido</span>
                                 }
                             </fieldset>
@@ -64,7 +70,9 @@
                                 <legend class="fieldset-legend">Cédula de Identidad</legend>
                                 <input type="text" class="input input-bordered border w-full" placeholder="Ej: 12345678"
                                     formControlName="ci" />
-                                @if (form.get('Persona.ci')?.invalid && form.get('Persona.ci')?.touched) {
+                                @if (form.get('Persona.ci')?.hasError('serverError')) {
+                                <span class="text-error text-xs mt-1">{{ form.get('Persona.ci')?.getError('serverError') }}</span>
+                                } @else if (form.get('Persona.ci')?.invalid && form.get('Persona.ci')?.touched) {
                                 <span class="text-error text-xs mt-1">CI es requerido</span>
                                 }
                             </fieldset>
@@ -74,7 +82,9 @@
                                 <legend class="fieldset-legend">Correo Electrónico</legend>
                                 <input type="email" class="input input-bordered border w-full"
                                     placeholder="correo@ejemplo.com" formControlName="correo" />
-                                @if (form.get('Persona.correo')?.invalid && form.get('Persona.correo')?.touched) {
+                                @if (form.get('Persona.correo')?.hasError('serverError')) {
+                                <span class="text-error text-xs mt-1">{{ form.get('Persona.correo')?.getError('serverError') }}</span>
+                                } @else if (form.get('Persona.correo')?.invalid && form.get('Persona.correo')?.touched) {
                                 <span class="text-error text-xs mt-1">Correo es requerido</span>
                                 }
                             </fieldset>
@@ -84,7 +94,9 @@
                                 <legend class="fieldset-legend">Celular</legend>
                                 <input type="tel" class="input input-bordered border w-full" placeholder="Ej: 71234567"
                                     formControlName="celular" />
-                                @if (form.get('Persona.celular')?.invalid && form.get('Persona.celular')?.touched) {
+                                @if (form.get('Persona.celular')?.hasError('serverError')) {
+                                <span class="text-error text-xs mt-1">{{ form.get('Persona.celular')?.getError('serverError') }}</span>
+                                } @else if (form.get('Persona.celular')?.invalid && form.get('Persona.celular')?.touched) {
                                 <span class="text-error text-xs mt-1">Celular es requerido</span>
                                 }
                             </fieldset>
@@ -107,7 +119,9 @@
                                 <legend class="fieldset-legend">Fecha de Nacimiento</legend>
                                 <input type="date" class="input input-bordered border w-full"
                                     formControlName="fecha_nacimiento" />
-                                @if (form.get('Persona.fecha_nacimiento')?.invalid &&
+                                @if (form.get('Persona.fecha_nacimiento')?.hasError('serverError')) {
+                                <span class="text-error text-xs mt-1">{{ form.get('Persona.fecha_nacimiento')?.getError('serverError') }}</span>
+                                } @else if (form.get('Persona.fecha_nacimiento')?.invalid &&
                                 form.get('Persona.fecha_nacimiento')?.touched) {
                                 <span class="text-error text-xs mt-1">Fecha de nacimiento es requerida</span>
                                 }
@@ -141,26 +155,22 @@
                         </div>
 
                         <div class="grid grid-cols-1 gap-3">
-                            <!-- Nombre de Usuario -->
+                            <!-- Nombre de Usuario (auto-generado) -->
                             <fieldset class="fieldset">
                                 <legend class="fieldset-legend">Nombre de Usuario</legend>
-                                <input type="text" class="input input-bordered border w-full"
-                                    placeholder="Ej: juan.perez" formControlName="nombre_usuario" />
-                                @if (form.get('Usuario.nombre_usuario')?.invalid &&
-                                form.get('Usuario.nombre_usuario')?.touched) {
-                                <span class="text-error text-xs mt-1">Nombre de usuario es requerido</span>
-                                }
+                                <div class="input input-bordered border w-full bg-base-200 flex items-center">
+                                    {{ nombreUsuarioGenerado || 'Se genera automáticamente' }}
+                                </div>
+                                <span class="text-xs mt-1 opacity-60">Se genera con: nombre-carnet</span>
                             </fieldset>
 
-                            <!-- Contraseña -->
+                            <!-- Contraseña (auto-generada) -->
                             <fieldset class="fieldset">
                                 <legend class="fieldset-legend">Contraseña</legend>
-                                <input type="password" class="input input-bordered border w-full" placeholder="••••••••"
-                                    formControlName="contrasenia_hash" />
-                                @if (form.get('Usuario.contrasenia_hash')?.invalid &&
-                                form.get('Usuario.contrasenia_hash')?.touched) {
-                                <span class="text-error text-xs mt-1">Contraseña es requerida</span>
-                                }
+                                <div class="input input-bordered border w-full bg-base-200 flex items-center">
+                                    {{ contraseniaMasked || 'Se genera automáticamente' }}
+                                </div>
+                                <span class="text-xs mt-1 opacity-60">Se genera con: fecha de nacimiento</span>
                             </fieldset>
 
                             <!-- Rol -->
@@ -168,9 +178,9 @@
                                 <legend class="fieldset-legend">Rol</legend>
                                 <select class="select select-bordered border w-full" formControlName="id_rol">
                                     <option value="" disabled>Seleccionar rol</option>
-                                    <option value="1">Administrador</option>
-                                    <option value="2">Agente</option>
-                                    <option value="3">Usuario</option>
+                                    @for (rol of roles; track rol.id_rol) {
+                                        <option [value]="rol.id_rol">{{ rol.nombre_rol }}</option>
+                                    }
                                 </select>
                                 @if (form.get('Usuario.id_rol')?.invalid && form.get('Usuario.id_rol')?.touched) {
                                 <span class="text-error text-xs mt-1">Rol es requerido</span>
@@ -206,7 +216,7 @@
                             d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
                             clip-rule="evenodd" />
                     </svg>
-                    Guardar
+                    Guardar {{form.invalid}}
                 </button>
                 <button type="button" class="btn" (click)="modalService.cerrar('formUsuarioPersona')">Cancelar</button>
             </div>

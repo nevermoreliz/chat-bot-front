@@ -37,6 +37,10 @@ export class PersonaService {
     return this.http.get<ApiResponse<Persona>>(`${baseUrl}/personas/${id_usuario}`);
   }
 
+  createPersona(persona: Persona): Observable<ApiResponse<Persona>> {
+    return this.http.post<ApiResponse<Persona>>(`${baseUrl}/personas`, persona);
+  }
+
   updatePersona(id_persona: number, body: Persona): Observable<ApiResponse<Persona>> {
     return this.http.put<ApiResponse<Persona>>(`${baseUrl}/personas/${id_persona}`, body);
   }
@@ -51,17 +55,18 @@ export class PersonaService {
     const { page = 1, limit = 10, search = '', sortBy = '', sortOrder = 'desc' } = parametrosPaginacion ?? {};
 
     // guardar en cache
-    const cacheKey = `${page}-${limit}-${search}-${sortBy}-${sortOrder}`;
-    if (this.personasConUsuarioCache.has(cacheKey)) {
-      return of(this.personasConUsuarioCache.get(cacheKey)!);
-    }
+    // const cacheKey = `${page}-${limit}-${search}-${sortBy}-${sortOrder}`;
+    // if (this.personasConUsuarioCache.has(cacheKey)) {
+    //   return of(this.personasConUsuarioCache.get(cacheKey)!);
+    // }
 
 
     return this.http.get<ApiResponse<Persona[]>>(`${baseUrl}/personas/usuarios`, {
       params: { page, limit, search, sortBy, sortOrder }
     }).pipe(
-      tap(response => console.log(response)),
-      tap(response => this.personasConUsuarioCache.set(cacheKey, response))
+      // tap(response => console.log(response)),
+      tap(response => response),
+      // tap(response => this.personasConUsuarioCache.set(cacheKey, response))
     );
   }
 
