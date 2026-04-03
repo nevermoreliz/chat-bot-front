@@ -51,6 +51,10 @@ export class PersonaService {
     return this.http.put<ApiResponse<Persona>>(`${baseUrl}/personas/${id_persona}`, formData);
   }
 
+  deletePersona(id_persona: number): Observable<ApiResponse<Persona>> {
+    return this.http.delete<ApiResponse<Persona>>(`${baseUrl}/personas/${id_persona}`);
+  }
+
   getPersonasConUsuario(parametrosPaginacion?: ParametrosPaginacion): Observable<ApiResponse<Persona[]>> {
     const { page = 1, limit = 10, search = '', sortBy = '', sortOrder = 'desc' } = parametrosPaginacion ?? {};
 
@@ -64,8 +68,8 @@ export class PersonaService {
     return this.http.get<ApiResponse<Persona[]>>(`${baseUrl}/personas/usuarios`, {
       params: { page, limit, search, sortBy, sortOrder }
     }).pipe(
-      // tap(response => console.log(response)),
       tap(response => response),
+      tap(response => console.log(response)),
       // tap(response => this.personasConUsuarioCache.set(cacheKey, response))
     );
   }

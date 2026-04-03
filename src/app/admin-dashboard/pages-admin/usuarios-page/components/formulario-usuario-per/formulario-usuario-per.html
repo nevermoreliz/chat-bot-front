@@ -209,6 +209,12 @@
                             <!-- Rol -->
                             <fieldset class="fieldset">
                                 <legend class="fieldset-legend">Rol</legend>
+
+                                @if(tieneRolAsignado) {
+                                <div class="input input-bordered border w-full bg-base-200 flex items-center uppercase">
+                                    {{ nombreRolActual }}
+                                </div>
+                                } @else {
                                 <select class="select select-bordered border w-full" formControlName="id_rol">
                                     <option value="" disabled>Seleccionar rol</option>
                                     @for (rol of roles; track rol.id_rol) {
@@ -217,6 +223,7 @@
                                 </select>
                                 @if (form.get('Usuario.id_rol')?.invalid && form.get('Usuario.id_rol')?.touched) {
                                 <span class="text-error text-xs mt-1">Rol es requerido</span>
+                                }
                                 }
                             </fieldset>
                         </div>

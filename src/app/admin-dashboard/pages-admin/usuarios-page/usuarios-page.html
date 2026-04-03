@@ -16,7 +16,7 @@
             </label>
 
             <!-- Botón Crear Usuario -->
-            <button class="btn btn-primary btn-sm" (click)="modalService.abrir('formUsuarioPersona')">
+            <button class="btn btn-primary btn-sm" (click)="abrirModalCrear()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path
                         d="M10 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM16.25 5.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
@@ -78,13 +78,21 @@
                             <td>{{ persona.celular }}</td>
                             <td>{{ persona.correo }}</td>
                             <td>
-                                @if (persona.activo) {
+                                @if (persona.usuario?.activo) {
                                 <span class="badge badge-success badge-outline badge-sm gap-1">
                                     <span class="w-1.5 h-1.5 rounded-full bg-success"></span>Activo
                                 </span>
-                                } @else {
+                                }
+                                <!--  -->
+                                @else if (persona.usuario?.activo === false) {
                                 <span class="badge badge-error badge-outline badge-sm gap-1">
                                     <span class="w-1.5 h-1.5 rounded-full bg-error"></span>Inactivo
+                                </span>
+                                }
+                                <!--  -->
+                                @else {
+                                <span class="badge badge-warning badge-outline badge-sm gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-warning"></span>Sin Acceso
                                 </span>
                                 }
                             </td>
@@ -103,7 +111,7 @@
                                         </button>
                                     </div>
                                     <div class="tooltip" data-tip="Editar">
-                                        <button
+                                        <button (click)="abrirModalEditar(persona)"
                                             class="btn btn-ghost btn-xs btn-circle hover:bg-info/20 hover:text-info transition-all duration-200">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                                 viewBox="0 0 24 24">
@@ -113,9 +121,22 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <div class="tooltip" data-tip="Eliminar">
-                                        <button
-                                            class="btn btn-ghost btn-xs btn-circle hover:bg-error/20 hover:text-error transition-all duration-200">
+                                    @if (persona.usuario?.activo === false) {
+                                    <div class="tooltip" data-tip="Habilitar">
+                                        <button (click)="confirmarHabilitacion(persona)"
+                                            class="btn btn-ghost btn-xs btn-circle hover:bg-success/20 hover:text-success transition-all duration-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                viewBox="0 0 24 24">
+                                                <path fill="currentColor"
+                                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    } @else {
+                                    <div class="tooltip"
+                                        [attr.data-tip]="!persona.usuario ? 'Sin usuario' : 'Deshabilitar'">
+                                        <button (click)="confirmarEliminacion(persona)" [disabled]="!persona.usuario"
+                                            class="btn btn-ghost btn-xs btn-circle hover:bg-error/20 hover:text-error transition-all duration-200 disabled:opacity-50 disabled:bg-transparent">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                                 viewBox="0 0 24 24">
                                                 <rect width="24" height="24" fill="none" />
@@ -124,6 +145,7 @@
                                             </svg>
                                         </button>
                                     </div>
+                                    }
                                 </div>
                             </td>
                         </tr>
@@ -159,4 +181,5 @@
 </div>
 
 <!-- modal formulario usuario persona -->
-<app-formulario-usuario-per (created)="personasConUsuario.reload()" />
+<app-formulario-usuario-per [persona]="personaSeleccionada()" (created)="personasConUsuario.reload()"
+    (edited)="personasConUsuario.reload()" />
