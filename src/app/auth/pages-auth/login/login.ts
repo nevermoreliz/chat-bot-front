@@ -45,8 +45,10 @@ export class Login {
         next: (isAuthenticated) => {
 
           if (isAuthenticated) {
-            console.log('Login exitoso ⭕⭕⭕');
+            // console.log('👀 Login exitoso');
+
             this.router.navigate(['/admin/home']);
+            return;
           };
 
           this.hasError.set(true);

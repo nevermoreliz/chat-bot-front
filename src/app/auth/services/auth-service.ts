@@ -74,7 +74,7 @@ export class AuthService {
   }
 
   logout() {
-    console.log('Cerro Sesion ⭕⭕⭕');
+    // console.log('👀 Cerro Sesion');
 
     this._user.set(null);
     this._token.set(null);
