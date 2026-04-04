@@ -28,4 +28,12 @@ export class PaginacionService {
     { initialValue: 10 }
   );
 
+  // termino de busqueda global (persiste en la URL)
+  currentSearch = toSignal(this.activateRoute.queryParamMap
+    .pipe(
+      map(params => params.get('search') || '')
+    ),
+    { initialValue: '' }
+  );
+
 }

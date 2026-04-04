@@ -4,6 +4,7 @@ import { PersonaService } from '../../services/persona.service';
 import { environment } from '../../../../environments/environment';
 import { DatePipe } from '@angular/common';
 import { Pagination } from "../../../shared/components/pagination/pagination";
+import { Buscador } from "../../../shared/components/buscador/buscador";
 import { Router } from '@angular/router';
 import { PaginacionService } from '../../services/paginacion.service';
 import { FormularioUsuarioPer } from "./components/formulario-usuario-per/formulario-usuario-per";
@@ -16,7 +17,7 @@ import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-usuarios-page',
-  imports: [DatePipe, Pagination, FormularioUsuarioPer],
+  imports: [DatePipe, Pagination, FormularioUsuarioPer, Buscador],
   templateUrl: './usuarios-page.html',
   styles: ``,
 })
@@ -42,6 +43,7 @@ export class UsuariosPage {
   parametrosPaginacion = computed(() => ({
     page: this.paginacionService.currentPage() ?? 1,
     limit: this.paginacionService.currentLimit() ?? 10,
+    search: this.paginacionService.currentSearch() ?? '',
   }));
 
   // params detecta cambios → stream hace la petición
