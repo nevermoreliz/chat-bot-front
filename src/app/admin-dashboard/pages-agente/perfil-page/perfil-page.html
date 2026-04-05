@@ -9,6 +9,7 @@
 }
 
 @if (persona()) {
+
 <div class="flex flex-col grow gap-5">
 
     <!-- Hero: Avatar + Info -->
@@ -17,7 +18,7 @@
             <!-- Avatar with online indicator -->
             <div class="avatar avatar-online">
                 <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img src="{{urlBaseImg}}/{{persona()?.img}}" alt="{{persona()?.img}}" />
+                    <img [src]="persona() | avatar" alt="{{persona()?.img}}" />
                 </div>
             </div>
 

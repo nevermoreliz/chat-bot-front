@@ -30,7 +30,7 @@ export class FormularioUsuarioPer {
   persona = input<Persona | null>(null);
 
   // servicios Globales
-  protected modalService = inject(ModalService);
+  modalService = inject(ModalService);
   alertService = inject(AlertService);
 
   // servicios

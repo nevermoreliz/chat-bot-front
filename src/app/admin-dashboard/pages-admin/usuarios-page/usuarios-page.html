@@ -42,20 +42,11 @@
                             <th>{{ i + 1 }}</th>
                             <td>
                                 <div class="flex items-center gap-3">
-                                    @if (persona.img) {
                                     <div class="avatar">
-                                        <div class="w-10 rounded-full">
-                                            <img [src]="baseUrl + '/profile/' + persona.img" alt="Avatar" />
+                                        <div class="w-10 rounded-full bg-base-200">
+                                            <img [src]="persona | avatar" alt="Avatar" />
                                         </div>
                                     </div>
-                                    <!-- - -->
-                                    } @else {
-                                    <div class="avatar placeholder">
-                                        <div class="w-10 rounded-full bg-neutral text-neutral-content">
-                                            <span class="text-sm">{{ persona.nombre[0] }}{{ persona.paterno[0] }}</span>
-                                        </div>
-                                    </div>
-                                    }
                                     <!-- - -->
                                     <div>
                                         <div class="font-bold">{{ persona.nombre }} {{ persona.paterno }} {{
@@ -93,7 +84,7 @@
                             <td>
                                 <div class="flex gap-2">
                                     <div class="tooltip" data-tip="Información">
-                                        <button
+                                        <button (click)="abrirModalInformacion(persona)"
                                             class="btn btn-ghost btn-xs btn-circle hover:bg-success/20 hover:text-success transition-all duration-200">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                                 viewBox="0 0 24 24">
@@ -176,3 +167,6 @@
 <!-- modal formulario usuario persona -->
 <app-formulario-usuario-per [persona]="personaSeleccionada()" (created)="personasConUsuario.reload()"
     (edited)="personasConUsuario.reload()" />
+
+<!-- modal informacion usuario -->
+<app-informacion-usuario [persona]="personaSeleccionada()" />

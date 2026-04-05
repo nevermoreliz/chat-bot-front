@@ -28,7 +28,7 @@
     </div>
 
     <!-- Right Side Actions -->
-    <div class="flex-none gap-2">
+    <div class="flex-none flex items-center gap-2">
         <!-- Apps Grid -->
         <button class="btn btn-ghost btn-circle btn-sm">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 opacity-70">
@@ -50,12 +50,9 @@
         <!-- Theme Toggle -->
         <label class="btn btn-ghost btn-circle btn-sm swap swap-rotate">
             <!-- this hidden checkbox controls the state -->
-            <input 
-              type="checkbox" 
-              class="theme-controller"
-              [checked]="themeService.currentTheme() === themeService.darkTheme"
-              (change)="themeService.toggleTheme()" 
-            />
+            <input type="checkbox" class="theme-controller"
+                [checked]="themeService.currentTheme() === themeService.darkTheme"
+                (change)="themeService.toggleTheme()" />
 
             <!-- sun icon -->
             <svg class="swap-off fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -74,13 +71,50 @@
         <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle btn-sm avatar">
                 <div class="w-8 rounded-full">
-                    <img alt="Avatar" [src]="persona()?.img ? urlBaseImg + '/' + persona()?.img : 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'" />
+                    <img alt="Avatar"
+                        [src]="persona() | avatar" />
                 </div>
             </div>
             <ul tabindex="-1"
-                class="menu menu-sm dropdown-content bg-base-100 rounded-none z-1 mt-[8px] right-0 w-52 p-2 shadow border-t border-base-200 animate-in fade-in zoom-in-95 duration-200">
-                <li><a class="justify-between">Perfil <span class="badge"></span></a></li>
-                <li><a (click)="onLogout()">Cerrar Sesión</a></li>
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-[10px] right-0 w-56 p-2 shadow-lg border border-base-200 animate-in fade-in zoom-in-95 duration-200">
+                <li class="menu-title px-4 py-1">
+                    <span class="text-xs font-medium opacity-60">Tu Cuenta</span>
+                </li>
+                <li>
+                    <a routerLink="/admin/perfil"
+                        class="flex items-center gap-3 hover:bg-base-200 px-4 py-2 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-[18px] h-[18px] opacity-70">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                        Perfil
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center gap-3 hover:bg-base-200 px-4 py-2 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-[18px] h-[18px] opacity-70">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        Ajustes
+                    </a>
+                </li>
+                <div class="divider my-1 mx-2 h-[1px] opacity-60"></div>
+                <li>
+                    <a (click)="onLogout()"
+                        class="flex items-center gap-3 text-error hover:bg-error/10 hover:text-error transition-colors px-4 py-2 rounded-md font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-[18px] h-[18px]">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+                        </svg>
+                        Cerrar Sesión
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

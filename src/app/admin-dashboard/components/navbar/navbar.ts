@@ -3,11 +3,13 @@ import { LayoutService } from '../../services/layout.service';
 import { AuthService } from '../../../auth/services/auth-service';
 import { PersonaService } from '../../services/persona.service';
 import { environment } from '../../../../environments/environment';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ThemeService } from '../../../shared/services/theme.service';
+import { AvatarPipe } from '../../../shared/pipes/avatar.pipe';
+
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  imports: [RouterLink, AvatarPipe],
   templateUrl: './navbar.html',
   styles: ``,
 })

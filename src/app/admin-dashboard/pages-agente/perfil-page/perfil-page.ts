@@ -8,10 +8,10 @@ import { AlertService } from '../../../shared/services/alert.service';
 import { ModalService } from '../../../shared/services/modal.service';
 import { ModalDirective } from '../../../shared/directives/modal.directive';
 import { environment } from '../../../../environments/environment';
+import { AvatarPipe } from "../../../shared/pipes/avatar.pipe";
 
 @Component({
-  selector: 'app-perfil-page',
-  imports: [UpperCasePipe, DatePipe, ReactiveFormsModule, ModalDirective],
+  imports: [UpperCasePipe, DatePipe, ReactiveFormsModule, ModalDirective, AvatarPipe],
   templateUrl: './perfil-page.html',
   styles: ``,
 })

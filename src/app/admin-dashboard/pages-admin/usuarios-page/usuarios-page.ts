@@ -8,16 +8,18 @@ import { Buscador } from "../../../shared/components/buscador/buscador";
 import { Router } from '@angular/router';
 import { PaginacionService } from '../../services/paginacion.service';
 import { FormularioUsuarioPer } from "./components/formulario-usuario-per/formulario-usuario-per";
+import { InformacionUsuario } from "./components/informacion-usuario/informacion-usuario";
 import { ModalService } from '../../../shared/services/modal.service';
 import { Persona } from '../../interfaces/persona.interface';
 import { AlertService } from '../../../shared/services/alert.service';
 import { ModalDirective } from '../../../shared/directives/modal.directive';
 import { ConfirmService } from '../../../shared/services/confirm.service';
 import { UsuarioService } from '../../services/usuario.service';
+import { AvatarPipe } from '../../../shared/pipes/avatar.pipe';
 
 @Component({
   selector: 'app-usuarios-page',
-  imports: [DatePipe, Pagination, FormularioUsuarioPer, Buscador],
+  imports: [DatePipe, Pagination, FormularioUsuarioPer, InformacionUsuario, Buscador, AvatarPipe],
   templateUrl: './usuarios-page.html',
   styles: ``,
 })
@@ -68,6 +70,11 @@ export class UsuariosPage {
   abrirModalEditar(persona: Persona) {
     this.personaSeleccionada.set(persona);
     this.modalService.abrir('formUsuarioPersona');
+  }
+
+  abrirModalInformacion(persona: Persona) {
+    this.personaSeleccionada.set(persona);
+    this.modalService.abrir('informacionUsuario');
   }
 
   async confirmarEliminacion(persona: Persona) {
