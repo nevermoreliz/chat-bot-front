@@ -50,7 +50,12 @@
         <!-- Theme Toggle -->
         <label class="btn btn-ghost btn-circle btn-sm swap swap-rotate">
             <!-- this hidden checkbox controls the state -->
-            <input type="checkbox" class="theme-controller" value="abyss" />
+            <input 
+              type="checkbox" 
+              class="theme-controller"
+              [checked]="themeService.currentTheme() === themeService.darkTheme"
+              (change)="themeService.toggleTheme()" 
+            />
 
             <!-- sun icon -->
             <svg class="swap-off fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

@@ -4,7 +4,7 @@ import { AuthService } from '../../../auth/services/auth-service';
 import { PersonaService } from '../../services/persona.service';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
-
+import { ThemeService } from '../../../shared/services/theme.service';
 @Component({
   selector: 'app-navbar',
   imports: [],
@@ -16,6 +16,7 @@ export class Navbar {
   authService = inject(AuthService);
   private personaService = inject(PersonaService);
   private router = inject(Router);
+  themeService = inject(ThemeService);
 
   userData = computed(() => this.authService.user());
   persona = this.personaService.persona;  // signal compartido
