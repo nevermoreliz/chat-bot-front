@@ -39,7 +39,7 @@ export class AuthService {
   token = computed(() => this._token());
   isAdmin = computed(() => {
     const roles = this._user()?.roles ?? [];
-    return roles.includes(1) || roles.includes('administrador') || roles.includes('agente');
+    return roles.includes(1) || roles.includes('administrador') || roles.includes('agente') || roles.includes('usuario registrado');
   })
 
   login(usuario: string, password: string): Observable<boolean> {

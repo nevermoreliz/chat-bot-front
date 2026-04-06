@@ -69,7 +69,7 @@ export class PersonaService {
       params: { page, limit, search, sortBy, sortOrder }
     }).pipe(
       tap(response => response),
-      tap(response => console.log(response)),
+      // tap(response => console.log(response)),
       // tap(response => this.personasConUsuarioCache.set(cacheKey, response))
     );
   }
