@@ -7,6 +7,7 @@ import { AuthService } from '../../../auth/services/auth-service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { Rol } from '../../interfaces/rol.interface';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,6 +20,7 @@ export class Sidebar {
   layoutService = inject(LayoutService);
   authService = inject(AuthService);
   private router = inject(Router);
+  private sanitizer = inject(DomSanitizer);
 
   menuItems: MenuItem[] = []
   userRoles: (string | number | Rol)[] = []
@@ -80,7 +82,17 @@ export class Sidebar {
         roles: ['administrador']
       },
 
-
+      {
+        title: 'Configuracion de Whatsapp',
+        svgIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48" class="w-5 h-5">
+	<path d="M0 0h48v48H0z" fill="none" />
+	<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M40.47 14.14v-3.21H10.75a3.23 3.23 0 0 0-3.22 3.21h0v18H4v4.94h23.51v-4.95H10.75v-18Z" />
+	<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M32.14 17.36A1.61 1.61 0 0 0 30.53 19v16.5a1.61 1.61 0 0 0 1.61 1.6h10.25A1.61 1.61 0 0 0 44 35.49V19a1.61 1.61 0 0 0-1.61-1.61h0Zm8.64 14.77h-7V20.58h7Z" />
+</svg>`,
+        tooltip: 'Configuracion de Whatsapp',
+        route: '/admin/config-whatsapp',
+        roles: ['administrador']
+      },
 
       {
         title: 'Menu Agente',
@@ -136,9 +148,24 @@ export class Sidebar {
     // filtrar elementos del menu segun los roles del usuario
     this.menuItems = this.filtrarElementosPorRoles(this.menuItems);
 
+    // preprocesar SVGs en crudo para renderizarlos de forma segura
+    this.preprocesarSvg(this.menuItems);
+
     // actualziar el estado activo inicial
     this.actualizarEstadoActivo();
 
+  }
+
+  preprocesarSvg(items: MenuItem[]): void {
+    items.forEach(item => {
+      // Si el svgIcon es código HTML (empieza con <svg), lo confiamos con DomSanitizer
+      if (item.svgIcon && item.svgIcon.trim().startsWith('<svg')) {
+        item.safeSvg = this.sanitizer.bypassSecurityTrustHtml(item.svgIcon);
+      }
+      if (item.submenu) {
+        this.preprocesarSvg(item.submenu);
+      }
+    });
   }
 
 
