@@ -1,0 +1,57 @@
+<div class="flex flex-col grow gap-5">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center flex-wrap gap-4">
+        <div>
+            <h1 class="text-2xl font-bold">Roles del Sistema</h1>
+            <p class="text-sm text-base-content/60 mt-1">Roles predefinidos del sistema. Estos roles no pueden ser
+                modificados.</p>
+        </div>
+        <div class="badge badge-outline badge-primary gap-2 px-4 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            Solo lectura
+        </div>
+    </div>
+
+    <!-- Tabla de Roles -->
+    <div class="card bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
+        <div class="card-body p-0">
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr>
+                            <th class="w-16">#</th>
+                            <th>Rol</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (rol of roles.value()?.data; track rol.id_rol; let i = $index) {
+                        <tr class="hover">
+                            <th>{{ i + 1 }}</th>
+                            <td>
+                                <span class="badge badge-ghost font-semibold">{{ rol.nombre_rol }}</span>
+                            </td>
+                            <td class="text-base-content/70">{{ rol.descripcion ?? 'Sin descripción' }}</td>
+                        </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer informativo -->
+            <div class="flex justify-end items-center px-4 py-3 border-t border-base-200">
+                <span class="text-sm text-base-content/60">
+                    Total: {{ roles.value()?.data?.length ?? 0 }} roles registrados
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

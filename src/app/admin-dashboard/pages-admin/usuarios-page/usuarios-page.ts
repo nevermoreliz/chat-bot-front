@@ -62,21 +62,31 @@ export class UsuariosPage {
     });
   }
 
+  /** ------- modales ------- */
+
+  /** Abre el modal de formulario para crear un nuevo usuario */
   abrirModalCrear() {
     this.personaSeleccionada.set(null);
     this.modalService.abrir('formUsuarioPersona');
   }
 
+  /** Abre el modal de formulario para editar un usuario */
   abrirModalEditar(persona: Persona) {
     this.personaSeleccionada.set(persona);
     this.modalService.abrir('formUsuarioPersona');
   }
 
+  /** Abre el modal de información del usuario */
   abrirModalInformacion(persona: Persona) {
     this.personaSeleccionada.set(persona);
     this.modalService.abrir('informacionUsuario');
   }
 
+  /** ------- end modales ------- */
+
+  /** ------- eliminacion y habilitacion ------- */
+
+  /** Confirma la eliminación del usuario */
   async confirmarEliminacion(persona: Persona) {
 
     const confirmacion = await this.confirmService.ask({
@@ -100,6 +110,7 @@ export class UsuariosPage {
     }
   }
 
+  /** Confirma la habilitación del usuario */
   async confirmarHabilitacion(persona: Persona) {
     const confirmacion = await this.confirmService.ask({
       title: 'Confirmar Habilitación',
@@ -122,3 +133,5 @@ export class UsuariosPage {
   }
 
 }
+
+/** ------- end eliminacion y habilitacion ------- */

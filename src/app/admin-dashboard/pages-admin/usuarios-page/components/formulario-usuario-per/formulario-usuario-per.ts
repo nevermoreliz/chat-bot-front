@@ -138,6 +138,7 @@ export class FormularioUsuarioPer {
     return !!(persona && persona.usuario?.roles && persona.usuario.roles.length > 0);
   }
 
+  // getter para nombre de rol
   get nombreRolActual(): string {
     const persona = this.persona();
     if (this.tieneRolAsignado) {

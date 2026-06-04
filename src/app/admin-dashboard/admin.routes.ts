@@ -5,6 +5,7 @@ import { isAdminGuard } from '../auth/guards/is-admin-guard';
 import { PerfilPage } from './pages-agente/perfil-page/perfil-page';
 import { UsuariosPage } from './pages-admin/usuarios-page/usuarios-page';
 import { PageWpConfig } from './pages-admin/page-wp-config/page-wp-config';
+import { PageRoles } from './pages-admin/page-roles/page-roles';
 
 export const adminRoutes: Routes = [
     {
@@ -27,6 +28,10 @@ export const adminRoutes: Routes = [
             {
                 path: 'usuarios-listar',
                 component: UsuariosPage,
+            },
+            {
+                path: 'roles',
+                component: PageRoles,
             },
             {
                 path: '**',
