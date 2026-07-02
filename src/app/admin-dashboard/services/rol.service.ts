@@ -29,19 +29,5 @@ export class RolService {
       );
   }
 
-  createRol(data: any): Observable<ApiResponse<Rol>> {
-    return this.http.post<ApiResponse<Rol>>(`${baseUrl}/roles`, data).pipe(
-      tap(response => response),
-      // tap(response => console.log(response)),
-    );
-  }
-
-  updateRol(id: number, data: any): Observable<ApiResponse<Rol>> {
-    return this.http.put<ApiResponse<Rol>>(`${baseUrl}/roles/${id}`, data).pipe(
-      tap(response => response),
-      // tap(response => console.log(response)),
-    );
-  }
-
 }
 
