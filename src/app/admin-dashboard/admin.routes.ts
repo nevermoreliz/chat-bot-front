@@ -6,6 +6,7 @@ import { PerfilPage } from './pages-agente/perfil-page/perfil-page';
 import { UsuariosPage } from './pages-admin/usuarios-page/usuarios-page';
 import { PageWpConfig } from './pages-admin/page-wp-config/page-wp-config';
 import { PageRoles } from './pages-admin/page-roles/page-roles';
+import { CursosPage } from './pages-agente/cursos-page/cursos-page';
 
 export const adminRoutes: Routes = [
     {
@@ -32,6 +33,11 @@ export const adminRoutes: Routes = [
             {
                 path: 'roles',
                 component: PageRoles,
+            },
+            // menu agente
+            {
+                path: 'cursos',
+                component: CursosPage,
             },
             {
                 path: '**',

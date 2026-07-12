@@ -1,0 +1,443 @@
+<dialog appModal="formCursoAgente" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl h-[90vh] flex flex-col bg-base-200 p-4 md:p-6">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold">Formulario de Curso</h3>
+            <button class="btn btn-ghost btn-sm btn-circle" (click)="modalService.cerrar('formCursoAgente')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <form [formGroup]="form" class="flex flex-col flex-1 min-h-0">
+
+            <!-- Stepper de DaisyUI -->
+            <div class="w-full flex justify-center mb-6 overflow-x-auto pb-2 shrink-0">
+                <ul class="steps steps-horizontal w-full max-w-4xl text-sm font-semibold">
+                    <li class="step cursor-pointer" [class.step-primary]="activeTabIndex() >= 0" (click)="setStep(0)">
+                        Información</li>
+                    <li class="step cursor-pointer" [class.step-primary]="activeTabIndex() >= 1" (click)="setStep(1)">
+                        Académico</li>
+                    <li class="step cursor-pointer" [class.step-primary]="activeTabIndex() >= 2" (click)="setStep(2)">
+                        Precios</li>
+                    <li class="step cursor-pointer" [class.step-primary]="activeTabIndex() >= 3" (click)="setStep(3)">
+                        Fechas</li>
+                    <li class="step cursor-pointer" [class.step-primary]="activeTabIndex() >= 4" (click)="setStep(4)">
+                        Multimedia</li>
+                </ul>
+            </div>
+
+            <!-- Contenedor de Formularios -->
+            <div
+                class="flex-1 overflow-y-auto bg-base-100 border border-base-300 rounded-xl p-4 md:p-6 shadow-sm relative">
+
+                <!-- ============================================== -->
+                <!-- PESTAÑA 1: INFORMACIÓN GENERAL                 -->
+                <!-- ============================================== -->
+                @if (activeTab() === 'info') {
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-200">
+                    <!-- Categoría -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Categoría <span
+                                class="text-error">*</span></legend>
+                        <div class="dropdown dropdown-bottom w-full" [class.dropdown-open]="isDropdownOpen()">
+                            <!-- Input visible que actúa como barra de búsqueda -->
+                            <input type="text" class="input input-bordered border w-full"
+                                placeholder="Escribe para buscar categoría..." [value]="categoriaSeleccionadaNombre()"
+                                (input)="buscarCategoria($event)" (focus)="isDropdownOpen.set(true)"
+                                (blur)="cerrarDropdown()" />
+
+                            <!-- Lista desplegable -->
+                            <ul
+                                class="dropdown-content z-[2] menu p-2 shadow bg-base-100 rounded-box w-full max-h-52 flex-nowrap overflow-y-auto mt-1 border border-base-300">
+                                @if (categoriasResource.isLoading()) {
+                                <li class="disabled"><a>Cargando categorías...</a></li>
+                                } @else {
+                                @for (cat of categoriasFiltradas(); track cat.id_categoria) {
+                                <li>
+                                    <a (mousedown)="seleccionarCategoria(cat)"
+                                        [class.active]="form.get('id_categoria')?.value === cat.id_categoria">
+                                        {{ cat.nombre_categoria }}
+                                    </a>
+                                </li>
+                                }
+                                @if (categoriasFiltradas().length === 0) {
+                                <li class="disabled"><a>No se encontraron coincidencias</a></li>
+                                }
+                                }
+                            </ul>
+                        </div>
+                        @if (form.get('id_categoria')?.invalid && form.get('id_categoria')?.touched) {
+                        <span class="text-error text-xs mt-1">Categoría es requerida</span>
+                        }
+                    </fieldset>
+
+                    <!-- Nombre del Curso -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Nombre del Curso <span
+                                class="text-error">*</span></legend>
+
+                        <div class="dropdown dropdown-bottom w-full" [class.dropdown-open]="isCursoDropdownOpen()">
+                            <input type="text" class="input input-bordered border w-full"
+                                placeholder="Ej: Programación en Angular" formControlName="nombre_curso"
+                                (blur)="cerrarCursoDropdown()" />
+
+                            <!-- Sugerencias de Cursos (Autocompletado) -->
+                            <ul
+                                class="dropdown-content z-[2] menu p-2 shadow bg-base-100 rounded-box w-full max-h-52 flex-nowrap overflow-y-auto mt-1 border border-base-300">
+                                @for (curso of cursosSugeridos(); track curso.id_curso) {
+                                <li>
+                                    <a (mousedown)="seleccionarNombreCurso(curso)">
+                                        <div class="flex justify-between w-full">
+                                            <span>{{ curso.nombre_curso }}</span>
+                                            <span class="text-xs opacity-50"> - v{{ curso.version }}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+
+                        @if (form.get('nombre_curso')?.invalid && form.get('nombre_curso')?.touched) {
+                        <span class="text-error text-xs mt-1">El nombre es requerido</span>
+                        }
+                    </fieldset>
+
+                    <!-- Descripción Corta -->
+                    <fieldset class="fieldset md:col-span-2">
+                        <legend class="fieldset-legend text-primary font-semibold">Descripción Corta</legend>
+                        <textarea class="textarea textarea-bordered border w-full h-20"
+                            placeholder="Breve resumen del curso" formControlName="descripcion_corta"></textarea>
+                    </fieldset>
+
+                    <!-- Descripción Completa -->
+                    <fieldset class="fieldset md:col-span-2">
+                        <legend class="fieldset-legend text-primary font-semibold">Descripción Completa</legend>
+                        <textarea class="textarea textarea-bordered border w-full h-24"
+                            placeholder="Descripción detallada" formControlName="descripcion"></textarea>
+                    </fieldset>
+
+                    <!-- Dirigido a -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Dirigido a</legend>
+                        <input type="text" class="input input-bordered border w-full"
+                            placeholder="Ej: Estudiantes y Profesionales" formControlName="dirigido_a" />
+                    </fieldset>
+
+                    <!-- Idioma -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Idioma</legend>
+                        <input type="text" class="input input-bordered border w-full" placeholder="Ej: Español"
+                            formControlName="idioma" />
+                    </fieldset>
+
+                    <!-- Versión -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Versión <span
+                                class="text-error">*</span></legend>
+                        <input type="text" class="input input-bordered border w-full" placeholder="Ej: 1.0, 2024"
+                            formControlName="version" />
+                        @if (form.get('version')?.invalid && form.get('version')?.touched) {
+                        <span class="text-error text-xs mt-1">La versión es requerida</span>
+                        }
+                    </fieldset>
+
+                    <!-- Año -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Año <span class="text-error">*</span>
+                        </legend>
+                        <input type="number" class="input input-bordered border w-full" formControlName="anio" />
+                        @if (form.get('anio')?.invalid && form.get('anio')?.touched) {
+                        <span class="text-error text-xs mt-1">El año es requerido</span>
+                        }
+                    </fieldset>
+                </div>
+                }
+
+                <!-- ============================================== -->
+                <!-- PESTAÑA 2: DETALLES ACADÉMICOS                 -->
+                <!-- ============================================== -->
+                @if (activeTab() === 'academico') {
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-200">
+                    <!-- Modalidad -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Modalidad</legend>
+                        <select class="select select-bordered border w-full" formControlName="modalidad">
+                            <option [value]="null" disabled>Seleccionar modalidad</option>
+                            <option value="Virtual">Virtual</option>
+                            <option value="Presencial">Presencial</option>
+                            <option value="Híbrido">Híbrido</option>
+                        </select>
+                    </fieldset>
+
+                    <!-- Nivel -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Nivel</legend>
+                        <select class="select select-bordered border w-full" formControlName="nivel">
+                            <option [value]="null" disabled>Seleccionar nivel</option>
+                            <option value="Básico">Básico</option>
+                            <option value="Intermedio">Intermedio</option>
+                            <option value="Avanzado">Avanzado</option>
+                        </select>
+                    </fieldset>
+
+                    <!-- Horario -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Horario</legend>
+                        <input type="text" class="input input-bordered border w-full"
+                            placeholder="Ej: Lunes y Miércoles 19:00 - 21:00" formControlName="horario" />
+                    </fieldset>
+
+                    <!-- Duración y Carga Horaria -->
+                    <div class="grid grid-cols-2 gap-2">
+                        <fieldset class="fieldset">
+                            <legend class="fieldset-legend text-primary font-semibold">Semanas (Duración)</legend>
+                            <input type="number" class="input input-bordered border w-full" placeholder="Ej: 4"
+                                formControlName="duracion_semanas" />
+                        </fieldset>
+                        <fieldset class="fieldset">
+                            <legend class="fieldset-legend text-primary font-semibold">Carga Horaria (Hrs)</legend>
+                            <input type="number" class="input input-bordered border w-full" placeholder="Ej: 120"
+                                formControlName="carga_horaria" />
+                        </fieldset>
+                    </div>
+
+                    <!-- Certificado Incluido -->
+                    <div class="form-control justify-center pt-2 md:col-span-2">
+                        <label class="label cursor-pointer justify-start gap-3 w-max">
+                            <input type="checkbox" class="toggle toggle-primary"
+                                formControlName="certificado_incluido" />
+                            <span class="label-text">Incluye Certificado</span>
+                        </label>
+                    </div>
+
+                    <!-- Requisitos -->
+                    <fieldset class="fieldset md:col-span-2">
+                        <legend class="fieldset-legend text-primary font-semibold">Requisitos</legend>
+                        <textarea class="textarea textarea-bordered border w-full"
+                            placeholder="Conocimientos previos, equipos necesarios..."
+                            formControlName="requisitos"></textarea>
+                    </fieldset>
+
+                    <!-- Beneficios -->
+                    <fieldset class="fieldset md:col-span-2">
+                        <legend class="fieldset-legend text-primary font-semibold">Beneficios</legend>
+                        <textarea class="textarea textarea-bordered border w-full"
+                            placeholder="Lo que el estudiante ganará..." formControlName="beneficios"></textarea>
+                    </fieldset>
+
+                    <!-- Incluye -->
+                    <fieldset class="fieldset md:col-span-2">
+                        <legend class="fieldset-legend text-primary font-semibold">¿Qué incluye el curso?</legend>
+                        <textarea class="textarea textarea-bordered border w-full"
+                            placeholder="Materiales, acceso a plataforma, etc." formControlName="incluye"></textarea>
+                    </fieldset>
+                </div>
+                }
+
+                <!-- ============================================== -->
+                <!-- PESTAÑA 3: PRECIOS Y PROMOCIONES               -->
+                <!-- ============================================== -->
+                @if (activeTab() === 'precios') {
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-200">
+                    <!-- Precio Base -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Precio Base (Bs.) <span
+                                class="text-error">*</span></legend>
+                        <input type="number" class="input input-bordered border w-full" formControlName="precio" />
+                        @if (form.get('precio')?.invalid && form.get('precio')?.touched) {
+                        <span class="text-error text-xs mt-1">El precio es requerido</span>
+                        }
+                    </fieldset>
+
+                    <!-- Precio Promocional -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Precio Promocional (Bs.)</legend>
+                        <input type="number" class="input input-bordered border w-full"
+                            formControlName="precio_promocional" />
+                    </fieldset>
+
+                    <!-- Descuento -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Descuento (%)</legend>
+                        <input type="number" class="input input-bordered border w-full" placeholder="Ej: 15"
+                            formControlName="descuento" />
+                    </fieldset>
+
+                    <div class="hidden md:block"></div> <!-- Espaciador -->
+
+                    <!-- Fechas de Descuento -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Inicio de Descuento</legend>
+                        <input type="date" class="input input-bordered border w-full"
+                            formControlName="fecha_inicio_descuento" />
+                    </fieldset>
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Fin de Descuento</legend>
+                        <input type="date" class="input input-bordered border w-full"
+                            formControlName="fecha_fin_descuento" />
+                    </fieldset>
+
+                    <!-- Precio Grupal -->
+                    <fieldset class="fieldset mt-4 pt-4 border-t border-base-200">
+                        <legend class="fieldset-legend text-primary font-semibold">Precio Grupal (Bs.)</legend>
+                        <input type="number" class="input input-bordered border w-full"
+                            formControlName="precio_grupal" />
+                    </fieldset>
+                    <fieldset class="fieldset mt-4 pt-4 border-t border-base-200">
+                        <legend class="fieldset-legend text-primary font-semibold">Min. Estudiantes para Precio Grupal
+                        </legend>
+                        <input type="number" class="input input-bordered border w-full"
+                            formControlName="min_estudiantes_precio_grupal" />
+                    </fieldset>
+                </div>
+                }
+
+                <!-- ============================================== -->
+                <!-- PESTAÑA 4: FECHAS Y LIMITES                    -->
+                <!-- ============================================== -->
+                @if (activeTab() === 'fechas') {
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-200">
+                    <!-- Fechas del Curso -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Fecha de Inicio del Curso</legend>
+                        <input type="date" class="input input-bordered border w-full" formControlName="fecha_inicio" />
+                    </fieldset>
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Fecha de Fin del Curso</legend>
+                        <input type="date" class="input input-bordered border w-full" formControlName="fecha_fin" />
+                    </fieldset>
+
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Fecha de Inicio de Clases</legend>
+                        <input type="date" class="input input-bordered border w-full"
+                            formControlName="fecha_inicio_clases" />
+                    </fieldset>
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Fecha Límite de Inscripción</legend>
+                        <input type="date" class="input input-bordered border w-full"
+                            formControlName="fecha_limite_inscripcion" />
+                    </fieldset>
+
+                    <!-- Participantes -->
+                    <fieldset class="fieldset mt-4 pt-4 border-t border-base-200">
+                        <legend class="fieldset-legend text-primary font-semibold">Participantes Mínimos</legend>
+                        <input type="number" class="input input-bordered border w-full"
+                            formControlName="min_participantes" />
+                    </fieldset>
+                    <fieldset class="fieldset mt-4 pt-4 border-t border-base-200">
+                        <legend class="fieldset-legend text-primary font-semibold">Participantes Máximos (Capacidad)
+                        </legend>
+                        <input type="number" class="input input-bordered border w-full"
+                            formControlName="max_participantes" />
+                    </fieldset>
+
+                    <!-- Configuración -->
+                    <div
+                        class="form-control justify-center pt-2 md:col-span-2 flex flex-row flex-wrap gap-8 mt-4 pt-4 border-t border-base-200">
+                        <label class="label cursor-pointer justify-start gap-3 w-max">
+                            <input type="checkbox" class="toggle toggle-success" formControlName="activo" />
+                            <span class="label-text font-semibold">Curso Activo</span>
+                        </label>
+
+                        <label class="label cursor-pointer justify-start gap-3 w-max">
+                            <input type="checkbox" class="toggle toggle-warning" formControlName="destacado" />
+                            <span class="label-text font-semibold">Destacar Curso ⭐</span>
+                        </label>
+                    </div>
+                </div>
+                }
+
+                <!-- ============================================== -->
+                <!-- PESTAÑA 5: MULTIMEDIA Y SEO                    -->
+                <!-- ============================================== -->
+                @if (activeTab() === 'multimedia') {
+                <div class="grid grid-cols-1 gap-4 animate-in fade-in zoom-in-95 duration-200">
+                    <div class="font-bold text-sm text-primary mb-2">Multimedia</div>
+                    <!-- Afiche -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">URL del Afiche (Imagen)</legend>
+                        <input type="url" class="input input-bordered border w-full" placeholder="https://..."
+                            formControlName="url_afiche" />
+                    </fieldset>
+
+                    <!-- PDF -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">URL del Contenido (PDF)</legend>
+                        <input type="url" class="input input-bordered border w-full" placeholder="https://..."
+                            formControlName="url_contenidos_pdf" />
+                    </fieldset>
+
+                    <!-- Video -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">URL del Video Promocional</legend>
+                        <input type="url" class="input input-bordered border w-full"
+                            placeholder="https://youtube.com/..." formControlName="url_video_promocional" />
+                    </fieldset>
+
+                    <div class="font-bold text-sm text-primary mb-2 mt-4 pt-4 border-t border-base-200">Marketing y
+                        SEO</div>
+
+                    <!-- Palabras Clave -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Palabras Clave (SEO)</legend>
+                        <input type="text" class="input input-bordered border w-full"
+                            placeholder="Ej: marketing, redes sociales, facebook ads"
+                            formControlName="palabras_clave" />
+                    </fieldset>
+
+                    <!-- Mensaje de Bienvenida -->
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend text-primary font-semibold">Mensaje de Bienvenida del Chatbot
+                        </legend>
+                        <textarea class="textarea textarea-bordered border w-full h-24"
+                            placeholder="Mensaje que dirá el chatbot al ofrecer este curso..."
+                            formControlName="mensaje_bienvenida"></textarea>
+                    </fieldset>
+                </div>
+                }
+
+            </div>
+
+            <!-- Acciones del modal (Fijo abajo) -->
+            <div class="modal-action flex mt-2 pt-4 border-t border-base-200 justify-between shrink-0">
+                <div>
+                    <!-- Botón Anterior -->
+                    <button type="button" class="btn btn-outline" [disabled]="activeTabIndex() === 0"
+                        (click)="prevStep()">
+                        Anterior
+                    </button>
+                </div>
+                <div class="flex gap-2">
+                    <button type="button" class="btn" (click)="modalService.cerrar('formCursoAgente')">Cancelar</button>
+
+                    <!-- Botón Siguiente -->
+                    @if (activeTabIndex() < 4) { <button type="button" class="btn btn-primary" (click)="nextStep()">
+                        Siguiente
+                        </button>
+                        }
+
+                        <!-- Botón Guardar -->
+                        @if (activeTabIndex() === 4) {
+                        <button type="button" class="btn btn-primary" [disabled]="form.invalid">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-4">
+                                <path fill-rule="evenodd"
+                                    d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Guardar Curso
+                        </button>
+                        }
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Para cerrar con ESC o haciendo click afuera -->
+    <form method="dialog" class="modal-backdrop">
+        <button (click)="modalService.cerrar('formCursoAgente')">close</button>
+    </form>
+</dialog>

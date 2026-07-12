@@ -1,0 +1,91 @@
+<div class="overflow-x-auto min-w-0">
+  <table class="table table-zebra table-sm whitespace-nowrap">
+    <thead>
+      <tr>
+        <!-- Columna para el botón de expandir (solo visible en pantallas pequeñas) -->
+        @if (hasExpandableColumns) {
+        <th class="w-8" [ngClass]="expandButtonHiddenClass"></th>
+        }
+
+        <!-- Cabeceras dinámicas -->
+        @for (col of columns; track col.key) {
+        <th [ngClass]="[col.cssClass || '', getHiddenClass(col.hideOn)]">{{ col.label }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- Iterar sobre los datos -->
+      @for (item of data; track $index) {
+      <tr>
+        <!-- Botón de expandir/colapsar -->
+        @if (hasExpandableColumns) {
+        <td [ngClass]="expandButtonHiddenClass">
+          <button class="btn btn-xs btn-circle btn-ghost text-primary" (click)="toggleRow($index)">
+            @if (expandedRows.has($index)) {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+              <path fill-rule="evenodd" d="M4 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 10Z"
+                clip-rule="evenodd" />
+            </svg>
+            } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+              <path
+                d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+            </svg>
+            }
+          </button>
+        </td>
+        }
+
+        <!-- Renderizar celdas de la fila principal -->
+        @for (col of columns; track col.key) {
+        <td [ngClass]="[col.cssClass || '', getHiddenClass(col.hideOn)]">
+          @if (cellTemplate) {
+          <ng-container *ngTemplateOutlet="cellTemplate; context: { $implicit: item, column: col }"></ng-container>
+          } @else {
+          {{ item[col.key] }}
+          }
+        </td>
+        }
+      </tr>
+
+      <!-- Fila de detalle (visible solo si está expandida) -->
+      @if (hasExpandableColumns && expandedRows.has($index)) {
+      <tr [ngClass]="['bg-base-200/30', expandButtonHiddenClass]">
+        <!-- Colspan=100% para ocupar todo el ancho -->
+        <td colspan="100%" class="p-0 border-b-2 border-base-200">
+          <div class="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 whitespace-normal bg-base-100/50 shadow-inner">
+            @for (col of columns; track col.key) {
+            @if (col.hideOn) {
+            <!-- Solo mostramos este dato en el acordeón si la columna principal está oculta en este viewport -->
+            <div [ngClass]="getVisibleClass(col.hideOn)" class="flex flex-col gap-1 bg-base-100 p-3 rounded-lg border border-base-200/50">
+              <span class="text-xs text-base-content/50 uppercase font-bold flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" class="opacity-70"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                {{ col.label }}
+              </span>
+              @if (cellTemplate) {
+              <ng-container *ngTemplateOutlet="cellTemplate; context: { $implicit: item, column: col }"></ng-container>
+              } @else {
+              {{ item[col.key] }}
+              }
+            </div>
+            }
+            }
+          </div>
+        </td>
+      </tr>
+      }
+      }
+
+      <!-- Si no hay datos -->
+      @if (data.length === 0) {
+      <tr>
+        <td colspan="100%" class="text-center py-10 text-base-content/50">
+          No hay registros para mostrar.
+        </td>
+      </tr>
+      }
+
+    </tbody>
+  </table>
+</div>

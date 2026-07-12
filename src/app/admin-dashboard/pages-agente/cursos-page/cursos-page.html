@@ -1,0 +1,204 @@
+<div class="flex flex-col grow gap-5 min-w-0">
+
+    <!-- Toolbar -->
+    <div class="flex justify-between items-center flex-wrap gap-4">
+        <h1 class="text-2xl font-bold">Lista de Cursos</h1>
+        <div class="flex gap-2">
+
+            <!-- Búsqueda -->
+            <app-buscador placeholder="Buscar usuario..."></app-buscador>
+
+            <!-- Botón Crear Curso -->
+            <button class="btn btn-primary btn-sm" (click)="abrirModalCrear()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path
+                        d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                </svg>
+                Crear Curso
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabla de Cursos Genérica -->
+    <div class="card bg-base-100 shadow-lg border-2 border-primary/50 rounded-xl">
+        <div class="card-body p-0">
+
+            <app-responsive-table [data]="cursosAgente.value()?.data || []" [columns]="tableColumns"
+                [cellTemplate]="cursoCellTemplate">
+            </app-responsive-table>
+
+            <!-- Template personalizado para renderizar celdas -->
+            <ng-template #cursoCellTemplate let-curso let-col="column">
+
+                @switch (col.key) {
+                @case ('index') {
+                <th>{{ (cursosAgente.value()?.data || []).indexOf(curso) + 1 }}</th>
+                }
+                @case ('curso') {
+                <div>
+                    <div class="font-bold text-sm">{{ curso.nombre_curso }}</div>
+                    <div class="text-xs text-base-content/50 max-w-[200px] truncate">
+                        {{ curso.descripcion_corta }}
+                    </div>
+                    <div class="flex gap-1 mt-1 flex-wrap">
+                        <span class="badge badge-ghost badge-xs">{{ curso.version }}</span>
+                        @if (curso.destacado) {
+                        <span class="badge badge-warning badge-outline badge-xs">⭐ Destacado</span>
+                        }
+                    </div>
+                </div>
+                }
+                @case ('modalidad') {
+                @switch (curso.modalidad) {
+                @case ('Virtual') {
+                <span class="badge badge-secondary badge-outline badge-sm gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 14H3V5h18z" />
+                    </svg>
+                    Virtual
+                </span>
+                }
+                @case ('Presencial') {
+                <span class="badge badge-info badge-outline badge-sm gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9zm6.82 6L12 12.72L5.18 9L12 5.28zM17 15.99l-5 2.73l-5-2.73v-3.72L12 15l5-2.73z" />
+                    </svg>
+                    Presencial
+                </span>
+                }
+                @case ('Híbrido') {
+                <span class="badge badge-accent badge-outline badge-sm gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1m-1 9h-4v-7h4z" />
+                    </svg>
+                    Híbrido
+                </span>
+                }
+                }
+                }
+                @case ('nivel') {
+                @switch (curso.nivel) {
+                @case ('Básico') {
+                <span class="badge badge-success badge-outline badge-sm">Básico</span>
+                }
+                @case ('Intermedio') {
+                <span class="badge badge-warning badge-outline badge-sm">Intermedio</span>
+                }
+                @case ('Avanzado') {
+                <span class="badge badge-error badge-outline badge-sm">Avanzado</span>
+                }
+                }
+                }
+                @case ('precio') {
+                <div class="flex flex-col">
+                    @if (curso.precio_promocional) {
+                    <span class="text-xs line-through text-base-content/40">Bs. {{ curso.precio }}</span>
+                    <span class="font-semibold text-success text-sm">Bs. {{ curso.precio_promocional }}</span>
+                    <span class="badge badge-error badge-xs">-{{ curso.descuento }}%</span>
+                    } @else {
+                    <span class="font-semibold text-sm">Bs. {{ curso.precio }}</span>
+                    }
+                </div>
+                }
+                @case ('estado') {
+                @if (curso.activo !== false) {
+                <span class="badge badge-success badge-outline badge-sm gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-success"></span>Activo
+                </span>
+                } @else {
+                <span class="badge badge-error badge-outline badge-sm gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-error"></span>Inactivo
+                </span>
+                }
+                }
+                @case ('fecha_inicio') {
+                @if (curso.fecha_inicio) {
+                {{ curso.fecha_inicio }}
+                } @else {
+                <span class="text-base-content/40">—</span>
+                }
+                }
+                @case ('acciones') {
+                <div class="flex items-center gap-1">
+                    <div class="tooltip" data-tip="Ver detalle">
+                        <button class="btn btn-ghost btn-xs btn-circle text-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 8.11 1 12c1.73 3.89 6 7.5 11 7.5s9.27-3.61 11-7.5c-1.73-3.89-6-7.5-11-7.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="tooltip" data-tip="Editar">
+                        <button class="btn btn-ghost btn-xs btn-circle text-warning">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                            </svg>
+                        </button>
+                    </div>
+                    @if (curso.activo !== false) {
+                    <div class="tooltip" data-tip="Deshabilitar">
+                        <button class="btn btn-ghost btn-xs btn-circle text-error">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m5 11H7v-2h10z" />
+                            </svg>
+                        </button>
+                    </div>
+                    } @else {
+                    <div class="tooltip" data-tip="Habilitar">
+                        <button class="btn btn-ghost btn-xs btn-circle text-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8z" />
+                            </svg>
+                        </button>
+                    </div>
+                    }
+                </div>
+                }
+                }
+            </ng-template>
+
+            <!-- Footer: Paginación -->
+            <div class="flex justify-between items-center px-4 py-3 border-t border-base-200 flex-wrap gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-base-content/60">Mostrar</span>
+                    <select class="select select-bordered select-sm w-20" [value]="paginacionService.currentLimit()"
+                        (change)="cambiarLimit(+selectLimit.value)" #selectLimit>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span class="text-sm text-base-content/60">por página</span>
+                </div>
+
+                @if (cursosAgente.value()?.paginacion; as pag) {
+                @if (pag.total > 0) {
+                <span class="text-sm text-base-content/60">
+                    Mostrando {{ (pag.page - 1) * pag.limit + 1 }}-{{ (pag.page - 1) * pag.limit +
+                    (cursosAgente.value()?.data?.length || 0) }} de {{ pag.total }} cursos
+                </span>
+                } @else {
+                <span class="text-sm text-base-content/60">No hay cursos</span>
+                }
+                } @else {
+                <span class="text-sm text-base-content/60">Cargando...</span>
+                }
+
+                <app-pagination [totalPages]="cursosAgente.value()?.paginacion?.totalPages ?? 0"
+                    [currentPage]="paginacionService.currentPage()" />
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- modal formulario curso agente -->
+<app-formlulario-curso-agente [curso]="cursoSeleccionado()" (created)="cursosAgente.reload()"
+    (edited)="cursosAgente.reload()" />
