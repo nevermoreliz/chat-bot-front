@@ -5,6 +5,7 @@ import { Observable, tap } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ParametrosPaginacion } from '../interfaces/parametros-paginacion.interface';
+import { CursosAgentes } from '../interfaces/cursos-agentes.interface';
 
 const baseUrl = environment.baseUrl;
 
@@ -30,6 +31,10 @@ export class CursosAgentesService {
         // tap(response => console.log(response)),
         // tap(response => this.personasConUsuarioCache.set(cacheKey, response))
       );
+  }
+
+  createAsignacion(asignacion: CursosAgentes): Observable<ApiResponse<CursosAgentes>> {
+    return this.http.post<ApiResponse<CursosAgentes>>(`${baseUrl}/cursos-agentes/asignar`, asignacion);
   }
 
 }

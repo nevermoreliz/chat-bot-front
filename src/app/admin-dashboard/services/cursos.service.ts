@@ -41,4 +41,8 @@ export class CursosService {
       );
   }
 
+  createCurso(curso: Curso): Observable<ApiResponse<Curso>> {
+    return this.http.post<ApiResponse<Curso>>(`${baseUrl}/cursos`, curso);
+  }
+
 }

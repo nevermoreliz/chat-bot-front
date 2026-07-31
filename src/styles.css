@@ -4,3 +4,28 @@
 @plugin "daisyui" {
     themes: fantasy --default, abyss --prefersdark, cupcake;
 }
+
+/* Estilos para ngx-quill */
+@import "quill/dist/quill.snow.css";
+
+/* Adaptación del editor Quill para Temas Oscuros / Claros (DaisyUI) */
+.ql-snow .ql-stroke {
+    stroke: currentColor !important;
+}
+.ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
+    fill: currentColor !important;
+}
+.ql-snow .ql-picker {
+    color: currentColor !important;
+}
+.ql-snow .ql-editor.ql-blank::before {
+    color: currentColor !important;
+    opacity: 0.5;
+}
+.ql-toolbar.ql-snow, .ql-container.ql-snow {
+    border-color: color-mix(in srgb, currentColor 20%, transparent) !important;
+    font-family: inherit !important;
+}
+.ql-editor {
+    font-size: 1rem;
+}

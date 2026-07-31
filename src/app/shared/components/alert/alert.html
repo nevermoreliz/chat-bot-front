@@ -1,5 +1,5 @@
-<!-- Toast container: fijo en la esquina inferior derecha -->
-<div class="toast toast-end toast-top z-9999 mt-2">
+<!-- Toast container: fijo con z-index alto para mostrarse sobre modales -->
+<div class="toast toast-end toast-top z-[99999] mt-2">
   @for (alerta of alertService.alertas(); track alerta.id) {
     <div
       class="alert shadow-lg alert-enter max-w-sm relative overflow-hidden"

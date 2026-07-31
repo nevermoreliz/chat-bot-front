@@ -4,7 +4,7 @@ import { ModalService } from '../../../../../shared/services/modal.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertService } from '../../../../../shared/services/alert.service';
 import { ModalDirective } from '../../../../../shared/directives/modal.directive';
-import { setServerErrors } from '../../../../../shared/utils/form-error.util';
+import { setServerErrors, clearServerErrors } from '../../../../../shared/utils/form-error.util';
 import { RolService } from '../../../../services/rol.service';
 import { Rol } from '../../../../interfaces/rol.interface';
 import { UsuarioService } from '../../../../services/usuario.service';
@@ -158,6 +158,9 @@ export class FormularioUsuarioPer {
 
   // metodo de guardar
   onSubmit() {
+    clearServerErrors(this.form);
+    this.form.markAllAsTouched();
+
     if (this.form.invalid) {
       this.alertService.error('Formulario inválido');
       return;

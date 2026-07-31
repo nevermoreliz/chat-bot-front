@@ -19,11 +19,16 @@ export class ModalService {
     this.modales.delete(id);
   }
 
-  /** Abre el modal con el ID dado */
+  /**
+   * Abre el modal con el ID dado.
+   * Usa show() en vez de showModal() para que el modal NO entre al "top layer"
+   * del navegador. Esto permite que las alertas (position: fixed + z-index alto)
+   * se muestren por encima del modal.
+   */
   abrir(id: string): void {
     const modal = this.modales.get(id);
     if (modal) {
-      modal.showModal();
+      modal.show();
     } else {
       console.warn(`[ModalService] No se encontró modal con id: "${id}"`);
     }

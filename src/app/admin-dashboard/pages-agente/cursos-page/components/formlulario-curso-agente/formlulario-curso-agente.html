@@ -11,7 +11,7 @@
             </button>
         </div>
 
-        <form [formGroup]="form" class="flex flex-col flex-1 min-h-0">
+        <form [formGroup]="form" class="flex flex-col flex-1 min-h-0" (ngSubmit)="onSubmit()">
 
             <!-- Stepper de DaisyUI -->
             <div class="w-full flex justify-center mb-6 overflow-x-auto pb-2 shrink-0">
@@ -30,7 +30,7 @@
             </div>
 
             <!-- Contenedor de Formularios -->
-            <div
+            <div #scrollContainer
                 class="flex-1 overflow-y-auto bg-base-100 border border-base-300 rounded-xl p-4 md:p-6 shadow-sm relative">
 
                 <!-- ============================================== -->
@@ -43,13 +43,12 @@
                         <legend class="fieldset-legend text-primary font-semibold">Categoría <span
                                 class="text-error">*</span></legend>
                         <div class="dropdown dropdown-bottom w-full" [class.dropdown-open]="isDropdownOpen()">
-                            <!-- Input visible que actúa como barra de búsqueda -->
                             <input type="text" class="input input-bordered border w-full"
+                                [class.input-error]="form.get('id_categoria')?.invalid && form.get('id_categoria')?.touched"
                                 placeholder="Escribe para buscar categoría..." [value]="categoriaSeleccionadaNombre()"
                                 (input)="buscarCategoria($event)" (focus)="isDropdownOpen.set(true)"
                                 (blur)="cerrarDropdown()" />
 
-                            <!-- Lista desplegable -->
                             <ul
                                 class="dropdown-content z-[2] menu p-2 shadow bg-base-100 rounded-box w-full max-h-52 flex-nowrap overflow-y-auto mt-1 border border-base-300">
                                 @if (categoriasResource.isLoading()) {
@@ -57,7 +56,7 @@
                                 } @else {
                                 @for (cat of categoriasFiltradas(); track cat.id_categoria) {
                                 <li>
-                                    <a (mousedown)="seleccionarCategoria(cat)"
+                                    <a (mousedown)="$event.preventDefault(); seleccionarCategoria(cat)"
                                         [class.active]="form.get('id_categoria')?.value === cat.id_categoria">
                                         {{ cat.nombre_categoria }}
                                     </a>
@@ -69,27 +68,28 @@
                                 }
                             </ul>
                         </div>
-                        @if (form.get('id_categoria')?.invalid && form.get('id_categoria')?.touched) {
-                        <span class="text-error text-xs mt-1">Categoría es requerida</span>
-                        }
+                        <div [style.display]="getErrorMessage('id_categoria') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('id_categoria') }}
+                        </div>
                     </fieldset>
 
                     <!-- Nombre del Curso -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Nombre del Curso <span
                                 class="text-error">*</span></legend>
-
                         <div class="dropdown dropdown-bottom w-full" [class.dropdown-open]="isCursoDropdownOpen()">
                             <input type="text" class="input input-bordered border w-full"
-                                placeholder="Ej: Programación en Angular" formControlName="nombre_curso"
-                                (blur)="cerrarCursoDropdown()" />
+                                placeholder="Ej: Programación en Angular"
+                                [class.input-error]="form.get('nombre_curso')?.invalid && form.get('nombre_curso')?.touched"
+                                formControlName="nombre_curso" (blur)="cerrarCursoDropdown()" />
 
                             <!-- Sugerencias de Cursos (Autocompletado) -->
                             <ul
                                 class="dropdown-content z-[2] menu p-2 shadow bg-base-100 rounded-box w-full max-h-52 flex-nowrap overflow-y-auto mt-1 border border-base-300">
-                                @for (curso of cursosSugeridos(); track curso.id_curso) {
+                                @for (curso of cursosSugeridos(); track $index) {
                                 <li>
-                                    <a (mousedown)="seleccionarNombreCurso(curso)">
+                                    <a (mousedown)="$event.preventDefault(); seleccionarNombreCurso(curso)">
                                         <div class="flex justify-between w-full">
                                             <span>{{ curso.nombre_curso }}</span>
                                             <span class="text-xs opacity-50"> - v{{ curso.version }}</span>
@@ -99,38 +99,64 @@
                                 }
                             </ul>
                         </div>
+                        <div [style.display]="getErrorMessage('nombre_curso') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('nombre_curso') }}
+                        </div>
 
-                        @if (form.get('nombre_curso')?.invalid && form.get('nombre_curso')?.touched) {
-                        <span class="text-error text-xs mt-1">El nombre es requerido</span>
-                        }
                     </fieldset>
 
                     <!-- Descripción Corta -->
                     <fieldset class="fieldset md:col-span-2">
                         <legend class="fieldset-legend text-primary font-semibold">Descripción Corta</legend>
                         <textarea class="textarea textarea-bordered border w-full h-20"
-                            placeholder="Breve resumen del curso" formControlName="descripcion_corta"></textarea>
+                            placeholder="Breve resumen del curso"
+                            [class.input-error]="form.get('descripcion_corta')?.invalid && form.get('descripcion_corta')?.touched"
+                            formControlName="descripcion_corta"></textarea>
+                        <div [style.display]="getErrorMessage('descripcion_corta') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('descripcion_corta') }}
+                        </div>
                     </fieldset>
 
                     <!-- Descripción Completa -->
                     <fieldset class="fieldset md:col-span-2">
                         <legend class="fieldset-legend text-primary font-semibold">Descripción Completa</legend>
-                        <textarea class="textarea textarea-bordered border w-full h-24"
-                            placeholder="Descripción detallada" formControlName="descripcion"></textarea>
+                        <div class="mt-1 border border-base-300 rounded-lg overflow-hidden bg-base-100">
+                            <quill-editor formControlName="descripcion"
+                                placeholder="Escribe una descripción detallada y atractiva del curso..."
+                                [style]="{height: '250px', border: 'none'}">
+                            </quill-editor>
+                            <div [style.display]="getErrorMessage('descripcion') ? 'block' : 'none'"
+                                class="text-error text-xs mt-1 font-medium">
+                                {{ getErrorMessage('descripcion') }}
+                            </div>
+                        </div>
                     </fieldset>
 
                     <!-- Dirigido a -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Dirigido a</legend>
                         <input type="text" class="input input-bordered border w-full"
-                            placeholder="Ej: Estudiantes y Profesionales" formControlName="dirigido_a" />
+                            placeholder="Ej: Estudiantes y Profesionales"
+                            [class.input-error]="form.get('dirigido_a')?.invalid && form.get('dirigido_a')?.touched"
+                            formControlName="dirigido_a" />
+                        <div [style.display]="getErrorMessage('dirigido_a') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('dirigido_a') }}
+                        </div>
                     </fieldset>
 
                     <!-- Idioma -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Idioma</legend>
                         <input type="text" class="input input-bordered border w-full" placeholder="Ej: Español"
+                            [class.input-error]="form.get('idioma')?.invalid && form.get('idioma')?.touched"
                             formControlName="idioma" />
+                        <div [style.display]="getErrorMessage('idioma') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('idioma') }}
+                        </div>
                     </fieldset>
 
                     <!-- Versión -->
@@ -138,20 +164,25 @@
                         <legend class="fieldset-legend text-primary font-semibold">Versión <span
                                 class="text-error">*</span></legend>
                         <input type="text" class="input input-bordered border w-full" placeholder="Ej: 1.0, 2024"
+                            [class.input-error]="form.get('version')?.invalid && form.get('version')?.touched"
                             formControlName="version" />
-                        @if (form.get('version')?.invalid && form.get('version')?.touched) {
-                        <span class="text-error text-xs mt-1">La versión es requerida</span>
-                        }
+                        <div [style.display]="getErrorMessage('version') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('version') }}
+                        </div>
                     </fieldset>
 
                     <!-- Año -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Año <span class="text-error">*</span>
                         </legend>
-                        <input type="number" class="input input-bordered border w-full" formControlName="anio" />
-                        @if (form.get('anio')?.invalid && form.get('anio')?.touched) {
-                        <span class="text-error text-xs mt-1">El año es requerido</span>
-                        }
+                        <input type="number" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('anio')?.invalid && form.get('anio')?.touched"
+                            formControlName="anio" />
+                        <div [style.display]="getErrorMessage('anio') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('anio') }}
+                        </div>
                     </fieldset>
                 </div>
                 }
@@ -164,30 +195,48 @@
                     <!-- Modalidad -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Modalidad</legend>
-                        <select class="select select-bordered border w-full" formControlName="modalidad">
+                        <select class="select select-bordered border w-full"
+                            [class.select-error]="form.get('modalidad')?.invalid && form.get('modalidad')?.touched"
+                            formControlName="modalidad">
                             <option [value]="null" disabled>Seleccionar modalidad</option>
                             <option value="Virtual">Virtual</option>
                             <option value="Presencial">Presencial</option>
                             <option value="Híbrido">Híbrido</option>
                         </select>
+                        <div [style.display]="getErrorMessage('modalidad') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('modalidad') }}
+                        </div>
                     </fieldset>
 
                     <!-- Nivel -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Nivel</legend>
-                        <select class="select select-bordered border w-full" formControlName="nivel">
+                        <select class="select select-bordered border w-full"
+                            [class.select-error]="form.get('nivel')?.invalid && form.get('nivel')?.touched"
+                            formControlName="nivel">
                             <option [value]="null" disabled>Seleccionar nivel</option>
-                            <option value="Básico">Básico</option>
+                            <option value="Basico">Básico</option>
                             <option value="Intermedio">Intermedio</option>
                             <option value="Avanzado">Avanzado</option>
                         </select>
+                        <div [style.display]="getErrorMessage('nivel') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('nivel') }}
+                        </div>
                     </fieldset>
 
                     <!-- Horario -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Horario</legend>
                         <input type="text" class="input input-bordered border w-full"
-                            placeholder="Ej: Lunes y Miércoles 19:00 - 21:00" formControlName="horario" />
+                            placeholder="Ej: Lunes y Miércoles 19:00 - 21:00"
+                            [class.input-error]="form.get('horario')?.invalid && form.get('horario')?.touched"
+                            formControlName="horario" />
+                        <div [style.display]="getErrorMessage('horario') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('horario') }}
+                        </div>
                     </fieldset>
 
                     <!-- Duración y Carga Horaria -->
@@ -195,12 +244,22 @@
                         <fieldset class="fieldset">
                             <legend class="fieldset-legend text-primary font-semibold">Semanas (Duración)</legend>
                             <input type="number" class="input input-bordered border w-full" placeholder="Ej: 4"
+                                [class.input-error]="form.get('duracion_semanas')?.invalid && form.get('duracion_semanas')?.touched"
                                 formControlName="duracion_semanas" />
+                            <div [style.display]="getErrorMessage('duracion_semanas') ? 'block' : 'none'"
+                                class="text-error text-xs mt-1 font-medium">
+                                {{ getErrorMessage('duracion_semanas') }}
+                            </div>
                         </fieldset>
                         <fieldset class="fieldset">
                             <legend class="fieldset-legend text-primary font-semibold">Carga Horaria (Hrs)</legend>
                             <input type="number" class="input input-bordered border w-full" placeholder="Ej: 120"
+                                [class.input-error]="form.get('carga_horaria')?.invalid && form.get('carga_horaria')?.touched"
                                 formControlName="carga_horaria" />
+                            <div [style.display]="getErrorMessage('carga_horaria') ? 'block' : 'none'"
+                                class="text-error text-xs mt-1 font-medium">
+                                {{ getErrorMessage('carga_horaria') }}
+                            </div>
                         </fieldset>
                     </div>
 
@@ -218,21 +277,38 @@
                         <legend class="fieldset-legend text-primary font-semibold">Requisitos</legend>
                         <textarea class="textarea textarea-bordered border w-full"
                             placeholder="Conocimientos previos, equipos necesarios..."
+                            [class.input-error]="form.get('requisitos')?.invalid && form.get('requisitos')?.touched"
                             formControlName="requisitos"></textarea>
+                        <div [style.display]="getErrorMessage('requisitos') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('requisitos') }}
+                        </div>
                     </fieldset>
 
                     <!-- Beneficios -->
                     <fieldset class="fieldset md:col-span-2">
                         <legend class="fieldset-legend text-primary font-semibold">Beneficios</legend>
                         <textarea class="textarea textarea-bordered border w-full"
-                            placeholder="Lo que el estudiante ganará..." formControlName="beneficios"></textarea>
+                            placeholder="Lo que el estudiante ganará..."
+                            [class.input-error]="form.get('beneficios')?.invalid && form.get('beneficios')?.touched"
+                            formControlName="beneficios"></textarea>
+                        <div [style.display]="getErrorMessage('beneficios') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('beneficios') }}
+                        </div>
                     </fieldset>
 
                     <!-- Incluye -->
                     <fieldset class="fieldset md:col-span-2">
                         <legend class="fieldset-legend text-primary font-semibold">¿Qué incluye el curso?</legend>
                         <textarea class="textarea textarea-bordered border w-full"
-                            placeholder="Materiales, acceso a plataforma, etc." formControlName="incluye"></textarea>
+                            placeholder="Materiales, acceso a plataforma, etc."
+                            [class.input-error]="form.get('incluye')?.invalid && form.get('incluye')?.touched"
+                            formControlName="incluye"></textarea>
+                        <div [style.display]="getErrorMessage('incluye') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('incluye') }}
+                        </div>
                     </fieldset>
                 </div>
                 }
@@ -246,51 +322,88 @@
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Precio Base (Bs.) <span
                                 class="text-error">*</span></legend>
-                        <input type="number" class="input input-bordered border w-full" formControlName="precio" />
-                        @if (form.get('precio')?.invalid && form.get('precio')?.touched) {
-                        <span class="text-error text-xs mt-1">El precio es requerido</span>
-                        }
+                        <input type="text" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('precio')?.invalid && form.get('precio')?.touched"
+                            formControlName="precio" />
+                        <div [style.display]="getErrorMessage('precio') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('precio') }}
+                        </div>
                     </fieldset>
 
                     <!-- Precio Promocional -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Precio Promocional (Bs.)</legend>
-                        <input type="number" class="input input-bordered border w-full"
-                            formControlName="precio_promocional" />
+                        <input type="text" class="input input-bordered border w-full bg-base-200"
+                            [class.input-error]="form.get('precio_promocional')?.invalid && form.get('precio_promocional')?.touched"
+                            formControlName="precio_promocional" readonly />
+                        <div [style.display]="getErrorMessage('precio_promocional') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('precio_promocional') }}
+                        </div>
                     </fieldset>
 
                     <!-- Descuento -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Descuento (%)</legend>
-                        <input type="number" class="input input-bordered border w-full" placeholder="Ej: 15"
+                        <input type="text" class="input input-bordered border w-full" placeholder="Ej: 15"
+                            [class.input-error]="form.get('descuento')?.invalid && form.get('descuento')?.touched"
                             formControlName="descuento" />
+                        <div [style.display]="getErrorMessage('descuento') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('descuento') }}
+                        </div>
                     </fieldset>
 
                     <div class="hidden md:block"></div> <!-- Espaciador -->
 
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-200 mt-4">
                     <!-- Fechas de Descuento -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Inicio de Descuento</legend>
                         <input type="date" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('fecha_inicio_descuento')?.invalid && form.get('fecha_inicio_descuento')?.touched"
                             formControlName="fecha_inicio_descuento" />
+                        <div [style.display]="getErrorMessage('fecha_inicio_descuento') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('fecha_inicio_descuento') }}
+                        </div>
                     </fieldset>
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Fin de Descuento</legend>
                         <input type="date" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('fecha_fin_descuento')?.invalid && form.get('fecha_fin_descuento')?.touched"
                             formControlName="fecha_fin_descuento" />
+                        <div [style.display]="getErrorMessage('fecha_fin_descuento') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('fecha_fin_descuento') }}
+                        </div>
                     </fieldset>
 
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-200 mt-4">
                     <!-- Precio Grupal -->
                     <fieldset class="fieldset mt-4 pt-4 border-t border-base-200">
                         <legend class="fieldset-legend text-primary font-semibold">Precio Grupal (Bs.)</legend>
-                        <input type="number" class="input input-bordered border w-full"
+                        <input type="text" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('precio_grupal')?.invalid && form.get('precio_grupal')?.touched"
                             formControlName="precio_grupal" />
+                        <div [style.display]="getErrorMessage('precio_grupal') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('precio_grupal') }}
+                        </div>
                     </fieldset>
                     <fieldset class="fieldset mt-4 pt-4 border-t border-base-200">
                         <legend class="fieldset-legend text-primary font-semibold">Min. Estudiantes para Precio Grupal
                         </legend>
-                        <input type="number" class="input input-bordered border w-full"
+                        <input type="text" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('min_estudiantes_precio_grupal')?.invalid && form.get('min_estudiantes_precio_grupal')?.touched"
                             formControlName="min_estudiantes_precio_grupal" />
+                        <div [style.display]="getErrorMessage('min_estudiantes_precio_grupal') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('min_estudiantes_precio_grupal') }}
+                        </div>
                     </fieldset>
                 </div>
                 }
@@ -303,37 +416,82 @@
                     <!-- Fechas del Curso -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Fecha de Inicio del Curso</legend>
-                        <input type="date" class="input input-bordered border w-full" formControlName="fecha_inicio" />
+                        <input type="date" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('fecha_inicio')?.invalid && form.get('fecha_inicio')?.touched"
+                            formControlName="fecha_inicio" />
+                        <div [style.display]="getErrorMessage('fecha_inicio') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('fecha_inicio') }}
+                        </div>
                     </fieldset>
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Fecha de Fin del Curso</legend>
-                        <input type="date" class="input input-bordered border w-full" formControlName="fecha_fin" />
+                        <input type="date" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('fecha_fin')?.invalid && form.get('fecha_fin')?.touched"
+                            formControlName="fecha_fin" />
+                        <div [style.display]="getErrorMessage('fecha_fin') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('fecha_fin') }}
+                        </div>
                     </fieldset>
 
                     <fieldset class="fieldset">
-                        <legend class="fieldset-legend text-primary font-semibold">Fecha de Inicio de Clases</legend>
+                        <legend class="fieldset-legend text-primary font-semibold">
+                            Fecha de Inicio de Clases
+                            @if (form.get('fecha_fin_descuento')?.value) {
+                            <span class="text-xs text-info font-normal ml-2" title="Información de ayuda">
+                                (Fin desc.: {{ form.get('fecha_fin_descuento')?.value }})
+                            </span>
+                            }
+                        </legend>
                         <input type="date" class="input input-bordered border w-full"
+                            [class.input-error]="form.hasError('fechasInvalidas') || (form.get('fecha_inicio_clases')?.invalid && form.get('fecha_inicio_clases')?.touched)"
                             formControlName="fecha_inicio_clases" />
+                        <div [style.display]="getErrorMessage('fecha_inicio_clases') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('fecha_inicio_clases') }}
+                        </div>
+                        @if (form.hasError('fechasInvalidas') && form.get('fecha_inicio_clases')?.touched) {
+                        <span class="text-error text-xs mt-1">La fecha debe ser mayor o igual a la de fin de
+                            descuento.</span>
+                        }
                     </fieldset>
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">Fecha Límite de Inscripción</legend>
-                        <input type="date" class="input input-bordered border w-full"
-                            formControlName="fecha_limite_inscripcion" />
+                        <input type="date" class="input input-bordered border w-full bg-base-200"
+                            [class.input-error]="form.get('fecha_limite_inscripcion')?.invalid && form.get('fecha_limite_inscripcion')?.touched"
+                            formControlName="fecha_limite_inscripcion" readonly />
+                        <div [style.display]="getErrorMessage('fecha_limite_inscripcion') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('fecha_limite_inscripcion') }}
+                        </div>
                     </fieldset>
 
                     <!-- Participantes -->
                     <fieldset class="fieldset mt-4 pt-4 border-t border-base-200">
                         <legend class="fieldset-legend text-primary font-semibold">Participantes Mínimos</legend>
                         <input type="number" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('min_participantes')?.invalid && form.get('min_participantes')?.touched"
                             formControlName="min_participantes" />
+                        <div [style.display]="getErrorMessage('min_participantes') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('min_participantes') }}
+                        </div>
                     </fieldset>
                     <fieldset class="fieldset mt-4 pt-4 border-t border-base-200">
                         <legend class="fieldset-legend text-primary font-semibold">Participantes Máximos (Capacidad)
                         </legend>
                         <input type="number" class="input input-bordered border w-full"
+                            [class.input-error]="form.get('max_participantes')?.invalid && form.get('max_participantes')?.touched"
                             formControlName="max_participantes" />
+                        <div [style.display]="getErrorMessage('max_participantes') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('max_participantes') }}
+                        </div>
                     </fieldset>
 
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-200 mt-4">
                     <!-- Configuración -->
                     <div
                         class="form-control justify-center pt-2 md:col-span-2 flex flex-row flex-wrap gap-8 mt-4 pt-4 border-t border-base-200">
@@ -360,21 +518,37 @@
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">URL del Afiche (Imagen)</legend>
                         <input type="url" class="input input-bordered border w-full" placeholder="https://..."
+                            [class.input-error]="form.get('url_afiche')?.invalid && form.get('url_afiche')?.touched"
                             formControlName="url_afiche" />
+                        <div [style.display]="getErrorMessage('url_afiche') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('url_afiche') }}
+                        </div>
                     </fieldset>
 
                     <!-- PDF -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">URL del Contenido (PDF)</legend>
                         <input type="url" class="input input-bordered border w-full" placeholder="https://..."
+                            [class.input-error]="form.get('url_contenidos_pdf')?.invalid && form.get('url_contenidos_pdf')?.touched"
                             formControlName="url_contenidos_pdf" />
+                        <div [style.display]="getErrorMessage('url_contenidos_pdf') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('url_contenidos_pdf') }}
+                        </div>
                     </fieldset>
 
                     <!-- Video -->
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend text-primary font-semibold">URL del Video Promocional</legend>
                         <input type="url" class="input input-bordered border w-full"
-                            placeholder="https://youtube.com/..." formControlName="url_video_promocional" />
+                            placeholder="https://youtube.com/..."
+                            [class.input-error]="form.get('url_video_promocional')?.invalid && form.get('url_video_promocional')?.touched"
+                            formControlName="url_video_promocional" />
+                        <div [style.display]="getErrorMessage('url_video_promocional') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('url_video_promocional') }}
+                        </div>
                     </fieldset>
 
                     <div class="font-bold text-sm text-primary mb-2 mt-4 pt-4 border-t border-base-200">Marketing y
@@ -385,7 +559,12 @@
                         <legend class="fieldset-legend text-primary font-semibold">Palabras Clave (SEO)</legend>
                         <input type="text" class="input input-bordered border w-full"
                             placeholder="Ej: marketing, redes sociales, facebook ads"
+                            [class.input-error]="form.get('palabras_clave')?.invalid && form.get('palabras_clave')?.touched"
                             formControlName="palabras_clave" />
+                        <div [style.display]="getErrorMessage('palabras_clave') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('palabras_clave') }}
+                        </div>
                     </fieldset>
 
                     <!-- Mensaje de Bienvenida -->
@@ -394,7 +573,12 @@
                         </legend>
                         <textarea class="textarea textarea-bordered border w-full h-24"
                             placeholder="Mensaje que dirá el chatbot al ofrecer este curso..."
+                            [class.input-error]="form.get('mensaje_bienvenida')?.invalid && form.get('mensaje_bienvenida')?.touched"
                             formControlName="mensaje_bienvenida"></textarea>
+                        <div [style.display]="getErrorMessage('mensaje_bienvenida') ? 'block' : 'none'"
+                            class="text-error text-xs mt-1 font-medium">
+                            {{ getErrorMessage('mensaje_bienvenida') }}
+                        </div>
                     </fieldset>
                 </div>
                 }
@@ -404,14 +588,14 @@
             <!-- Acciones del modal (Fijo abajo) -->
             <div class="modal-action flex mt-2 pt-4 border-t border-base-200 justify-between shrink-0">
                 <div>
+                    <button type="button" class="btn" (click)="modalService.cerrar('formCursoAgente')">Cancelar</button>
+                </div>
+                <div class="flex gap-2">
                     <!-- Botón Anterior -->
                     <button type="button" class="btn btn-outline" [disabled]="activeTabIndex() === 0"
                         (click)="prevStep()">
                         Anterior
                     </button>
-                </div>
-                <div class="flex gap-2">
-                    <button type="button" class="btn" (click)="modalService.cerrar('formCursoAgente')">Cancelar</button>
 
                     <!-- Botón Siguiente -->
                     @if (activeTabIndex() < 4) { <button type="button" class="btn btn-primary" (click)="nextStep()">
@@ -421,7 +605,7 @@
 
                         <!-- Botón Guardar -->
                         @if (activeTabIndex() === 4) {
-                        <button type="button" class="btn btn-primary" [disabled]="form.invalid">
+                        <button type="submit" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                 class="size-4">
                                 <path fill-rule="evenodd"
