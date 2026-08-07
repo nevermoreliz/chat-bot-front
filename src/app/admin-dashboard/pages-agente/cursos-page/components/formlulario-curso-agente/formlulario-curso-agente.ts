@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal, computed, DestroyRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, input, output, signal, computed, DestroyRef, ViewChild, ElementRef, effect } from '@angular/core';
 import { Curso } from '../../../../interfaces/curso.interface';
 import { ModalService } from '../../../../../shared/services/modal.service';
 import { AlertService } from '../../../../../shared/services/alert.service';
@@ -8,6 +8,8 @@ import { ModalDirective } from '../../../../../shared/directives/modal.directive
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CategoriasCursosService } from '../../../../services/categoriascursos.service';
 import { CursosService } from '../../../../services/cursos.service';
+import { AuthService } from '../../../../../auth/services/auth-service';
+import { CursosAgentesService } from '../../../../services/cursos-agentes.service';
 import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
 import { clearServerErrors, setServerErrors, getErrorMessage } from '../../../../../shared/utils/form-error.util';
 import { QuillModule } from 'ngx-quill';
@@ -19,6 +21,45 @@ import { QuillModule } from 'ngx-quill';
   styles: ``,
 })
 export class FormlularioCursoAgente {
+
+  constructor() {
+    // Usamos un effect para observar los cambios en el input 'curso'
+    effect(() => {
+      const curso = this.curso();
+      if (curso) {
+        // MODO EDICIÓN
+        const cursoEdit = { ...curso } as any;
+
+        // Formatear fechas para los input type="date" (requieren YYYY-MM-DD)
+        const dateFields = [
+          'fecha_inicio_descuento', 'fecha_fin_descuento',
+          'fecha_inicio', 'fecha_fin',
+          'fecha_limite_inscripcion', 'fecha_inicio_clases'
+        ];
+
+        dateFields.forEach(field => {
+          if (cursoEdit[field] && typeof cursoEdit[field] === 'string') {
+            // Cortamos "2026-07-01T00:00:00.000Z" -> "2026-07-01"
+            cursoEdit[field] = cursoEdit[field].split('T')[0];
+          }
+        });
+
+        // parcheamos los valores del formulario con los del curso
+        this.form.patchValue(cursoEdit);
+
+        // También actualizamos la señal de la categoría para que el select se vea bien
+        if (curso.id_categoria) {
+          this.selectedCategoryId.set(curso.id_categoria);
+        }
+
+        // Volvemos al primer paso del formulario
+        this.activeTabIndex.set(0);
+      } else {
+        // Si no hay curso (es null), estamos en modo creación, limpiamos el form
+        this.resetFormulario();
+      }
+    });
+  }
 
   // Evento que avisa al padre que se creó un registro
   created = output<void>();
@@ -32,6 +73,8 @@ export class FormlularioCursoAgente {
   alertService = inject(AlertService);
   categoriasService = inject(CategoriasCursosService);
   cursosService = inject(CursosService);
+  authService = inject(AuthService);
+  cursosAgentesService = inject(CursosAgentesService);
   destroyRef = inject(DestroyRef);
   cdr = inject(ChangeDetectorRef);
 
@@ -142,7 +185,7 @@ export class FormlularioCursoAgente {
     anio: [new Date().getFullYear(), [Validators.required]],
     modalidad: [null],
     nivel: [null],
-    idioma: [''],
+    idioma: ['es'],
     horario: [''],
     duracion_semanas: [null],
     carga_horaria: [null],
@@ -264,7 +307,26 @@ export class FormlularioCursoAgente {
     ).subscribe({
       next: (res: any) => {
         if (res.data && res.data.length > 0) {
-          this.cursosSugeridos.set(res.data);
+          // Agrupar por nombre_curso y quedarse con la versión más alta
+          const cursosMap = new Map<string, any>();
+
+          res.data.forEach((curso: any) => {
+            const nombre = curso.nombre_curso ? curso.nombre_curso.trim().toLowerCase() : '';
+            const versionActual = parseFloat(curso.version) || 0;
+
+            if (cursosMap.has(nombre)) {
+              const cursoGuardado = cursosMap.get(nombre);
+              const versionGuardada = parseFloat(cursoGuardado.version) || 0;
+
+              if (versionActual > versionGuardada) {
+                cursosMap.set(nombre, curso);
+              }
+            } else {
+              cursosMap.set(nombre, curso);
+            }
+          });
+
+          this.cursosSugeridos.set(Array.from(cursosMap.values()));
           this.isCursoDropdownOpen.set(true); // Abrir sugerencias
         } else {
           this.cursosSugeridos.set([]);
@@ -282,10 +344,13 @@ export class FormlularioCursoAgente {
     this.form.patchValue({ nombre_curso: cursoSug.nombre_curso });
 
     // Sugerir la siguiente versión automáticamente (ej: 1.0 -> 2.0)
-    if (cursoSug.version) {
-      const vNum = parseFloat(cursoSug.version);
-      if (!isNaN(vNum)) {
-        this.form.patchValue({ version: (vNum + 1) });
+    // SOLO si estamos en modo creación (this.curso() es null)
+    if (!this.curso()) {
+      if (cursoSug.version) {
+        const vNum = parseFloat(cursoSug.version);
+        if (!isNaN(vNum)) {
+          this.form.patchValue({ version: (vNum + 1) });
+        }
       }
     }
 
@@ -334,6 +399,28 @@ export class FormlularioCursoAgente {
     }
   }
 
+  resetFormulario() {
+    this.form.reset({
+      anio: new Date().getFullYear(),
+      certificado_incluido: false,
+      precio: 0,
+      min_estudiantes_precio_grupal: 10,
+      max_participantes: 99,
+      min_participantes: 20,
+      activo: true,
+      destacado: false,
+      idioma: 'es',
+      pregunta_frecuente: []
+    });
+    this.activeTabIndex.set(0);
+    this.terminoBusqueda.set('');
+    this.selectedCategoryId.set(null);
+    this.isDropdownOpen.set(false);
+    this.cursosSugeridos.set([]);
+    this.isCursoDropdownOpen.set(false);
+    this.scrollToTop();
+  }
+
   onSubmit() {
     clearServerErrors(this.form);
     this.form.markAllAsTouched();
@@ -350,6 +437,29 @@ export class FormlularioCursoAgente {
     if (cursoSeleccionado && cursoSeleccionado.id_curso) {
       // === MODO EDITAR ===
       // TODO: implementar updateCurso
+
+      this.cursosService.updateCurso(cursoSeleccionado.id_curso, formData).subscribe({
+        next: (response) => {
+          // Si el backend retorna 200 con ok: false, los errores llegan AQUÍ, no en error:
+          if (response && (response as any).ok === false && (response as any).errors) {
+            this.alertService.error((response as any).message || 'Error de validación');
+            setServerErrors(this.form, (response as any).errors);
+            this.enfocarPrimerError((response as any).errors);
+            this.cdr.detectChanges();
+            return;
+          }
+
+          this.alertService.success('Curso actualizado exitosamente');
+          this.resetFormulario();
+          this.modalService.cerrar('formCursoAgente');
+          this.edited.emit();
+        },
+        error: (err) => {
+          console.error("Error al actualizar el curso", err);
+          this.alertService.error(err.error?.message || 'Error al actualizar el curso');
+        }
+      });
+
     } else {
       // === MODO CREAR ===
       this.cursosService.createCurso(formData).subscribe({
@@ -362,10 +472,38 @@ export class FormlularioCursoAgente {
             this.cdr.detectChanges();
             return;
           }
-          this.alertService.success('Curso creado exitosamente');
-          this.form.reset();
-          this.modalService.cerrar('formCursoAgente');
-          this.created.emit();
+
+          const idCurso = (response as any).data?.id_curso;
+          const idUsuario = this.authService.user()?.id_usuario;
+
+          if (idCurso && idUsuario) {
+            const asignacion = {
+              id_usuario: idUsuario,
+              id_curso: idCurso,
+              fecha_asignacion: new Date().toISOString().split('T')[0]
+            };
+
+            this.cursosAgentesService.createAsignacion(asignacion).subscribe({
+              next: () => {
+                this.alertService.success('Curso creado y asignado exitosamente');
+                this.resetFormulario();
+                this.modalService.cerrar('formCursoAgente');
+                this.created.emit();
+              },
+              error: (err) => {
+                console.error("Error al asignar el curso", err);
+                this.alertService.error(err.error?.message || 'Curso creado, pero hubo un error al asignarlo');
+                this.resetFormulario();
+                this.modalService.cerrar('formCursoAgente');
+                this.created.emit();
+              }
+            });
+          } else {
+            this.alertService.success('Curso creado exitosamente');
+            this.resetFormulario();
+            this.modalService.cerrar('formCursoAgente');
+            this.created.emit();
+          }
         },
         error: (err) => {
           console.error("Error al intentar crear el curso", err);

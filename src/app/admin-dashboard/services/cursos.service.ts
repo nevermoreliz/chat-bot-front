@@ -45,4 +45,16 @@ export class CursosService {
     return this.http.post<ApiResponse<Curso>>(`${baseUrl}/cursos`, curso);
   }
 
+  updateCurso(id: number, curso: Curso): Observable<ApiResponse<Curso>> {
+    return this.http.put<ApiResponse<Curso>>(`${baseUrl}/cursos/${id}`, curso);
+  }
+
+  deshabilitarCurso(id_curso: Curso['id_curso']): Observable<ApiResponse<Curso>> {
+    return this.http.delete<ApiResponse<Curso>>(`${baseUrl}/cursos/${id_curso}`);
+  }
+
+  habilitarCurso(id_curso: Curso['id_curso']): Observable<ApiResponse<Curso>> {
+    return this.http.put<ApiResponse<Curso>>(`${baseUrl}/cursos/${id_curso}/habilitar`, {});
+  }
+
 }

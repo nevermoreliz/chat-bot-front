@@ -14,11 +14,13 @@ import { Pagination } from '../../../shared/components/pagination/pagination';
 import { Buscador } from '../../../shared/components/buscador/buscador';
 import { Curso } from '../../interfaces/curso.interface';
 import { FormlularioCursoAgente } from './components/formlulario-curso-agente/formlulario-curso-agente';
+import { CursosService } from '../../services/cursos.service';
+import { InformacionCurso } from './components/informacion-curso/informacion-curso';
 
 @Component({
   selector: 'app-cursos-page',
   standalone: true,
-  imports: [CommonModule, ResponsiveTableComponent, Pagination, Buscador, FormlularioCursoAgente],
+  imports: [CommonModule, ResponsiveTableComponent, Pagination, Buscador, FormlularioCursoAgente, InformacionCurso],
   templateUrl: './cursos-page.html',
   styles: ``,
 })
@@ -28,6 +30,7 @@ export class CursosPage {
   router = inject(Router);
 
   cursoAgentesService = inject(CursosAgentesService);
+  cursoService = inject(CursosService);
 
   authService = inject(AuthService);
 
@@ -102,5 +105,50 @@ export class CursosPage {
 
   /** ------- end modales ------- */
 
+  /** ------- eliminacion y habilitacion ------- */
+
+  async confirmarDeshabilitar(curso: Curso) {
+    const confirmacion = await this.confirmService.ask({
+      title: 'Confirmar Deshabilitacion',
+      text: `¿Estás seguro de que deseas deshabilitar el curso ${curso.nombre_curso}?`,
+      confirmButtonText: 'Sí, deshabilitar',
+      confirmButtonColor: 'error'
+    });
+
+    if (confirmacion && curso.id_curso) {
+      this.cursoService.deshabilitarCurso(curso.id_curso).subscribe({
+        next: () => {
+          this.alertService.success('Curso deshabilitado correctamente');
+          this.cursosAgente.reload();
+        },
+        error: (err) => {
+          this.alertService.error(err.error?.message || 'Error al deshabilitar');
+        }
+      });
+    }
+  }
+
+  async confirmarHabilitacion(curso: Curso) {
+    const confirmacion = await this.confirmService.ask({
+      title: 'Confirmar Habilitacion',
+      text: `¿Estás seguro de que deseas habilitar el curso ${curso.nombre_curso}?`,
+      confirmButtonText: 'Sí, habilitar',
+      confirmButtonColor: 'success'
+    });
+
+    if (confirmacion && curso.id_curso) {
+      this.cursoService.habilitarCurso(curso.id_curso).subscribe({
+        next: () => {
+          this.alertService.success('Curso habilitado correctamente');
+          this.cursosAgente.reload();
+        },
+        error: (err) => {
+          this.alertService.error(err.error?.message || 'Error al habilitar');
+        }
+      });
+    }
+  }
+
+  /** ------- end eliminacion y habilitacion ------- */
 
 }

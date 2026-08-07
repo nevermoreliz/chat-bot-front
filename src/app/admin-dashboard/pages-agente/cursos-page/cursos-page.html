@@ -124,7 +124,8 @@
                 @case ('acciones') {
                 <div class="flex items-center gap-1">
                     <div class="tooltip" data-tip="Ver detalle">
-                        <button class="btn btn-ghost btn-xs btn-circle text-info">
+                        <button (click)="abrirModalInformacion(curso)"
+                            class="btn btn-ghost btn-xs btn-circle text-info">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                     d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 8.11 1 12c1.73 3.89 6 7.5 11 7.5s9.27-3.61 11-7.5c-1.73-3.89-6-7.5-11-7.5" />
@@ -132,7 +133,7 @@
                         </button>
                     </div>
                     <div class="tooltip" data-tip="Editar">
-                        <button class="btn btn-ghost btn-xs btn-circle text-warning">
+                        <button (click)="abrirModalEditar(curso)" class="btn btn-ghost btn-xs btn-circle text-warning">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                     d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
@@ -141,7 +142,8 @@
                     </div>
                     @if (curso.activo !== false) {
                     <div class="tooltip" data-tip="Deshabilitar">
-                        <button class="btn btn-ghost btn-xs btn-circle text-error">
+                        <button (click)="confirmarDeshabilitar(curso)"
+                            class="btn btn-ghost btn-xs btn-circle text-error">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                     d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m5 11H7v-2h10z" />
@@ -150,7 +152,8 @@
                     </div>
                     } @else {
                     <div class="tooltip" data-tip="Habilitar">
-                        <button class="btn btn-ghost btn-xs btn-circle text-success">
+                        <button (click)="confirmarHabilitacion(curso)"
+                            class="btn btn-ghost btn-xs btn-circle text-success">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                     d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8z" />
@@ -202,3 +205,7 @@
 <!-- modal formulario curso agente -->
 <app-formlulario-curso-agente [curso]="cursoSeleccionado()" (created)="cursosAgente.reload()"
     (edited)="cursosAgente.reload()" />
+
+
+<!-- modal informacion curso -->
+<app-informacion-curso [curso]="cursoSeleccionado()" />

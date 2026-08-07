@@ -1,0 +1,323 @@
+<dialog appModal="informacionCursoAgente" class="modal">
+    <div class="modal-box w-full max-w-none h-full max-h-none rounded-none p-0 flex flex-col bg-base-100">
+        <!-- HEADER -->
+        <div
+            class="flex justify-between items-center px-6 py-4 border-b border-base-200 bg-base-100/90 backdrop-blur sticky top-0 z-10">
+            <h3 class="text-xl font-bold text-base-content flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Información del Curso
+            </h3>
+            <button class="btn btn-sm btn-circle btn-ghost" (click)="modalService.cerrar('informacionCursoAgente')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="p-6 overflow-y-auto flex-1 bg-base-200/30">
+            @if (curso(); as data) {
+
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Columna Izquierda: Detalles principales -->
+                <div class="flex-1 space-y-6">
+                    <!-- Card Principal -->
+                    <div class="card bg-base-100 shadow-sm border border-base-200 p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h2 class="text-3xl font-black text-primary">{{ data.nombre_curso }} <span
+                                        class="text-sm font-normal text-base-content/60 ml-2">v{{ data.version }} ({{
+                                        data.anio }})</span></h2>
+                                <p class="text-base text-base-content/70 mt-1">{{ data.descripcion_corta || 'Sin
+                                    descripción corta' }}</p>
+                            </div>
+                            <div>
+                                @if (data.activo) {
+                                <div class="badge badge-success gap-1 p-3"><span
+                                        class="w-2 h-2 rounded-full bg-base-100"></span> Activo</div>
+                                } @else {
+                                <div class="badge badge-error gap-1 p-3"><span
+                                        class="w-2 h-2 rounded-full bg-base-100"></span> Inactivo</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="divider my-2"></div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm mt-4">
+                            <div>
+                                <p class="text-base-content/50 font-semibold mb-1">Modalidad</p>
+                                <p class="font-medium flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93c0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41c0 2.08-.8 3.97-2.1 5.39z" />
+                                    </svg>
+                                    {{ data.modalidad || 'N/A' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-base-content/50 font-semibold mb-1">Nivel</p>
+                                <p class="font-medium flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M16 11.78L20.24 4.4A1.5 1.5 0 0 0 19 2H5a1.5 1.5 0 0 0-1.24 2.4l4.24 7.38C8.51 12.35 9 13.12 9 14v4.38l6-3.27V14c0-.88.49-1.65 1-2.22M7.1 5h9.8L12 13.5L7.1 5z" />
+                                    </svg>
+                                    {{ data.nivel || 'N/A' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-base-content/50 font-semibold mb-1">Idioma</p>
+                                <p class="font-medium flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A8.03 8.03 0 0 1 5.08 16zm2.95-8H5.08a8.03 8.03 0 0 1 3.84-3.56A15.65 15.65 0 0 0 7.54 8zm6.05 11.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.34.16-2h4.68c.09.66.16 1.32.16 2s-.07 1.34-.16 2zm1.2-8a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8h-2.95zm-2.16 11.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-3.84 3.56z" />
+                                    </svg>
+                                    {{ data.idioma || 'N/A' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-base-content/50 font-semibold mb-1">Duración</p>
+                                <p class="font-medium flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8s8 3.58 8 8s-3.58 8-8 8zm.5-13H11v6l5.25 3.15l.75-1.23l-4.5-2.67z" />
+                                    </svg>
+                                    {{ data.duracion_semanas ? data.duracion_semanas + ' Semanas' : 'N/A' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-base-content/50 font-semibold mb-1">Carga Horaria</p>
+                                <p class="font-medium flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M22 5.72l-4.6-3.86l-1.29 1.53l4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86L2 5.71l1.29 1.53l4.59-3.85zM12.5 8H11v6l4.75 2.85l.75-1.23l-4-2.37V8zM12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7s7 3.14 7 7s-3.14 7-7 7z" />
+                                    </svg>
+                                    {{ data.carga_horaria ? data.carga_horaria + ' Hrs' : 'N/A' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-base-content/50 font-semibold mb-1">Certificado</p>
+                                <p class="font-medium flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M5 21V5q0-.825.588-1.412T7 3h10q.825 0 1.413.588T19 5v16l-7-3l-7 3Zm2-3.05l5-2.15l5 2.15V5H7v12.95ZM7 5h10H7Z" />
+                                    </svg>
+                                    {{ data.certificado_incluido ? 'Incluido' : 'No incluido' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fechas -->
+                    <div class="card bg-base-100 shadow-sm border border-base-200 p-5">
+                        <h3 class="text-lg font-bold text-base-content flex items-center gap-2 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z" />
+                            </svg>
+                            Cronograma
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div class="bg-base-200/50 p-3 rounded-lg border-l-4 border-info">
+                                <p class="text-base-content/60 font-medium mb-1 text-xs uppercase">Fecha de Inicio</p>
+                                <p class="font-bold">{{ data.fecha_inicio | date:'dd MMM yyyy' }}</p>
+                            </div>
+                            <div class="bg-base-200/50 p-3 rounded-lg border-l-4 border-base-300">
+                                <p class="text-base-content/60 font-medium mb-1 text-xs uppercase">Fecha de Fin</p>
+                                <p class="font-bold">{{ (data.fecha_fin | date:'dd MMM yyyy') || 'Por definir' }}</p>
+                            </div>
+                            <div class="bg-base-200/50 p-3 rounded-lg border-l-4 border-success">
+                                <p class="text-base-content/60 font-medium mb-1 text-xs uppercase">Inicio de Clases</p>
+                                <p class="font-bold">{{ (data.fecha_inicio_clases | date:'dd MMM yyyy') || 'Por definir'
+                                    }}</p>
+                            </div>
+                            <div class="bg-base-200/50 p-3 rounded-lg border-l-4 border-error">
+                                <p class="text-base-content/60 font-medium mb-1 text-xs uppercase">Límite Inscripción
+                                </p>
+                                <p class="font-bold">{{ (data.fecha_limite_inscripcion | date:'dd MMM yyyy') || 'Por
+                                    definir' }}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-base-200 text-sm">
+                            <p class="text-base-content/60 font-medium mb-1">Horario de clases</p>
+                            <p class="font-semibold text-lg">{{ data.horario || 'No especificado' }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Información Detallada (HTML renderizado) -->
+                    <div class="card bg-base-100 shadow-sm border border-base-200 p-5">
+                        <h3 class="text-lg font-bold text-base-content mb-4">Información Detallada</h3>
+
+                        <div class="space-y-6 text-sm">
+                            @if(data.dirigido_a) {
+                            <div>
+                                <h4 class="font-bold text-primary mb-2 text-base">¿A quién va dirigido?</h4>
+                                <div class="prose prose-sm max-w-none text-base-content/80"
+                                    [innerHTML]="data.dirigido_a"></div>
+                            </div>
+                            <div class="divider my-0"></div>
+                            }
+
+                            @if(data.descripcion) {
+                            <div>
+                                <h4 class="font-bold text-primary mb-2 text-base">Descripción Completa</h4>
+                                <div class="prose prose-sm max-w-none text-base-content/80"
+                                    [innerHTML]="data.descripcion"></div>
+                            </div>
+                            <div class="divider my-0"></div>
+                            }
+
+                            @if(data.requisitos) {
+                            <div>
+                                <h4 class="font-bold text-primary mb-2 text-base">Requisitos</h4>
+                                <div class="prose prose-sm max-w-none text-base-content/80"
+                                    [innerHTML]="data.requisitos"></div>
+                            </div>
+                            <div class="divider my-0"></div>
+                            }
+
+                            @if(data.beneficios) {
+                            <div>
+                                <h4 class="font-bold text-primary mb-2 text-base">Beneficios</h4>
+                                <div class="prose prose-sm max-w-none text-base-content/80"
+                                    [innerHTML]="data.beneficios"></div>
+                            </div>
+                            <div class="divider my-0"></div>
+                            }
+
+                            @if(data.incluye) {
+                            <div>
+                                <h4 class="font-bold text-primary mb-2 text-base">¿Qué incluye?</h4>
+                                <div class="prose prose-sm max-w-none text-base-content/80" [innerHTML]="data.incluye">
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Precios y Multimedia -->
+                <div class="w-full lg:w-80 space-y-6">
+
+                    <!-- Tarjeta de Precios -->
+                    <div class="card bg-primary text-primary-content shadow-lg p-5">
+                        <h3 class="text-lg font-bold flex items-center gap-2 mb-4 opacity-90">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87c1.96 0 2.4-.98 2.4-1.59c0-.83-.44-1.61-2.67-2.14c-2.48-.6-4.18-1.62-4.18-3.67c0-1.72 1.39-2.84 3.11-3.2V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87c-1.5 0-2.4.68-2.4 1.64c0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z" />
+                            </svg>
+                            Inversión
+                        </h3>
+
+                        <div class="text-center mb-4 bg-primary-focus/30 rounded-xl p-4">
+                            <p class="text-sm opacity-80 mb-1">Precio Normal</p>
+                            <p class="text-4xl font-black">${{ data.precio }}</p>
+                        </div>
+
+                        @if (data.descuento && data.precio_promocional) {
+                        <div
+                            class="bg-base-100 text-base-content rounded-xl p-4 shadow-inner mb-4 relative overflow-hidden">
+                            <div
+                                class="absolute -right-6 -top-6 bg-warning text-warning-content w-20 h-20 rounded-full flex items-center justify-center font-bold text-lg rotate-12">
+                                -{{ data.descuento }}%
+                            </div>
+                            <p class="text-sm font-bold text-primary mb-1">Precio Promocional</p>
+                            <p class="text-3xl font-black">${{ data.precio_promocional }}</p>
+                            <p class="text-xs text-base-content/60 mt-2 font-medium">Válido hasta el {{
+                                data.fecha_fin_descuento | date:'dd/MM/yyyy' }}</p>
+                        </div>
+                        }
+
+                        @if (data.precio_grupal) {
+                        <div class="border border-primary-content/20 rounded-xl p-4">
+                            <p class="text-sm font-bold mb-1 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05c1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                                </svg>
+                                Precio Grupal
+                            </p>
+                            <p class="text-2xl font-black">${{ data.precio_grupal }}</p>
+                            <p class="text-xs opacity-80 mt-1">Mínimo {{ data.min_estudiantes_precio_grupal }}
+                                estudiantes</p>
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Participantes -->
+                    <div class="card bg-base-100 shadow-sm border border-base-200 p-5">
+                        <h3 class="text-md font-bold text-base-content mb-3">Cupos y Estudiantes</h3>
+                        <div class="flex justify-between items-center bg-base-200/50 p-3 rounded-lg mb-2">
+                            <span class="text-sm text-base-content/70">Máximo</span>
+                            <span class="font-bold">{{ data.max_participantes }} cupos</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-base-200/50 p-3 rounded-lg">
+                            <span class="text-sm text-base-content/70">Mínimo para abrir</span>
+                            <span class="font-bold">{{ data.min_participantes }} inscritos</span>
+                        </div>
+                    </div>
+
+                    <!-- Enlaces / Multimedia -->
+                    <div class="card bg-base-100 shadow-sm border border-base-200 p-5">
+                        <h3 class="text-md font-bold text-base-content mb-3">Material Promocional</h3>
+                        <div class="space-y-3">
+                            @if (data.url_afiche) {
+                            <a [href]="data.url_afiche" target="_blank"
+                                class="btn btn-outline btn-sm w-full gap-2 justify-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                                </svg>
+                                Ver Afiche
+                            </a>
+                            }
+                            @if (data.url_contenidos_pdf) {
+                            <a [href]="data.url_contenidos_pdf" target="_blank"
+                                class="btn btn-outline btn-sm w-full gap-2 justify-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z" />
+                                </svg>
+                                Ver PDF Contenidos
+                            </a>
+                            }
+                            @if (data.url_video_promocional) {
+                            <a [href]="data.url_video_promocional" target="_blank"
+                                class="btn btn-outline btn-sm w-full gap-2 justify-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M10 16.5l6-4.5l-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8z" />
+                                </svg>
+                                Ver Video
+                            </a>
+                            }
+                            @if (!data.url_afiche && !data.url_contenidos_pdf && !data.url_video_promocional) {
+                            <div class="text-sm text-base-content/50 text-center py-2">
+                                No hay material promocional
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            } @else {
+            <div class="flex flex-col justify-center items-center py-20">
+                <span class="loading loading-ring loading-lg text-primary mb-4"></span>
+                <p class="text-base-content/60 font-medium">Cargando información del curso...</p>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Backdrop para cerrar al hacer clic afuera -->
+    <form method="dialog" class="modal-backdrop bg-neutral/30 backdrop-blur-sm">
+        <button (click)="modalService.cerrar('informacionCursoAgente')">cerrar</button>
+    </form>
+</dialog>
