@@ -10,9 +10,12 @@ import { CategoriasCursosService } from '../../../../services/categoriascursos.s
 import { CursosService } from '../../../../services/cursos.service';
 import { AuthService } from '../../../../../auth/services/auth-service';
 import { CursosAgentesService } from '../../../../services/cursos-agentes.service';
-import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, switchMap, map, catchError } from 'rxjs/operators';
+import { forkJoin, of, Observable } from 'rxjs';
 import { clearServerErrors, setServerErrors, getErrorMessage } from '../../../../../shared/utils/form-error.util';
 import { QuillModule } from 'ngx-quill';
+import { StorageService } from '../../../../services/storage.service';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-formlulario-curso-agente',
@@ -54,6 +57,12 @@ export class FormlularioCursoAgente {
 
         // Volvemos al primer paso del formulario
         this.activeTabIndex.set(0);
+        
+        // Limpiamos los archivos pendientes
+        this.pendingAficheFile = null;
+        this.pendingPdfFile = null;
+        this.localAfichePreview = null;
+        this.localPdfPreviewName = null;
       } else {
         // Si no hay curso (es null), estamos en modo creación, limpiamos el form
         this.resetFormulario();
@@ -75,8 +84,18 @@ export class FormlularioCursoAgente {
   cursosService = inject(CursosService);
   authService = inject(AuthService);
   cursosAgentesService = inject(CursosAgentesService);
+  storageService = inject(StorageService);
   destroyRef = inject(DestroyRef);
   cdr = inject(ChangeDetectorRef);
+
+  publicUrl = environment.baseUrl.replace('/api', ''); // Ajuste según configuración del backend
+  isSubiendoAfiche = signal(false);
+  isSubiendoPdf = signal(false);
+
+  pendingAficheFile: File | null = null;
+  pendingPdfFile: File | null = null;
+  localAfichePreview: string | null = null;
+  localPdfPreviewName: string | null = null;
 
   categoriasResource = rxResource({
     stream: () => this.categoriasService.getCategoriasAll()
@@ -280,16 +299,31 @@ export class FormlularioCursoAgente {
     this.form.get('descuento')?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(recalcularPrecioPromocional);
 
     // Lógica para actualizar fecha_fin_descuento (7 días después de fecha_inicio_descuento)
+    // y sincronizar con fecha_inicio y fecha_fin del curso
     this.form.get('fecha_inicio_descuento')?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(fechaInicio => {
       if (fechaInicio) {
         // Al parsear 'YYYY-MM-DD', JS lo toma como UTC, por lo que usamos getUTC/setUTC para evitar saltos de zona horaria
         const date = new Date(fechaInicio);
         date.setUTCDate(date.getUTCDate() + 7);
         const nuevaFechaFin = date.getUTCFullYear() + '-' + String(date.getUTCMonth() + 1).padStart(2, '0') + '-' + String(date.getUTCDate()).padStart(2, '0');
-        this.form.patchValue({ fecha_fin_descuento: nuevaFechaFin }, { emitEvent: false });
+        
+        this.form.patchValue({ 
+          fecha_fin_descuento: nuevaFechaFin,
+          fecha_inicio: fechaInicio,
+          fecha_fin: nuevaFechaFin
+        }, { emitEvent: false });
       } else {
-        this.form.patchValue({ fecha_fin_descuento: null }, { emitEvent: false });
+        this.form.patchValue({ 
+          fecha_fin_descuento: null,
+          fecha_inicio: null,
+          fecha_fin: null
+        }, { emitEvent: false });
       }
+    });
+
+    // Sincronizar también cuando se cambie la fecha de fin de descuento manualmente
+    this.form.get('fecha_fin_descuento')?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(fechaFinDesc => {
+      this.form.patchValue({ fecha_fin: fechaFinDesc }, { emitEvent: false });
     });
 
     // Lógica para que la fecha límite de inscripción sea igual a la fecha de inicio de clases
@@ -400,8 +434,15 @@ export class FormlularioCursoAgente {
   }
 
   resetFormulario() {
+    const today = new Date();
+    const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+    
+    const futureDate = new Date(today);
+    futureDate.setDate(futureDate.getDate() + 7);
+    const futureStr = futureDate.getFullYear() + '-' + String(futureDate.getMonth() + 1).padStart(2, '0') + '-' + String(futureDate.getDate()).padStart(2, '0');
+
     this.form.reset({
-      anio: new Date().getFullYear(),
+      anio: today.getFullYear(),
       certificado_incluido: false,
       precio: 0,
       min_estudiantes_precio_grupal: 10,
@@ -410,7 +451,11 @@ export class FormlularioCursoAgente {
       activo: true,
       destacado: false,
       idioma: 'es',
-      pregunta_frecuente: []
+      pregunta_frecuente: [],
+      fecha_inicio_descuento: todayStr,
+      fecha_fin_descuento: futureStr,
+      fecha_inicio: todayStr,
+      fecha_fin: futureStr
     });
     this.activeTabIndex.set(0);
     this.terminoBusqueda.set('');
@@ -418,6 +463,10 @@ export class FormlularioCursoAgente {
     this.isDropdownOpen.set(false);
     this.cursosSugeridos.set([]);
     this.isCursoDropdownOpen.set(false);
+    this.pendingAficheFile = null;
+    this.pendingPdfFile = null;
+    this.localAfichePreview = null;
+    this.localPdfPreviewName = null;
     this.scrollToTop();
   }
 
@@ -434,13 +483,44 @@ export class FormlularioCursoAgente {
     const formData = this.form.getRawValue();
     const cursoSeleccionado = this.curso();
 
+    if (this.pendingAficheFile || this.pendingPdfFile) {
+      // Subir archivos pendientes antes de guardar el curso
+      this.uploadPendingFiles().subscribe({
+        next: (filenames: any) => {
+          if (filenames.afiche) {
+            this.isSubiendoAfiche.set(false);
+            formData.url_afiche = filenames.afiche;
+            this.form.patchValue({url_afiche: filenames.afiche}, {emitEvent: false});
+            this.pendingAficheFile = null;
+            this.localAfichePreview = null;
+          }
+          if (filenames.pdf) {
+            this.isSubiendoPdf.set(false);
+            formData.url_contenidos_pdf = filenames.pdf;
+            this.form.patchValue({url_contenidos_pdf: filenames.pdf}, {emitEvent: false});
+            this.pendingPdfFile = null;
+            this.localPdfPreviewName = null;
+          }
+          this.guardarCurso(formData, cursoSeleccionado);
+        },
+        error: (err) => {
+          this.alertService.error(err.error?.message || 'Error al subir los archivos');
+        }
+      });
+    } else {
+      // Si el campo estaba 'pending' pero fue limpiado, o no hay cambios, nos aseguramos que no se mande 'pending'
+      if (formData.url_afiche === 'pending') formData.url_afiche = '';
+      if (formData.url_contenidos_pdf === 'pending') formData.url_contenidos_pdf = '';
+      
+      this.guardarCurso(formData, cursoSeleccionado);
+    }
+  }
+
+  guardarCurso(formData: any, cursoSeleccionado: any) {
     if (cursoSeleccionado && cursoSeleccionado.id_curso) {
       // === MODO EDITAR ===
-      // TODO: implementar updateCurso
-
       this.cursosService.updateCurso(cursoSeleccionado.id_curso, formData).subscribe({
         next: (response) => {
-          // Si el backend retorna 200 con ok: false, los errores llegan AQUÍ, no en error:
           if (response && (response as any).ok === false && (response as any).errors) {
             this.alertService.error((response as any).message || 'Error de validación');
             setServerErrors(this.form, (response as any).errors);
@@ -464,7 +544,6 @@ export class FormlularioCursoAgente {
       // === MODO CREAR ===
       this.cursosService.createCurso(formData).subscribe({
         next: (response) => {
-          // Si el backend retorna 200 con ok: false, los errores llegan AQUÍ, no en error:
           if (response && (response as any).ok === false && (response as any).errors) {
             this.alertService.error((response as any).message || 'Error de validación');
             setServerErrors(this.form, (response as any).errors);
@@ -507,7 +586,6 @@ export class FormlularioCursoAgente {
         },
         error: (err) => {
           console.error("Error al intentar crear el curso", err);
-
           this.alertService.error(err.error?.message || 'Error al crear el curso');
           if (err.error?.errors) {
             setServerErrors(this.form, err.error.errors);
@@ -522,6 +600,62 @@ export class FormlularioCursoAgente {
   // --- Utilidad para unificar y mostrar errores (Frontend y Backend) ---
   getErrorMessage(controlName: string): string {
     return getErrorMessage(this.form, controlName);
+  }
+
+  // --- Manejo de archivos (Afiche y PDF) ---
+  onAficheSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.pendingAficheFile = file;
+      this.form.patchValue({ url_afiche: 'pending' });
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.localAfichePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onPdfSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.pendingPdfFile = file;
+      this.localPdfPreviewName = file.name;
+      this.form.patchValue({ url_contenidos_pdf: 'pending' });
+    }
+  }
+
+  uploadPendingFiles(): Observable<{afiche: string | null, pdf: string | null}> {
+    const uploads: any = {};
+    
+    if (this.pendingAficheFile) {
+      this.isSubiendoAfiche.set(true);
+      uploads.afiche = this.storageService.subirArchivo(this.pendingAficheFile, 'storage/curso/img').pipe(
+        map((res: any) => res.data?.filename),
+        catchError(err => {
+          this.isSubiendoAfiche.set(false);
+          throw err;
+        })
+      );
+    } else {
+      uploads.afiche = of(null);
+    }
+
+    if (this.pendingPdfFile) {
+      this.isSubiendoPdf.set(true);
+      uploads.pdf = this.storageService.subirArchivo(this.pendingPdfFile, 'storage/curso/pdf').pipe(
+        map((res: any) => res.data?.filename),
+        catchError(err => {
+          this.isSubiendoPdf.set(false);
+          throw err;
+        })
+      );
+    } else {
+      uploads.pdf = of(null);
+    }
+
+    return forkJoin(uploads) as Observable<{ afiche: string | null; pdf: string | null; }>;
   }
 
 }
